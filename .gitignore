@@ -1,5 +1,7 @@
 output/
 control/
+*.exe
+*.dll
 *.NSP
 *.NRO
 *.keys
