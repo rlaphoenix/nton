@@ -117,4 +117,4 @@ Firmware 9.0.0 and 12.0.0 are times the firmware has broken different forwarder 
 
 ## License
 
-[GNU General Public License, Version 3.0][LICENSE]
+[GNU General Public License, Version 3.0](LICENSE)
