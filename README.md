@@ -9,30 +9,32 @@ of the Homebrew Launcher.
 *Preview of 4x Forwarders made with NTON.*
 
 This is more so a script for making NSPs using [mpham]'s original Forwarder ROM [here][ROM].
-My script is specifically aimed toward general homebrew NRO forwarding, not Retroarch Game Forwarding.
-
-The goal with my version is to automate as much as can be automated. Especially the annoying icons.
-There's still some work to be done to finalize automation as the goal is to only need to provide a
-path to the NRO that's on your switch's microSD card.
+My script is specifically aimed toward automated general homebrew NRO forwarding, not RetroArch Game Forwarding.
 
 ## Changes
 
-1. The script was rewritten almost entirely.
-2. NSPs now save to `/output` and are named to be more human-readable.
-3. `control.nacp` and the `icon_AmericanEnglish.dat` icon file are now automatically extracted from the NRO.
+1. The script was completely rewritten in Python.
+2. NSPs now save to a folder named `NTON` on your Desktop and are named to be more human-readable.
+3. `control.nacp` and the `icon_AmericanEnglish.dat` icon files are now automatically extracted from the NRO.
 4. The `icon_AmericanEnglish.dat` is now automatically re-formatted as JPEG and re-stripped where necessary.
    Even though it's extracted from the NRO, it still does this. Not all NRO icon `dat` files are up to spec for NSPs.
-5. You now specify the publisher when calling `build`.
-6. The path to the NRO must exist for automation to work. The best way is to insert your Switch's microSD card
+5. You now specify the publisher in the CLI call.
+6. The Title Name and Publisher is now automated. You can still override them manually.
+7. The path to the NRO must exist for automation to work. The best way is to insert your Switch's microSD card
    and specify the drive letter for it in the call.
+8. NRO files are now verified/validated with `nstool` before being used.
+9. Paths to files are now checked and validated across the codebase in various ways to help reduce user error.
+10. The `prod.keys` can now be loaded from the common `~/.switch/prod.keys` path.
 
 ## Installation
 
-1. [Download the project](https://github.com/rlaphoenix/nton/releases) and extract it.
-2. Install the latest [ImageMagick] release. I recommend via [winget] or [chocolatey].
-3. Download the latest [hacBrewPack] and [nstool] binaries and place them within the root of the project folder.
-4. Place your `prod.keys` at the root of the project folder. Make sure it's up to date for the firmware version
-   you're switch is on. You can get this file using [Lockpick_RCM].
+1. Install the latest [ImageMagick] release. I recommend via [winget] or [chocolatey].
+2. Download the latest [hacBrewPack] and [nstool] binaries and place them within your current working directory, or
+   ideally in the `PATH` environment variable.
+3. Place your `prod.keys` at the root of the project folder or at `%USERPROFILE/.switch/prod.keys`. Make sure it's
+   up-to-date for the firmware version you're switch is on. You can get this file using [Lockpick_RCM].
+4. Run `pip install nton`. If you see any warnings about a path not being in your PATH environment variable, add it
+   or you wont be able to run `nton`.
 
   [ImageMagick]: <https://imagemagick.org/script/download.php>
   [winget]: <https://winget.run>
@@ -43,27 +45,28 @@ path to the NRO that's on your switch's microSD card.
 
 ## Usage
 
-`build "<Name>" "<Publisher>" "<Drive Letter>" "<Path to NRO>" ["<Title ID>"]`
+Take a look at `nton --help`, specifically `nton build --help`.  
+If you simply want to take an NRO and get an NSP forwarder, simply run `nton build "<nro path>"`.
 
-- I recommend wrapping all arguments with `"..."` like shown in case they have special characters.
-- The Path to the NRO must start with `/` exactly. Not a `\` nor `C:\` or `C:/`.
-- The Drive Letter must only be the letter, e.g., `D`, not `D:/` or `D:\` or `D:`.
-- The `Title ID` argument is entirely optional and a random Title ID will be generated if one is not specified.
+Note that the NRO path MUST be on your Switch microSD card. Do not provide a path in your C:/ Drive or such.
+Two different kinds of paths are used based on the initial file path, therefore it must be from your Switch microSD
+card.
 
-For example, to make a forwarder for the Homebrew Menu that's on your Switch's microSD at `D:\hbmenu.nro`,
+E.g., to make a forwarder for the Homebrew Menu that's on your Switch's microSD at `D:\hbmenu.nro`, simply run
+`nton build "D:/hbmenu.nro"`
 
-`build "Homebrew Menu" "switchbrew" "D" "/hbmenu.nro"`
+Take a look at `nton build --help` for advanced usage like changing the Icon, Title Name, and so on.
 
 ## To-do
 
-- [ ] Combine the Drive letter and Path arguments and manually split them when they need to be separate instead.
-- [ ] Automate name and publisher by extracting from the extracted `control.nacp`.
+- [X] Rewrite as a Python script to heavily improve the user experience and code.
+- [X] Combine the Drive letter and Path arguments and manually split them when they need to be separate instead.
+- [X] Automate name and publisher by extracting from the extracted `control.nacp`.
 - [ ] Force disable save data allocation. Fixed in [v3.3.5 of Nro2NSP](https://github.com/Root-MtX/Nro2Nsp/releases/tag/3.3.5).
 - [ ] Force enabling recording by editing the NROs extracted `control.nacp` at offset 0x3035 from 0 to 2 (forced).
     Forced is a lot better than 1 (manual) as it allows the video to be saved. A way to enable screenshots should be done as well.
     [SAK](https://github.com/dezem/SAK) has a way to do this.
 - [ ] Add support for direct RetroArch Game Forwarding.
-- [ ] Rewrite as a Python script to heavily improve the user experience and code.
 - [ ] Maybe a new GUI one day, and let you override the icons and such?
 
 ## Troubleshooting
