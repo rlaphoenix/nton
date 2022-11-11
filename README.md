@@ -108,7 +108,7 @@ Firmware 9.0.0 and 12.0.0 are times the firmware has broken different forwarder 
 
 ## Credit
 
-- [mpham] for the original v12.0.0+ [forwarder ROM][ROM] and original batch script.
+- [Martin Pham (mpham)][mpham] for the original v12.0.0+ [forwarder ROM][ROM] and original batch script.
 - [meliodas2255] for recompiling the [forwarder ROM][ROM] for the latest hbl-loader as of May 2021 supporting RetroArch Forwarders and general Homebrew.
 
   [mpham]: <https://gbatemp.net/members/mpham.537130>
