@@ -1,0 +1,18 @@
+name: cd
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  tagged-release:
+    name: Tagged Release
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Deploy release
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        prerelease: false
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
