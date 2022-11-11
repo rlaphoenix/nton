@@ -66,14 +66,6 @@ For example, to make a forwarder for the Homebrew Menu that's on your Switch's m
 - [ ] Rewrite as a Python script to heavily improve the user experience and code.
 - [ ] Maybe a new GUI one day, and let you override the icons and such?
 
-## Issues
-
-The following are known issues with the original [forwarder ROM][ROM] and are currently out-of-scope of this project.
-
-- Pressing + or using such actions to exit NROs fail. On my end, it reopens the NRO but [some have crashes instead][crashes].
-
-  [crashes]: <https://gbatemp.net/threads/nsp-forwarder-tool-for-12.587936/post-9465159>
-
 ## Troubleshooting
 
 Before continuing try running the homebrew from the Homebrew Launcher and see if it works through there.
