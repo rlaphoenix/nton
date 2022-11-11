@@ -90,14 +90,14 @@ You're sigpatches that allow non-signed software to launch is outdated or not se
 The `prod.keys` you used to create the NSP may also be outdated. Get new ones with [Lockpick_RCM] and
 make sure you choose to get keys from whichever SysNAND or EmuNAND is actually on the latest firmware.
 
-## The forwarder starts loading but then crashes
+### The forwarder starts loading but then crashes
 
 If it gets to the black loading screen with the Nintendo Switch logo, but then crashes, you may be setting
 the NRO path wrong when making the NSP. Make sure it starts with `/` and is an absolute path to an existing
 NRO file on your Switch's microSD card. The path you built for must be where the NRO file lies in your Switch's
 microSD card, not your PC.
 
-## The forwarder's icon is a '?'
+### The forwarder's icon is a '?'
 
 The `icon_AmericanEnglish.dat` is not to the spec that Nintendo likes in some way. This is usually caused by the format of the
 image not being a JPEG, or it has EXIF data or an embedded color space.
@@ -105,7 +105,7 @@ image not being a JPEG, or it has EXIF data or an embedded color space.
 I recommend stripping all EXIF metadata and saving without an Embed Color Space. You can do this quickly with ImageMagick,
 `magick mogrify -format jpg -resize 256x256 -strip "C:\Users\John\Downloads\icon.png"`.
 
-## The forwarder randomly stopped working after a while, I changed nothing!
+### The forwarder randomly stopped working after a while, I changed nothing!
 
 You most likely updated your Switch's Firmware and need to update your sigpatches. If not, you may have deleted the NRO from
 your Switch's microSD card or moved the NRO somewhere else. It cannot be moved as the built NSP loads the NRO at the specified
