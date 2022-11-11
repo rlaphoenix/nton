@@ -2,6 +2,9 @@
 
 Nintendo Switch NRO to NSP Forwarder for firmware 12.0.0 and newer.
 
+![Preview of 4x Forwarders](https://user-images.githubusercontent.com/17136956/201314901-4a34a4dc-800b-44ba-beb8-333b6c37ebb6.jpg)  
+*Preview of 4x Forwarders made with NTON.*
+
 A forwarder lets you open a Homebrew NRO file from your SD card through the Nintendo Switch Home Screen instead
 of the Homebrew Launcher.
 
