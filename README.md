@@ -12,21 +12,6 @@ The exefs ROM used is the one by [meliodas2255] which was based on or inspired b
 Both ROMs are supported as they use the same romfs structure for specifying which NRO to load from the microSD card.
 Simply replace the assets in the `/assets/exefs` folder with the [original ROM][ROM]'s exefs files.
 
-## Changes
-
-1. The script was completely rewritten in Python.
-2. NSPs now save to a folder named `NTON` on your Desktop and are named to be more human-readable.
-3. `control.nacp` and the `icon_AmericanEnglish.dat` icon files are now automatically extracted from the NRO.
-4. The `icon_AmericanEnglish.dat` is now automatically re-formatted as JPEG and re-stripped where necessary.
-   Even though it's extracted from the NRO, it still does this. Not all NRO icon `dat` files are up to spec for NSPs.
-5. You now specify the publisher in the CLI call.
-6. The Title Name and Publisher is now automated. You can still override them manually.
-7. The path to the NRO must exist for automation to work. The best way is to insert your Switch's microSD card
-   and specify the drive letter for it in the call.
-8. NRO files are now verified/validated with `nstool` before being used.
-9. Paths to files are now checked and validated across the codebase in various ways to help reduce user error.
-10. The `prod.keys` can now be loaded from the common `~/.switch/prod.keys` path.
-
 ## Installation
 
 1. Install the latest [ImageMagick] release. I recommend via [winget] or [chocolatey].
