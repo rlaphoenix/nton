@@ -225,6 +225,7 @@ def build(
                 "--nspdir", Directories.output,
                 "-k", Files.keys
             ], cwd=build_dir)
+            os.system("")  # fixes logs, I don't know why or how
         except subprocess.CalledProcessError as e:
             log.critical(f"Failed to build NSP, \"{e.args}\", {e.output} [{e.returncode}]")
             return 2
