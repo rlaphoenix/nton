@@ -40,6 +40,7 @@ def main(version: bool, debug: bool) -> None:
 @click.argument("path", type=Path)
 @click.option("-n", "--name", type=str, default=None, help="Title Name.")
 @click.option("-p", "--publisher", type=str, default=None, help="Title Publisher.")
+@click.option("-v", "--version", type=str, default=None, help="Title Version.")
 @click.option("-i", "--icon", type=Path, default=None, help="Title Icon (256x256px recommended, supports any image).")
 @click.option("--id", "id_", type=str, default=None, help="Title ID.")
 @click.option("--rom", type=Path, default=None, help="ROM path for Direct RetroArch Game Forwarding.")
@@ -47,6 +48,7 @@ def build(
     path: Path,
     name: str | None,
     publisher: str | None,
+    version: str | None,
     icon: Path | None,
     id_: str | None,
     rom: Path | None
@@ -160,7 +162,6 @@ def build(
             # 0x00 = Enabled, 0x01 = Disabled
             control_file_data[0x3034] = 0x00
             log.info("Enabled Screenshots")
-        control_file.write_bytes(control_file_data)
 
         if not name:
             # TODO: Assumes first region/language of the NROs title/name data is wanted
@@ -180,8 +181,20 @@ def build(
 
         log.info("Publisher: %s", publisher)
 
-        version = control_file_data[0x3060:0x306F].replace(b"\x00", b"").strip().decode("utf8")
+        if not version:
+            version = control_file_data[0x3060:0x306F].replace(b"\x00", b"").strip().decode("utf8")
+        else:
+            version_utf8 = version.encode("utf8")
+            if len(version_utf8) > 0x10:
+                log.error(f"The Title Version \"{version}\" is too large to fit in the NSP.")
+                return 1
+            while len(version_utf8) < 0x10:
+                version_utf8 += b"\xFF"
+            control_file_data[0x3060:0x306F] = version_utf8
+
         log.info("Version: %s", version)
+
+        control_file.write_bytes(control_file_data)
 
         if icon:
             shutil.copy(icon, icon_file)
