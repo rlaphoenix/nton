@@ -11,7 +11,7 @@ from pathlib import Path
 
 import click as click
 
-from nton import __version__, nstool
+from nton import __version__, nstool, system_title_ids
 from nton.constants import Directories, Binaries, Files
 
 
@@ -93,9 +93,13 @@ def build(
             log.error(f"The Title ID \"{id_}\" is an invalid hex string. It must be a-fA-f0-9.")
             return 1
         id_ = id_.lower()
-        # TODO: Ensure the id is valid for an NSP, is there restrictions?
+        if id_ in system_title_ids.ALL:
+            log.critical(f"The Title ID \"{id_}\" is a reserved System Title! Using it is unsafe!")
+            return 2
     else:
-        id_ = "01%s000" % os.urandom(6).hex()[:-1]
+        id_ = "0100000000000000"
+        while id_ in system_title_ids.ALL:
+            id_ = "01%s000" % os.urandom(6).hex()[:-1]
 
     if rom:
         if not rom.is_file():
