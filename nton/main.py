@@ -148,8 +148,6 @@ def build(
             return 2
 
         control_file_data = bytearray(control_file.read_bytes())
-        # version = control_file_data[0x3060:0x306F].replace(b"\x00", b"").strip().decode("utf8")
-
         log.debug("Got the Control partition")
         log.debug(base64.b64encode(control_file_data).decode())
 
@@ -181,6 +179,9 @@ def build(
             return 1
 
         log.info("Publisher: %s", publisher)
+
+        version = control_file_data[0x3060:0x306F].replace(b"\x00", b"").strip().decode("utf8")
+        log.info("Version: %s", version)
 
         if icon:
             shutil.copy(icon, icon_file)
@@ -232,7 +233,7 @@ def build(
             log.critical(f"Failed to build NSP, \"{e.args}\", {e.output} [{e.returncode}]")
             return 2
 
-        nsp_final_path = Directories.output / f"{name} by {publisher} [{id_}].nsp"
+        nsp_final_path = Directories.output / f"{name} v{version} by {publisher} [{id_}].nsp"
         if nsp_final_path.exists():
             log.warning("An NSP forwarder of the same name, publisher and title ID already existed.")
             nsp_final_path.unlink()
