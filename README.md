@@ -116,16 +116,6 @@ Note:
 - You must use a path to a RetroArch Game Core NRO, not the path to the RetroArch NRO itself.
 - Do not move, delete, or rename the ROM or the Core NRO files that are on your microSD card, or it will break.
 
-## To-do
-
-- [X] Rewrite as a Python script to heavily improve the user experience and code.
-- [X] Combine the Drive letter and Path arguments and manually split them when they need to be separate instead.
-- [X] Automate name and publisher by extracting from the extracted `control.nacp`.
-- [X] Force enable video capture and screenshots in the extracted `control.nacp`.
-- [x] Add support for direct RetroArch Game Forwarding.
-- [ ] Force disable save data allocation. Fixed in [v3.3.5 of Nro2NSP](https://github.com/Root-MtX/Nro2Nsp/releases/tag/3.3.5).
-- [ ] Maybe a new GUI one day, and let you override the icons and such?
-
 ## Troubleshooting
 
 Before continuing try running the homebrew from the Homebrew Launcher and see if it works through there.
