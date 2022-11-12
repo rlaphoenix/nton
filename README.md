@@ -8,8 +8,11 @@ of the Homebrew Launcher.
 ![Preview of 4x Forwarders](https://user-images.githubusercontent.com/17136956/201314901-4a34a4dc-800b-44ba-beb8-333b6c37ebb6.jpg)  
 *Preview of 4x Forwarders made with NTON.*
 
-This is more so a script for making NSPs using [mpham]'s original Forwarder ROM [here][ROM].
-My script is specifically aimed toward automated general homebrew NRO forwarding, not RetroArch Game Forwarding.
+The exefs ROM used is the one by [meliodas2255] which was based on or inspired by the original v12.0.0 ROM by [mpham].
+Both ROMs are supported as they use the same romfs structure for specifying which NRO to load from the microSD card.
+Simply replace the assets in the `/assets/exefs` folder with the [original ROM][ROM]'s exefs files.
+
+**Note**: Direct RetroArch game forwarding is not yet supported.
 
 ## Changes
 
