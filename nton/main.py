@@ -40,7 +40,15 @@ def main(version: bool, debug: bool) -> None:
 @click.option("-p", "--publisher", type=str, default=None, help="Title Publisher.")
 @click.option("-i", "--icon", type=Path, default=None, help="Title Icon (256x256px recommended, supports any image).")
 @click.option("--id", "id_", type=str, default=None, help="Title ID.")
-def build(path: Path, name: str | None, publisher: str | None, icon: Path | None, id_: str | None) -> int:
+@click.option("--rom", type=Path, default=None, help="ROM path for Direct RetroArch Game Forwarding.")
+def build(
+    path: Path,
+    name: str | None,
+    publisher: str | None,
+    icon: Path | None,
+    id_: str | None,
+    rom: Path | None
+) -> int:
     """
     Build an NSP that loads an NRO on the Switch's microSD card.
 
@@ -53,7 +61,8 @@ def build(path: Path, name: str | None, publisher: str | None, icon: Path | None
             resolution. A 256x256px image is recommended.
         id_: Set a specific Title ID, otherwise a Random Title ID is used. There's a miniscule chance it could get the
             same Title ID as another installed Title, but it's so miniscule you shouldn't realistically worry about it.
-
+        rom: Path to a ROM file to create a forwarder that boots directly into the game using RetroArch. The NRO path
+            must be to a RetroArch Core.
     """
     log = logging.getLogger("build")
     log.info("Building!")
@@ -87,6 +96,15 @@ def build(path: Path, name: str | None, publisher: str | None, icon: Path | None
         # TODO: Ensure the id is valid for an NSP, is there restrictions?
     else:
         id_ = "01%s000" % os.urandom(6).hex()[:-1]
+
+    if rom:
+        if not rom.is_file():
+            log.error(f"The ROM path \"{rom}\" does not exist, or is not a file.")
+            return 1
+        if not str(path).lower().startswith(f"{path.drive.lower()}:/retroarch/cores/"):
+            log.error(f"Setting a ROM path for the forwarder requires the NRO path to be to a RetroArch Core.")
+            log.error(f"Make sure you set it to a RetroArch Core and not to RetroArch itself or any other NRO.")
+            return 1
 
     log.info(f"Title ID: %s", id_)
 
@@ -179,9 +197,13 @@ def build(path: Path, name: str | None, publisher: str | None, icon: Path | None
             log.critical(f"Failed to convert and strip the Icon, {e.output} [{e.returncode}]")
             return 2
 
-        sdmc_path = f"sdmc:{str(path.resolve().absolute()).split(':', maxsplit=1)[1]}"
-        next_argv_file.write_text(sdmc_path)
-        next_nro_path_file.write_text(sdmc_path)
+        next_nro_path = str(path.resolve().absolute()).replace(f"{path.drive}:/", "sdmc:/")
+        next_nro_path_file.write_text(next_nro_path)
+
+        next_argv = next_nro_path
+        if rom:
+            next_argv += " " + str(rom.resolve().absolute()).replace(f"{rom.drive}:/", "sdmc:/")
+        next_argv_file.write_text(next_argv)
 
         # only make this directory at this point because we have a high chance of success
         Directories.output.mkdir(parents=True, exist_ok=True)

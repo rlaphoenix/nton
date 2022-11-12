@@ -12,8 +12,6 @@ The exefs ROM used is the one by [meliodas2255] which was based on or inspired b
 Both ROMs are supported as they use the same romfs structure for specifying which NRO to load from the microSD card.
 Simply replace the assets in the `/assets/exefs` folder with the [original ROM][ROM]'s exefs files.
 
-**Note**: Direct RetroArch game forwarding is not yet supported.
-
 ## Changes
 
 1. The script was completely rewritten in Python.
@@ -37,7 +35,7 @@ Simply replace the assets in the `/assets/exefs` folder with the [original ROM][
 3. Place your `prod.keys` at the root of the project folder or at `%USERPROFILE/.switch/prod.keys`. Make sure it's
    up-to-date for the firmware version you're switch is on. You can get this file using [Lockpick_RCM].
 4. Run `pip install nton`. If you see any warnings about a path not being in your PATH environment variable, add it
-   or you wont be able to run `nton`.
+   or you won't be able to run `nton`.
 
   [ImageMagick]: <https://imagemagick.org/script/download.php>
   [winget]: <https://winget.run>
@@ -60,14 +58,25 @@ E.g., to make a forwarder for the Homebrew Menu that's on your Switch's microSD 
 
 Take a look at `nton build --help` for advanced usage like changing the Icon, Title Name, and so on.
 
+### Direct RetroArch Game forwarding
+
+Use a RetroArch Game Core as the NRO path and provide the path to the ROM on your Switch's microSD card with `--rom`.  
+This will then load the Core directly under RetroArch and provide the path to the ROM as a startup argument to the
+RetroArch Core.
+
+Note:
+
+- You must use a path to a RetroArch Game Core NRO, not the path to the RetroArch NRO itself.
+- Do not move, delete, or rename the ROM or the Core NRO files that are on your microSD card, or it will break.
+
 ## To-do
 
 - [X] Rewrite as a Python script to heavily improve the user experience and code.
 - [X] Combine the Drive letter and Path arguments and manually split them when they need to be separate instead.
 - [X] Automate name and publisher by extracting from the extracted `control.nacp`.
 - [X] Force enable video capture and screenshots in the extracted `control.nacp`.
+- [x] Add support for direct RetroArch Game Forwarding.
 - [ ] Force disable save data allocation. Fixed in [v3.3.5 of Nro2NSP](https://github.com/Root-MtX/Nro2Nsp/releases/tag/3.3.5).
-- [ ] Add support for direct RetroArch Game Forwarding.
 - [ ] Maybe a new GUI one day, and let you override the icons and such?
 
 ## Troubleshooting
