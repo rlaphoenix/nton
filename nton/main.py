@@ -143,7 +143,7 @@ def build(
             log.critical(f"Failed extracting the NACP partition from the NRO, {control_file_res}")
             return 2
 
-        control_file_data = control_file.read_bytes()
+        control_file_data = bytearray(control_file.read_bytes())
         # version = control_file_data[0x3060:0x306F].replace(b"\x00", b"").strip().decode("utf8")
 
         log.debug("Got the Control partition")
