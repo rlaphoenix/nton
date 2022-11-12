@@ -23,22 +23,67 @@ Simply replace the assets in the `/assets/exefs` folder with the [original ROM][
 - 🧩 Plug-and-play installation via PIP/PyPI
 - ❤️ Forever FOSS!
 
+
 ## Installation
 
-1. Install the latest [ImageMagick] release. I recommend via [winget] or [chocolatey].
-2. Download the latest [hacBrewPack] and [nstool] binaries and place them within your current working directory, or
-   ideally in the `PATH` environment variable.
-3. Place your `prod.keys` at the root of the project folder or at `%USERPROFILE/.switch/prod.keys`. Make sure it's
-   up-to-date for the firmware version you're switch is on. You can get this file using [Lockpick_RCM].
-4. Run `pip install nton`. If you see any warnings about a path not being in your PATH environment variable, add it
-   or you won't be able to run `nton`.
+*Note: Requires [Python] 3.7.0 or newer with PIP installed.*
 
-  [ImageMagick]: <https://imagemagick.org/script/download.php>
+```shell
+$ pip install nton
+```
+
+You now have the `nton` package installed and a `nton` executable is now available.
+Check it out with `nton --help` - Voilà 🎉!
+
+*If you see any warnings about a path not being in your PATH environment variable, add it, or `nton` won't run.*
+
+### Dependencies
+
+The following is a list of programs required to be installed manually.  
+I recommend installing these with [winget] or [chocolatey] where possible as it automatically adds them to your
+`PATH` environment variable and will be easier to update in the future.
+
+- [hacBrewPack] for packing the NSP.
+- [ImageMagick] for Icon conversion and preparation.
+- [nstool] for NRO extraction and verification.
+
+For portable downloads, make sure you put them in your current working directory, in the installation directory,
+or put the directory path in your `PATH` environment variable. If you do not do this then NTON will not be able to
+find any of the binaries.
+
   [winget]: <https://winget.run>
   [chocolatey]: <https://chocolatey.org>
   [hacBrewPack]: <https://github.com/The-4n/hacBrewPack>
+  [ImageMagick]: <https://imagemagick.org/script/download.php>
   [nstool]: <https://github.com/jakcron/nstool>
-  [Lockpick_RCM]: <https://github.com/shchmue/Lockpick_RCM>
+
+### Keys
+
+NTON requires the use of proprietary key data for use in various ways.
+
+Place your `prod.keys` file at `C:\Users\<User>\.switch\prod.keys` or in your current working directory for
+NTON to be able to find and use your keys.
+
+Make sure your `prod.keys` file is up-to-date for the firmware version your Nintendo Switch is on. It can be extracted
+from your Nintendo Switch with [Lockpick_RCM](https://github.com/shchmue/Lockpick_RCM).
+
+### From Source Code
+
+The following steps are instructions on downloading, preparing, and running the code under a Poetry environment.
+You can skip steps 3-5 with a simple `pip install .` call instead, but you miss out on a wide array of benefits.
+
+1. `git clone https://github.com/rlaphoenix/nton`
+2. `cd nton`
+3. (optional) `poetry config virtualenvs.in-project true` 
+4. `poetry install`
+5. `poetry run nton --help`
+
+As seen in Step 5, running the `nton` executable is somewhat different to a normal PIP installation.
+See [Poetry's Docs] on various ways of making calls under the virtual-environment.
+
+  [Python]: <https://python.org>
+  [Poetry]: <https://python-poetry.org>
+  [Poetry's Docs]: <https://python-poetry.org/docs/basic-usage/#using-your-virtual-environment>
 
 ## Usage
 
