@@ -1,7 +1,12 @@
 # Source: https://switchbrew.org/wiki/Title_list
 # Last updated: 2022-11-12 08:00 UTC+0
 # When updating make sure all title IDs are lowercase hex, 16 digits in length (a-z0-9{16}).
+import time
 
+import jsonpickle
+import requests
+
+from nton.constants import Directories
 
 system_modules = (
     # https://switchbrew.org/wiki/Title_list#System_Modules
@@ -419,7 +424,58 @@ pre_release_system_modules = (
 )
 
 
-ALL = (
+def get_game_title_ids() -> dict:
+    """Get a mapping of Game Title IDs -> Game Names from Tinfoil's API."""
+    res = requests.get(
+        url="https://tinfoil.media/Title/ApiJson/",
+        params={
+            # is this actually returning a full list?
+            "rating_content": "",
+            "language": "",
+            "category": "",
+            "region": "ar,at,au,be,bg,br,ca,ch,cl,cn,co,cy,cz,de,dk,ee,es,fi,fr,gb,gr,hk,hr,hu,"
+                      "ie,it,jp,kr,lt,lu,lv,mt,mx,nl,no,nz,pe,pl,pt,ro,ru,se,si,sk,us,xx,za,zh",
+            "rating": "",
+            "_": str(time.time_ns() // 1000000)
+        },
+        headers={
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0"
+        }
+    )
+
+    if not res.ok:
+        raise requests.ConnectionError(
+            f"Failed to get a list of Game Title IDs from Tinfoil's API, [{res.status_code}]")
+
+    title_ids = {
+        title["id"].lower(): title["name"].split(">", maxsplit=1)[1].split("</a>", maxsplit=1)[0]
+        for title in res.json()["data"]
+    }
+
+    return title_ids
+
+
+# get a list of game title ids (cached) via tinfoil's API
+Directories.cache.mkdir(parents=True, exist_ok=True)
+game_title_ids_cache = Directories.cache / "tinfoil_game_ids.json"
+if game_title_ids_cache.exists():
+    if game_title_ids_cache.stat().st_mtime + 43200 < time.time():
+        # expired
+        print("Refreshing the list of Game Title IDs...")
+        game_title_ids = get_game_title_ids()
+        game_title_ids_cache.write_text(jsonpickle.dumps(game_title_ids), encoding="utf8")
+    else:
+        # valid
+        game_title_ids = jsonpickle.loads(game_title_ids_cache.read_text("utf8"))
+else:
+    # no cache
+    print("Downloading a list of Game Title IDs...")
+    game_title_ids = get_game_title_ids()
+    game_title_ids_cache.write_text(jsonpickle.dumps(game_title_ids), encoding="utf8")
+
+
+ALL_SYSTEM = (
     *system_modules,
     *system_data_archives,
     *system_applets,
@@ -431,4 +487,9 @@ ALL = (
     *system_applications,
     *pre_release_system_applets,
     *pre_release_system_modules
+)
+
+ALL = (
+    *ALL_SYSTEM,
+    *list(game_title_ids)
 )

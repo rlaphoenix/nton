@@ -93,7 +93,7 @@ def build(
             log.error(f"The Title ID \"{id_}\" is an invalid hex string. It must be a-fA-f0-9.")
             return 1
         id_ = id_.lower()
-        if id_ in system_title_ids.ALL:
+        if id_ in system_title_ids.ALL_SYSTEM:
             log.critical(f"The Title ID \"{id_}\" is a reserved System Title! Using it is unsafe!")
             return 2
     else:
