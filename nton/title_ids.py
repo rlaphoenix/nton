@@ -424,6 +424,14 @@ pre_release_system_modules = (
 )
 
 
+# The following are unofficial title IDs I have pre-defined to be used for specific homebrew
+# This is to keep a specific title ID throughout each release's bundled prebuilt NSPs
+unofficial = {
+    "hbmenu": "010d6fd3b35cd000",              # https://github.com/switchbrew/nx-hbmenu
+    "aio-switch-updater": "016454da0e765000",  # https://github.com/HamletDuFromage/aio-switch-updater
+}
+
+
 def get_game_title_ids() -> dict:
     """Get a mapping of Game Title IDs -> Game Names from Tinfoil's API."""
     res = requests.get(
@@ -491,5 +499,6 @@ ALL_SYSTEM = (
 
 ALL = (
     *ALL_SYSTEM,
-    *list(game_title_ids)
+    *list(game_title_ids),
+    *list(unofficial.values())
 )

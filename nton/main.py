@@ -100,6 +100,8 @@ def build(
             return 2
         if id_ in title_ids.game_title_ids:
             log.warning(f"The Title ID \"{id_}\" is already used by \"{title_ids.game_title_ids[id_]}\".")
+    elif path.stem.lower() in title_ids.unofficial:
+        id_ = title_ids.unofficial[path.stem.lower()]
     else:
         id_ = "0100000000000000"
         while id_ in title_ids.ALL:
