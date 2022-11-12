@@ -125,6 +125,17 @@ def build(path: Path, name: str | None, publisher: str | None, icon: Path | None
         log.debug("Got the Control partition")
         log.debug(base64.b64encode(control_file_data).decode())
 
+        # enable video capture and screenshots if disabled
+        if control_file_data[0x3035] != 0x02:
+            # 0x00 = Disabled, 0x01 = Manual, 0x02 = Enabled
+            control_file_data[0x3035] = 0x02
+            log.info("Enabled Video Capture")
+        if control_file_data[0x3034] != 0x00:
+            # 0x00 = Enabled, 0x01 = Disabled
+            control_file_data[0x3034] = 0x00
+            log.info("Enabled Screenshots")
+        control_file.write_bytes(control_file_data)
+
         if not name:
             # TODO: Assumes first region/language of the NROs title/name data is wanted
             #       Is UTF8 or ANSI wanted here when decoding? UTF8 should be fine

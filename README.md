@@ -62,10 +62,8 @@ Take a look at `nton build --help` for advanced usage like changing the Icon, Ti
 - [X] Rewrite as a Python script to heavily improve the user experience and code.
 - [X] Combine the Drive letter and Path arguments and manually split them when they need to be separate instead.
 - [X] Automate name and publisher by extracting from the extracted `control.nacp`.
+- [X] Force enable video capture and screenshots in the extracted `control.nacp`.
 - [ ] Force disable save data allocation. Fixed in [v3.3.5 of Nro2NSP](https://github.com/Root-MtX/Nro2Nsp/releases/tag/3.3.5).
-- [ ] Force enabling recording by editing the NROs extracted `control.nacp` at offset 0x3035 from 0 to 2 (forced).
-    Forced is a lot better than 1 (manual) as it allows the video to be saved. A way to enable screenshots should be done as well.
-    [SAK](https://github.com/dezem/SAK) has a way to do this.
 - [ ] Add support for direct RetroArch Game Forwarding.
 - [ ] Maybe a new GUI one day, and let you override the icons and such?
 
