@@ -112,12 +112,14 @@ Firmware 9.0.0 and 12.0.0 are times the firmware has broken different forwarder 
 
 ## Credit
 
-- [Martin Pham (mpham)][mpham] for the original v12.0.0+ [forwarder ROM][ROM] and original batch script.
-- [meliodas2255] for recompiling the [forwarder ROM][ROM] for the latest hbl-loader as of May 2021 supporting RetroArch Forwarders and general Homebrew.
+- [Martin Pham (mpham)][mpham] for the [original forwarder ROM][ROM] supporting v12.0.0+, and original batch script.
+- [meliodas2255] for [their forwarder ROM][ROM2] also supporting v12.0.0+ compiled with the latest hbl-loader as of May
+  2021, with both direct RetroArch Forwarding and general forwarding support.
 
   [mpham]: <https://gbatemp.net/members/mpham.537130>
   [meliodas2255]: <https://gbatemp.net/members/meliodas2255.410353>
   [ROM]: <https://gitlab.com/martinpham/NSP-Forwarder>
+  [ROM2]: <https://gbatemp.net/threads/nsp-forwarder-tool-for-12.587936/post-9468469>
 
 ## License
 
