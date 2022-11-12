@@ -10,6 +10,7 @@ from datetime import datetime
 from pathlib import Path
 
 import click as click
+import coloredlogs
 
 from nton import __version__, nstool, title_ids
 from nton.constants import Directories, Binaries, Files
@@ -21,7 +22,8 @@ from nton.constants import Directories, Binaries, Files
 def main(version: bool, debug: bool) -> None:
     """nton—Nintendo Switch NRO to NSP Forwarder."""
     logging.basicConfig(level=logging.DEBUG if debug else logging.INFO)
-    log = logging.getLogger()
+    log = logging.getLogger(__name__)
+    coloredlogs.install(level=log.parent.level, logger=log, fmt="{asctime} [{levelname[0]}] {name} : {message}", style="{")
 
     copyright_years = 2022
     current_year = datetime.now().year
