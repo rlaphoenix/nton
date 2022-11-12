@@ -96,6 +96,8 @@ def build(
         if id_ in system_title_ids.ALL_SYSTEM:
             log.critical(f"The Title ID \"{id_}\" is a reserved System Title! Using it is unsafe!")
             return 2
+        if id_ in system_title_ids.game_title_ids:
+            log.warning(f"The Title ID \"{id_}\" is already used by \"{system_title_ids.game_title_ids[id_]}\".")
     else:
         id_ = "0100000000000000"
         while id_ in system_title_ids.ALL:
