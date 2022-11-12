@@ -12,6 +12,17 @@ The exefs ROM used is the one by [meliodas2255] which was based on or inspired b
 Both ROMs are supported as they use the same romfs structure for specifying which NRO to load from the microSD card.
 Simply replace the assets in the `/assets/exefs` folder with the [original ROM][ROM]'s exefs files.
 
+## Features
+
+- 🛡️ Safety-first approach; System/Game Title IDs cannot be used and NRO files are validated
+- 🕹️ Boot right into an Emulated Game with Direct RetroArch Game Forwarding
+- 🖼️ Supports any Image file of any resolution or format for the NSP Icon
+- 🤖 The Title Name, Publisher, Icon, and more are automatically extracted from the NRO
+- 🎥 Supports Video Capture and Screenshots
+- ⚙ Currently Supports Firmware 12.0.0 and up
+- 🧩 Plug-and-play installation via PIP/PyPI
+- ❤️ Forever FOSS!
+
 ## Installation
 
 1. Install the latest [ImageMagick] release. I recommend via [winget] or [chocolatey].
