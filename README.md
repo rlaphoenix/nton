@@ -1,6 +1,13 @@
 # NTON
 
-Nintendo Switch NRO to NSP Forwarder for firmware 12.0.0 and newer.
+[![Build status](https://github.com/rlaphoenix/nton/actions/workflows/ci.yml/badge.svg)](https://github.com/rlaphoenix/nton/actions/workflows/ci.yml)
+[![PyPI version](https://img.shields.io/pypi/v/nton)](https://pypi.python.org/pypi/nton)
+[![Python versions](https://img.shields.io/pypi/pyversions/nton)](https://pypi.python.org/pypi/nton)
+<a href="https://github.com/rlaphoenix/nton/blob/master/LICENSE">
+  <img align="right" src="https://img.shields.io/badge/license-GPLv3-blue" alt="License (GPLv3)"/>
+</a>
+
+NTON is a Nintendo Switch NRO to NSP Forwarder for firmware 12.0.0 and newer.
 
 A forwarder lets you open a Homebrew NRO file from your SD card through the Nintendo Switch Home Screen instead
 of the Homebrew Launcher.
@@ -22,7 +29,6 @@ Simply replace the assets in the `/assets/exefs` folder with the [original ROM][
 - ⚙ Currently Supports Firmware 12.0.0 and up
 - 🧩 Plug-and-play installation via PIP/PyPI
 - ❤️ Forever FOSS!
-
 
 ## Installation
 
