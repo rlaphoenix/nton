@@ -8,7 +8,7 @@ on:
 jobs:
   tagged-release:
     name: Tagged Release
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -25,6 +25,53 @@ jobs:
       run: |
         python -m pip install --upgrade pip wheel
         poetry install
+        choco install imagemagick
+    - name: Cache external Homebrew Tools
+      id: cache-hb-tools
+      uses: actions/cache@v3
+      with:
+        path: |
+          nstool.exe
+          hacbrewpack.exe
+          hptnacp.exe
+        key: hb-tools
+    - name: Install external Homebrew Tools
+      if: steps.cache-hb-tools.outputs.cache-hit != 'true'
+      run: |
+        aria2c https://github.com/jakcron/nstool/releases/download/v1.6.5/nstool-v1.6.5-win_x64.zip
+        7z x nstool-v1.6.5-win_x64.zip nstool.exe
+        aria2c https://github.com/The-4n/hacBrewPack/releases/download/v3.05/hacbrewpack-v3.05_win64.zip
+        7z x hacbrewpack-v3.05_win64.zip hacbrewpack.exe
+        aria2c https://github.com/The-4n/hacPack/releases/download/v1.36-r2/hacpack-v1.36_r2_win64.zip
+        7z x hacpack-v1.36_r2_win64.zip Tools/hacPackTools-NACP/hptnacp.exe
+        Move-Item -Path .\Tools\hacPackTools-NACP\hptnacp.exe -Destination .
+    - name: Cache prod.keys
+      id: cache-prod-keys
+      uses: actions/cache@v3
+      with:
+        path: prod.keys
+        key: prod-keys
+    - name: Save prod.keys safely
+      if: steps.cache-prod-keys.outputs.cache-hit != 'true'
+      env:
+        PROD_KEYS: ${{ secrets.PROD_KEYS }}
+      run: $env:PROD_KEYS | Out-File prod.keys
+    - name: Download Homebrew NROs
+      run: |
+        aria2c https://switch.cdn.fortheusers.org/zips/hbmenu.zip
+        7z x hbmenu.zip hbmenu.nro
+        aria2c https://switch.cdn.fortheusers.org/zips/aio-switch-updater.zip
+        7z x aio-switch-updater.zip switch/aio-switch-updater/aio-switch-updater.nro
+        Move-Item -Path .\switch\aio-switch-updater\aio-switch-updater.nro -Destination .
+    - name: Pre-build some NSP forwarders
+      run: |
+        poetry run nton build "hbmenu.nro" --name "Homebrew Menu" --sdmc "/hbmenu.nro"
+        poetry run nton build "aio-switch-updater.nro" --name "AIO-Switch-Updater" --sdmc "/switch/aio-switch-updater/aio-switch-updater.nro"
+    - name: Upload NSPs
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: Pre-built NSPs
+        path: C:/Users/runneradmin/Desktop/NTON/*.nsp
     - name: Build a wheel
       run: poetry build
     - name: Upload wheel
@@ -39,7 +86,7 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         files: |
           dist/*.whl
-    # TODO: Auto-build a wheel for nx-hbmenu and aio-switch-updater, add to release files
+          C:/Users/runneradmin/Desktop/NTON/*.nsp
     - name: Publish to PyPI
       env:
         POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
