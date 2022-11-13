@@ -58,9 +58,9 @@ def get_nacp(asset_path: Path, output_path: Path) -> str | int | None:
             "--nacp", output_path,
             asset_path
         ])
-        if not asset_path.is_file():
+        if not output_path.is_file():
             return "No NACP was extracted from the asset."
-        if asset_path.stat().st_size <= 2:
+        if output_path.stat().st_size <= 2:
             return "An empty NACP was extracted from the asset."
         return None
     except subprocess.CalledProcessError as e:
@@ -84,9 +84,9 @@ def get_icon(asset_path: Path, output_path: Path) -> str | int | None:
             "--icon", output_path,
             asset_path
         ])
-        if not asset_path.is_file():
+        if not output_path.is_file():
             return "No Icon was extracted from the asset."
-        if asset_path.stat().st_size <= 2:
+        if output_path.stat().st_size <= 2:
             return "An empty Icon was extracted from the asset."
         return None
     except subprocess.CalledProcessError as e:
