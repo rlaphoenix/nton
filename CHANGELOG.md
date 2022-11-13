@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2022-11-13
+
+### Added
+
+- User and Device Save Data Allocation is now disabled from all NSP forwarders. This frees up 63 MB of installed file
+  space for most NROs, possibly more! The NRO may need Save Data Allocation, which it will keep, but the NSP forwarder
+  itself will never ever store any data nor will it need to so such allocation is completely wasteful.
+- The NRO path on the Switch's microSD card (sdmc path) can now be manually specified with `--sdmc`. Using `--sdmc`
+  allows you to use an NRO path that is NOT on your Switch's microSD card, but you have to be certain that the sdmc
+  path you set is correct.
+- The NSP filename now contains the NRO version and the version can now be manually specified.
+- If the NRO does not have a NACP partition, a new one will be made. If this happens, usage of `--name`, `--publisher`,
+  and so on will be required. No Icon will be available, but setting an icon is still optional.
+- A warning will now be logged if there's no Icon to use for the NSP.
+- The CI/CD workflows have been immensely improved. CI now tests by building a "Hello World!" NSP, and CD now
+  automatically builds NSP forwarders for the Homebrew Menu and AIO-Switch-Updater and adds them to the release's
+  assets for anyone to download. Every release will make forwarders for whatever NRO is the newest available from the
+  [Switch Appstore](https://apps.fortheusers.org/switch).
+
+### Changed
+
+- The forwarder ROM ExeFS has been updated with a new build based on the latest nx-hbloader code. The forwarder ROM is
+  now also Open-Source by the original person who made it on GBATemp. It is available here:
+  https://github.com/Skywalker25/Forwarder-Mod
+- The ROM (`--rom`) path no longer needs to exist and is no longer checked to exist. Unlike the NRO path, we never need
+  to read anything from it therefore we don't need to check it.
+
+### Fixed
+
+- Runtime Errors on almost all Subprocess calls under Python 3.7 is now fixed.
+- Process Return Codes for errors (non-0 return codes) are now working.
+- The output file checks in `nstool.py` for `get_nacp()` and `get_icon()` now check the output file rather than the
+  input file.
+
 ## [1.1.0] - 2022-11-12
 
 ### Added
@@ -64,6 +98,7 @@ Initial release (as a Python script).
 
 Initial release (as CMD script).
 
+[1.2.0]: https://github.com/rlaphoenix/nton/releases/tag/v1.2.0
 [1.1.0]: https://github.com/rlaphoenix/nton/releases/tag/v1.1.0
 [1.0.1]: https://github.com/rlaphoenix/nton/releases/tag/v1.0.1
 [1.0.0]: https://github.com/rlaphoenix/nton/releases/tag/v1.0.0
