@@ -37,8 +37,6 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Build project
       run: poetry build
-    - name: Install ImageMagick
-      run: choco install imagemagick
     - name: Cache external Homebrew Tools
       id: cache-hb-tools
       uses: actions/cache@v3
