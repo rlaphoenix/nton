@@ -44,6 +44,7 @@ def main(version: bool, debug: bool) -> None:
 @click.option("-i", "--icon", type=Path, default=None, help="Title Icon (256x256px recommended, supports any image).")
 @click.option("--id", "id_", type=str, default=None, help="Title ID.")
 @click.option("--rom", type=str, default=None, help="ROM path for Direct RetroArch Game Forwarding.")
+@click.option("--sdmc", type=str, default=None, help="NRO path relative to the root of the Switch's microSD card.")
 def build(
     path: Path,
     name: str | None,
@@ -51,7 +52,8 @@ def build(
     version: str | None,
     icon: Path | None,
     id_: str | None,
-    rom: str | None
+    rom: str | None,
+    sdmc: str | None
 ) -> int:
     """
     Build an NSP that loads an NRO on the Switch's microSD card.
@@ -67,6 +69,8 @@ def build(
             same Title ID as another installed Title, but it's so miniscule you shouldn't realistically worry about it.
         rom: Path to a ROM file on the Switch's microSD card to create a forwarder that boots directly into the game
             using RetroArch. The NRO path must be to a RetroArch Core. It must also be an absolute path.
+        sdmc: Path to the NRO path relative to the root of the Switch's microSD card. This should only be used if the
+            NRO path you provided is NOT on the microSD card, as it is implicitly inferred.
     """
     log = logging.getLogger("build")
     log.info("Building!")
@@ -79,11 +83,20 @@ def build(
         log.error(f"The NRO path \"{path}\" is not to an NRO file.")
         return 1
 
-    # TODO: Improve this check by using win32 calls to see if the drive is a removable drive or not.
-    #       Perhaps there's also a way to see if it's specifically an SD card, but it might not be reliable.
-    if path.drive == "C":
-        log.error(f"The NRO path must be a path on your Switch's microSD card.")
-        return 1
+    if sdmc:
+        if not sdmc.startswith("sdmc:/"):
+            if not sdmc.startswith("/"):
+                sdmc = f"/{sdmc}"
+            sdmc = f"sdmc:{sdmc}"
+    else:
+        # TODO: Improve this check by using win32 calls to see if the drive is a removable drive or not.
+        #       Perhaps there's also a way to see if it's specifically an SD card, but it might not be reliable.
+        if path.drive == "C":
+            log.error("The NRO path must be a path on your Switch's microSD card to implicitly infer the sdmc path.")
+            log.error("You can use --sdmc to manually specify the path relative to the Switch's microSD card.")
+            return 1
+        # only works if the path is on the Switch's microSD card, or the relative path matches the microSD card
+        sdmc = str(path.resolve().absolute()).replace(f"{path.drive}:/", "sdmc:/")
 
     verification = nstool.verify(path, "nro")
     if verification:
@@ -104,6 +117,8 @@ def build(
             log.warning(f"The Title ID \"{id_}\" is already used by \"{title_ids.game_title_ids[id_]}\".")
     elif path.stem.lower() in title_ids.unofficial:
         id_ = title_ids.unofficial[path.stem.lower()]
+    elif sdmc and Path(sdmc).stem.lower() in title_ids.unofficial:
+        id_ = title_ids.unofficial[Path(sdmc).stem.lower()]
     else:
         id_ = "0100000000000000"
         while id_ in title_ids.ALL:
@@ -112,7 +127,7 @@ def build(
     if rom:
         if not rom.startswith("/"):
             rom = f"/{rom}"
-        if not str(path).lower().startswith(f"{path.drive.lower()}:/retroarch/cores/"):
+        if "/retroarch/cores/" not in (str(path) + str(sdmc)).lower():
             log.error(f"Setting a ROM path for the forwarder requires the NRO path to be to a RetroArch Core.")
             log.error(f"Make sure you set it to a RetroArch Core and not to RetroArch itself or any other NRO.")
             return 1
@@ -220,7 +235,7 @@ def build(
             log.critical(f"Failed to convert and strip the Icon, {e.output} [{e.returncode}]")
             return 2
 
-        next_nro_path = str(path.resolve().absolute()).replace(f"{path.drive}:/", "sdmc:/")
+        next_nro_path = sdmc
         next_nro_path_file.write_text(next_nro_path)
 
         next_argv = next_nro_path
