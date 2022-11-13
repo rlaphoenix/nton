@@ -264,25 +264,30 @@ def build(
         else:
             icon_file_res = nstool.get_icon(path, icon_file)
             if icon_file_res:
-                log.critical(f"Failed extracting the Icon partition from the NRO, {icon_file_res}")
-                sys.exit(2)
-            log.debug("Got the Icon partition")
-            log.debug(base64.b64encode(icon_file.read_bytes()).decode())
+                if icon_file_res == "No Icon was extracted from the asset.":
+                    log.warning("The NRO does not have an Icon, proceeding without one.")
+                else:
+                    log.critical(f"Failed extracting the Icon partition from the NRO, {icon_file_res}")
+                    sys.exit(2)
+            else:
+                log.debug("Got the Icon partition")
+                log.debug(base64.b64encode(icon_file.read_bytes()).decode())
 
-        # We must strip every unnecessary metadata or the icon will be a '?'
-        try:
-            subprocess.check_output([
-                Binaries.magick, "mogrify",
-                "-format", "jpg",
-                "-resize", "256x256",
-                "-strip", str(icon_file.absolute())
-            ])
-            # magick changes the .dat to .jpg, let's undo that
-            icon_file.unlink()
-            shutil.move(icon_file.with_suffix(".jpg"), icon_file)
-        except subprocess.CalledProcessError as e:
-            log.critical(f"Failed to convert and strip the Icon, {e.output} [{e.returncode}]")
-            sys.exit(2)
+        if icon_file.exists():
+            # We must strip every unnecessary metadata or the icon will be a '?'
+            try:
+                subprocess.check_output([
+                    Binaries.magick, "mogrify",
+                    "-format", "jpg",
+                    "-resize", "256x256",
+                    "-strip", str(icon_file.absolute())
+                ])
+                # magick changes the .dat to .jpg, let's undo that
+                icon_file.unlink()
+                shutil.move(icon_file.with_suffix(".jpg"), icon_file)
+            except subprocess.CalledProcessError as e:
+                log.critical(f"Failed to convert and strip the Icon, {e.output} [{e.returncode}]")
+                sys.exit(2)
 
         next_nro_path = sdmc
         next_nro_path_file.write_text(next_nro_path)
