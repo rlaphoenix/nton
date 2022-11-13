@@ -177,6 +177,23 @@ def build(
             control_file_data[0x3034] = 0x00
             log.info("Enabled Screenshots")
 
+        # disable save allocation as it's a complete waste of space
+        save_data_size_offsets = {
+            0x3080: "User Account Save Data",
+            0x3088: "User Account Save Data Journal",
+            0x3090: "Device Save Data",
+            0x3098: "Device Save Data Journal",
+            0x3148: "Max User Account Save Data",
+            0x3150: "Max User Account Save Data Journal",
+            0x3158: "Max Device Save Data",
+            0x3160: "Max Device Save Data Journal",
+        }
+        for offset, offset_name in save_data_size_offsets.items():
+            save_data_size = int.from_bytes(control_file_data[offset:offset + 8], byteorder="little")
+            if save_data_size != 0:
+                control_file_data[offset:offset + 8] = b"\x00" * 8
+                log.info(f"Removed {offset_name} Allocation")
+
         if not name:
             # TODO: Assumes first region/language of the NROs title/name data is wanted
             #       Is UTF8 or ANSI wanted here when decoding? UTF8 should be fine
