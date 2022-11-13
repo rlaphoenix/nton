@@ -43,7 +43,7 @@ def main(version: bool, debug: bool) -> None:
 @click.option("-v", "--version", type=str, default=None, help="Title Version.")
 @click.option("-i", "--icon", type=Path, default=None, help="Title Icon (256x256px recommended, supports any image).")
 @click.option("--id", "id_", type=str, default=None, help="Title ID.")
-@click.option("--rom", type=Path, default=None, help="ROM path for Direct RetroArch Game Forwarding.")
+@click.option("--rom", type=str, default=None, help="ROM path for Direct RetroArch Game Forwarding.")
 def build(
     path: Path,
     name: str | None,
@@ -51,7 +51,7 @@ def build(
     version: str | None,
     icon: Path | None,
     id_: str | None,
-    rom: Path | None
+    rom: str | None
 ) -> int:
     """
     Build an NSP that loads an NRO on the Switch's microSD card.
@@ -65,8 +65,8 @@ def build(
             resolution. A 256x256px image is recommended.
         id_: Set a specific Title ID, otherwise a Random Title ID is used. There's a miniscule chance it could get the
             same Title ID as another installed Title, but it's so miniscule you shouldn't realistically worry about it.
-        rom: Path to a ROM file to create a forwarder that boots directly into the game using RetroArch. The NRO path
-            must be to a RetroArch Core.
+        rom: Path to a ROM file on the Switch's microSD card to create a forwarder that boots directly into the game
+            using RetroArch. The NRO path must be to a RetroArch Core. It must also be an absolute path.
     """
     log = logging.getLogger("build")
     log.info("Building!")
@@ -110,9 +110,8 @@ def build(
             id_ = "01%s000" % os.urandom(6).hex()[:-1]
 
     if rom:
-        if not rom.is_file():
-            log.error(f"The ROM path \"{rom}\" does not exist, or is not a file.")
-            return 1
+        if not rom.startswith("/"):
+            rom = f"/{rom}"
         if not str(path).lower().startswith(f"{path.drive.lower()}:/retroarch/cores/"):
             log.error(f"Setting a ROM path for the forwarder requires the NRO path to be to a RetroArch Core.")
             log.error(f"Make sure you set it to a RetroArch Core and not to RetroArch itself or any other NRO.")
@@ -226,7 +225,7 @@ def build(
 
         next_argv = next_nro_path
         if rom:
-            next_argv += " " + str(rom.resolve().absolute()).replace(f"{rom.drive}:/", "sdmc:/")
+            next_argv += f" sdmc:{rom}"
         next_argv_file.write_text(next_argv)
 
         # only make this directory at this point because we have a high chance of success
