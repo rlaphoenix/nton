@@ -6,6 +6,7 @@ import os
 import shutil
 import string
 import subprocess
+import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -54,7 +55,7 @@ def build(
     id_: str | None,
     rom: str | None,
     sdmc: str | None
-) -> int:
+):
     """
     Build an NSP that loads an NRO on the Switch's microSD card.
 
@@ -77,11 +78,11 @@ def build(
 
     if not path.is_file():
         log.error(f"The NRO path \"{path}\" does not exist, or is not a file.")
-        return 1
+        sys.exit(1)
 
     if path.suffix.lower() != ".nro":
         log.error(f"The NRO path \"{path}\" is not to an NRO file.")
-        return 1
+        sys.exit(1)
 
     if sdmc:
         if not sdmc.startswith("sdmc:/"):
@@ -94,25 +95,25 @@ def build(
         if path.drive == "C":
             log.error("The NRO path must be a path on your Switch's microSD card to implicitly infer the sdmc path.")
             log.error("You can use --sdmc to manually specify the path relative to the Switch's microSD card.")
-            return 1
+            sys.exit(1)
         # only works if the path is on the Switch's microSD card, or the relative path matches the microSD card
         sdmc = str(path.resolve().absolute()).replace(f"{path.drive}:/", "sdmc:/")
 
     verification = nstool.verify(path, "nro")
     if verification:
         log.critical(f"The NRO \"%s\" is invalid, %s", path, verification)
-        return 2
+        sys.exit(2)
 
     log.info("NRO checked and verified")
 
     if id_:
         if any(c not in string.hexdigits for c in id_):
             log.error(f"The Title ID \"{id_}\" is an invalid hex string. It must be a-fA-f0-9.")
-            return 1
+            sys.exit(1)
         id_ = id_.lower()
         if id_ in title_ids.ALL_SYSTEM:
             log.critical(f"The Title ID \"{id_}\" is a reserved System Title! Using it is unsafe!")
-            return 2
+            sys.exit(2)
         if id_ in title_ids.game_title_ids:
             log.warning(f"The Title ID \"{id_}\" is already used by \"{title_ids.game_title_ids[id_]}\".")
     elif path.stem.lower() in title_ids.unofficial:
@@ -130,7 +131,7 @@ def build(
         if "/retroarch/cores/" not in (str(path) + str(sdmc)).lower():
             log.error(f"Setting a ROM path for the forwarder requires the NRO path to be to a RetroArch Core.")
             log.error(f"Make sure you set it to a RetroArch Core and not to RetroArch itself or any other NRO.")
-            return 1
+            sys.exit(1)
 
     log.info(f"Title ID: %s", id_)
 
@@ -161,7 +162,7 @@ def build(
         control_file_res = nstool.get_nacp(path, control_file)
         if control_file_res:
             log.critical(f"Failed extracting the NACP partition from the NRO, {control_file_res}")
-            return 2
+            sys.exit(2)
 
         control_file_data = bytearray(control_file.read_bytes())
         log.debug("Got the Control partition")
@@ -200,7 +201,7 @@ def build(
             name = control_file_data[0x0000:0x000F].replace(b"\x00", b"").strip().decode("utf8")
         elif len(name.encode("utf8")) > 0x200:  # fits 0x200 * 10 (16 fields)
             log.error(f"The Title Name \"{name}\" is too large to fit in the NSP.")
-            return 1
+            sys.exit(1)
 
         log.info("Title Name: %s", name)
 
@@ -208,7 +209,7 @@ def build(
             publisher = control_file_data[0x0200:0x020F].replace(b"\x00", b"").strip().decode("utf8")
         elif len(publisher.encode("utf8")) > 0x100:  # fits 0x100 * 10 (16 fields)
             log.error(f"The Title Publisher \"{publisher}\" is too large to fit in the NSP.")
-            return 1
+            sys.exit(1)
 
         log.info("Publisher: %s", publisher)
 
@@ -218,7 +219,7 @@ def build(
             version_utf8 = version.encode("utf8")
             if len(version_utf8) > 0x10:
                 log.error(f"The Title Version \"{version}\" is too large to fit in the NSP.")
-                return 1
+                sys.exit(1)
             while len(version_utf8) < 0x10:
                 version_utf8 += b"\xFF"
             control_file_data[0x3060:0x306F] = version_utf8
@@ -233,7 +234,7 @@ def build(
             icon_file_res = nstool.get_icon(path, icon_file)
             if icon_file_res:
                 log.critical(f"Failed extracting the Icon partition from the NRO, {icon_file_res}")
-                return 2
+                sys.exit(2)
             log.debug("Got the Icon partition")
             log.debug(base64.b64encode(icon_file.read_bytes()).decode())
 
@@ -250,7 +251,7 @@ def build(
             shutil.move(icon_file.with_suffix(".jpg"), icon_file)
         except subprocess.CalledProcessError as e:
             log.critical(f"Failed to convert and strip the Icon, {e.output} [{e.returncode}]")
-            return 2
+            sys.exit(2)
 
         next_nro_path = sdmc
         next_nro_path_file.write_text(next_nro_path)
@@ -275,7 +276,7 @@ def build(
             os.system("")  # fixes logs, I don't know why or how
         except subprocess.CalledProcessError as e:
             log.critical(f"Failed to build NSP, \"{e.args}\", {e.output} [{e.returncode}]")
-            return 2
+            sys.exit(2)
 
         nsp_final_path = Directories.output / f"{name} v{version} by {publisher} [{id_}].nsp"
         if nsp_final_path.exists():
