@@ -12,6 +12,7 @@ from pathlib import Path
 
 import click as click
 import coloredlogs
+from bs4 import BeautifulSoup
 
 from nton import __version__, nstool, title_ids
 from nton.constants import Directories, Binaries, Files
@@ -136,6 +137,7 @@ def build(
     log.info(f"Title ID: %s", id_)
 
     build_dir = Directories.temp / id_
+    control_template_file = Directories.assets / "control.nacp.xml"
     control_dir = build_dir / "control"
     romfs_dir = build_dir / "romfs"
     exefs_dir = build_dir / "exefs"
@@ -161,8 +163,37 @@ def build(
 
         control_file_res = nstool.get_nacp(path, control_file)
         if control_file_res:
-            log.critical(f"Failed extracting the NACP partition from the NRO, {control_file_res}")
-            sys.exit(2)
+            if control_file_res == "No NACP was extracted from the asset.":
+                log.warning("The NRO does not have a NACP partition, building a new one.")
+                if not name or not publisher or not version:
+                    log.error("You must specify a Name, Publisher, and Version to be able to build the NACP.")
+                    log.error("You may also want to specify an Icon but it is not strictly necessary.")
+                    sys.exit(1)
+                control_template = control_template_file.read_text(encoding="utf8")
+                root = BeautifulSoup(control_template, "xml")
+                for title in root.find_all("Title"):
+                    title.Name.string = name
+                    title.Publisher.string = publisher
+                for title_id in root.find_all(["PresenceGroupId", "SaveDataOwnerId", "LocalCommunicationId"]):
+                    title_id.string = f"0x{id_}"
+                root.find("DisplayVersion").string = version
+                root.find("AddOnContentBaseId").string = hex(int(id_, 16) + 0x1000)
+                tmp_control_template = build_dir / "control.nacp.xml"
+                tmp_control_template.write_text(str(root))
+                try:
+                    subprocess.check_output([
+                        Binaries.hptnacp,
+                        "-a", "createnacp",
+                        "-i", str(tmp_control_template.absolute()),
+                        "-o", str(control_file.absolute())
+                    ])
+                except subprocess.CalledProcessError as e:
+                    log.critical(f"Failed to build a new NACP, {e.output} [{e.returncode}]")
+                    sys.exit(2)
+                log.info("Built a new NACP")
+            else:
+                log.critical(f"Failed extracting the NACP partition from the NRO, {control_file_res}")
+                sys.exit(2)
 
         control_file_data = bytearray(control_file.read_bytes())
         log.debug("Got the Control partition")

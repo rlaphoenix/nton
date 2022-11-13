@@ -21,6 +21,7 @@ class Directories:
 class Binaries:
     nstool = shutil.which("nstool")
     hacbrewpack = shutil.which("hacbrewpack")
+    hptnacp = shutil.which("hptnacp")
     magick = shutil.which("magick")
 
 

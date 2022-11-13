@@ -52,6 +52,7 @@ I recommend installing these with [winget] or [chocolatey] where possible as it 
 - [hacBrewPack] for packing the NSP.
 - [ImageMagick] for Icon conversion and preparation.
 - [nstool] for NRO extraction and verification.
+- [hptnacp] for creating new NACP partitions if the NRO did not have one.
 
 For portable downloads, make sure you put them in your current working directory, in the installation directory,
 or put the directory path in your `PATH` environment variable. If you do not do this then NTON will not be able to
@@ -62,6 +63,7 @@ find any of the binaries.
   [hacBrewPack]: <https://github.com/The-4n/hacBrewPack>
   [ImageMagick]: <https://imagemagick.org/script/download.php>
   [nstool]: <https://github.com/jakcron/nstool>
+  [hptnacp]: <https://github.com/The-4n/hacPack/tree/master/hacPack-Tools/hacPackTools-NACP>
 
 ### Keys
 
