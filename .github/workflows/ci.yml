@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       matrix:
         python-version: ['3.7', '3.8', '3.9', '3.10']
@@ -37,3 +37,37 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Build project
       run: poetry build
+    - name: Install ImageMagick
+      run: choco install imagemagick
+    - name: Cache external Homebrew Tools
+      id: cache-hb-tools
+      uses: actions/cache@v3
+      with:
+        path: |
+          nstool.exe
+          hacbrewpack.exe
+          hptnacp.exe
+        key: hb-tools
+    - name: Install external Homebrew Tools
+      if: steps.cache-hb-tools.outputs.cache-hit != 'true'
+      run: |
+        aria2c https://github.com/jakcron/nstool/releases/download/v1.6.5/nstool-v1.6.5-win_x64.zip
+        7z x nstool-v1.6.5-win_x64.zip nstool.exe
+        aria2c https://github.com/The-4n/hacBrewPack/releases/download/v3.05/hacbrewpack-v3.05_win64.zip
+        7z x hacbrewpack-v3.05_win64.zip hacbrewpack.exe
+        aria2c https://github.com/The-4n/hacPack/releases/download/v1.36-r2/hacpack-v1.36_r2_win64.zip
+        7z x hacpack-v1.36_r2_win64.zip Tools/hacPackTools-NACP/hptnacp.exe
+        Move-Item -Path .\Tools\hacPackTools-NACP\hptnacp.exe -Destination .
+    - name: Cache prod.keys
+      id: cache-prod-keys
+      uses: actions/cache@v3
+      with:
+        path: prod.keys
+        key: prod-keys
+    - name: Save prod.keys safely
+      if: steps.cache-prod-keys.outputs.cache-hit != 'true'
+      env:
+        PROD_KEYS: ${{ secrets.PROD_KEYS }}
+      run: $env:PROD_KEYS | Out-File prod.keys
+    - name: Build basic NSP forwarder
+      run: poetry run nton build "sdl-hello.nro" --name "Hello World" --publisher "vgmoose" --version "1.1" --sdmc "/switch/sdl-hello.nro"
