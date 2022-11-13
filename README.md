@@ -15,10 +15,6 @@ of the Homebrew Launcher.
 ![Preview of 4x Forwarders](https://user-images.githubusercontent.com/17136956/201314901-4a34a4dc-800b-44ba-beb8-333b6c37ebb6.jpg)  
 *Preview of 4x Forwarders made with NTON.*
 
-The exefs ROM used is the one by [meliodas2255] which was based on or inspired by the original v12.0.0 ROM by [mpham].
-Both ROMs are supported as they use the same romfs structure for specifying which NRO to load from the microSD card.
-Simply replace the assets in the `/assets/exefs` folder with the [original ROM][ROM]'s exefs files.
-
 ## Features
 
 - 🛡️ Safety-first approach; System/Game Title IDs cannot be used and NRO files are validated
@@ -160,14 +156,13 @@ Firmware 9.0.0 and 12.0.0 are times the firmware has broken different forwarder 
 
 ## Credit
 
-- [meliodas2255] for [their forwarder ROM][ROM2] also supporting v12.0.0+ compiled with the latest hbl-loader as of May
-  2021, with both direct RetroArch Forwarding and general forwarding support.
+- [meliodas2255] for their [Open-Source forwarder ROM][ROM] supporting v12.0.0+ with both direct RetroArch Forwarding
+  and general forwarding both supported.
 - [vgmoose] for the [sdl-hello-world] NRO that is used in CI/CD testing.
 
   [meliodas2255]: <https://gbatemp.net/members/meliodas2255.410353>
   [vgmoose]: <https://github.com/vgmoose>
-  [ROM]: <https://gitlab.com/martinpham/NSP-Forwarder>
-  [ROM2]: <https://gbatemp.net/threads/nsp-forwarder-tool-for-12.587936/post-9468469>
+  [ROM]: <https://github.com/Skywalker25/Forwarder-Mod>
   [sdl-hello-world]: <https://github.com/vgmoose/sdl-hello-world>
 
 ## License
