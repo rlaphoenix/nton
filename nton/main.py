@@ -226,7 +226,7 @@ def build(
                 Binaries.magick, "mogrify",
                 "-format", "jpg",
                 "-resize", "256x256",
-                "-strip", icon_file
+                "-strip", str(icon_file.absolute())
             ])
             # magick changes the .dat to .jpg, let's undo that
             icon_file.unlink()
@@ -252,8 +252,8 @@ def build(
                 "--titleid", id_,
                 "--titlename", name,
                 "--titlepublisher", publisher,
-                "--nspdir", Directories.output,
-                "-k", Files.keys
+                "--nspdir", str(Directories.output.absolute()),
+                "-k", str(Files.keys.absolute())
             ], cwd=build_dir)
             os.system("")  # fixes logs, I don't know why or how
         except subprocess.CalledProcessError as e:

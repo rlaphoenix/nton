@@ -32,9 +32,9 @@ def verify(path: Path, type_: str) -> str | int | None:
     try:
         subprocess.check_output([
             BIN,
-            "-k", Files.keys,
+            "-k", str(Files.keys.absolute()),
             "-t", type_,
-            "--verify", path
+            "--verify", str(path.absolute())
         ], stderr=subprocess.PIPE)
         return None
     except subprocess.CalledProcessError as e:
@@ -54,9 +54,9 @@ def get_nacp(asset_path: Path, output_path: Path) -> str | int | None:
     try:
         subprocess.check_output([
             BIN,
-            "-k", Files.keys,
-            "--nacp", output_path,
-            asset_path
+            "-k", str(Files.keys.absolute()),
+            "--nacp", str(output_path.absolute()),
+            str(asset_path.absolute())
         ])
         if not output_path.is_file():
             return "No NACP was extracted from the asset."
@@ -80,9 +80,9 @@ def get_icon(asset_path: Path, output_path: Path) -> str | int | None:
     try:
         subprocess.check_output([
             BIN,
-            "-k", Files.keys,
-            "--icon", output_path,
-            asset_path
+            "-k", str(Files.keys.absolute()),
+            "--icon", str(output_path.absolute()),
+            str(asset_path.absolute())
         ])
         if not output_path.is_file():
             return "No Icon was extracted from the asset."
