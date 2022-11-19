@@ -48,6 +48,7 @@ def main(version: bool, debug: bool) -> None:
 @click.option("--rom", type=str, default=None, help="ROM path for Direct RetroArch Game Forwarding.")
 @click.option("--sdmc", type=str, default=None, help="NRO path relative to the root of the Switch's microSD card.")
 @click.option("--no-verify", is_flag=True, default=False, help="Skip NRO verification.")
+@click.option("--craft-nacp", is_flag=True, default=False, help="Craft a NACP partition from scratch.")
 def build(
     path: Path,
     name: str | None,
@@ -57,7 +58,8 @@ def build(
     id_: str | None,
     rom: str | None,
     sdmc: str | None,
-    no_verify: bool
+    no_verify: bool,
+    craft_nacp: bool
 ):
     """
     Build an NSP that loads an NRO on the Switch's microSD card.
@@ -76,6 +78,7 @@ def build(
         sdmc: Path to the NRO path relative to the root of the Switch's microSD card. This should only be used if the
             NRO path you provided is NOT on the microSD card, as it is implicitly inferred.
         no_verify: Skip NRO verification. Only recommended if nstool failed due to a program error.
+        craft_nacp: Craft a NACP partition from scratch. Only recommended if nstool failed to extract from the NRO.
     """
     log = logging.getLogger("build")
     log.info("Building!")
@@ -166,39 +169,47 @@ def build(
         shutil.copytree(Directories.assets / "exefs", exefs_dir)
         shutil.copytree(Directories.assets / "logo", logo_dir)
 
-        control_file_res = nstool.get_nacp(path, control_file)
-        if control_file_res:
-            if control_file_res == "No NACP was extracted from the asset.":
-                log.warning("The NRO does not have a NACP partition, building a new one.")
-                if not name or not publisher or not version:
-                    log.error("You must specify a Name, Publisher, and Version to be able to build the NACP.")
-                    log.error("You may also want to specify an Icon but it is not strictly necessary.")
-                    sys.exit(1)
-                control_template = control_template_file.read_text(encoding="utf8")
-                root = BeautifulSoup(control_template, "xml")
-                for title in root.find_all("Title"):
-                    title.Name.string = name
-                    title.Publisher.string = publisher
-                for title_id in root.find_all(["PresenceGroupId", "SaveDataOwnerId", "LocalCommunicationId"]):
-                    title_id.string = f"0x{id_}"
-                root.find("DisplayVersion").string = version
-                root.find("AddOnContentBaseId").string = hex(int(id_, 16) + 0x1000)
-                tmp_control_template = build_dir / "control.nacp.xml"
-                tmp_control_template.write_text(str(root))
-                try:
-                    subprocess.check_output([
-                        Binaries.hptnacp,
-                        "-a", "createnacp",
-                        "-i", str(tmp_control_template.absolute()),
-                        "-o", str(control_file.absolute())
-                    ])
-                except subprocess.CalledProcessError as e:
-                    log.critical(f"Failed to build a new NACP, {e.output} [{e.returncode}]")
-                    sys.exit(2)
-                log.info("Built a new NACP")
-            else:
-                log.critical(f"Failed extracting the NACP partition from the NRO, {control_file_res}")
+        def build_nacp():
+            if not name or not publisher or not version:
+                log.error("You must specify a Name, Publisher, and Version to be able to build the NACP.")
+                log.error("You may also want to specify an Icon but it is not strictly necessary.")
+                sys.exit(1)
+            control_template = control_template_file.read_text(encoding="utf8")
+            root = BeautifulSoup(control_template, "xml")
+            for title in root.find_all("Title"):
+                title.Name.string = name
+                title.Publisher.string = publisher
+            for title_id in root.find_all(["PresenceGroupId", "SaveDataOwnerId", "LocalCommunicationId"]):
+                title_id.string = f"0x{id_}"
+            root.find("DisplayVersion").string = version
+            root.find("AddOnContentBaseId").string = hex(int(id_, 16) + 0x1000)
+            tmp_control_template = build_dir / "control.nacp.xml"
+            tmp_control_template.write_text(str(root))
+            try:
+                subprocess.check_output([
+                    Binaries.hptnacp,
+                    "-a", "createnacp",
+                    "-i", str(tmp_control_template.absolute()),
+                    "-o", str(control_file.absolute())
+                ])
+            except subprocess.CalledProcessError as e:
+                log.critical(f"Failed to build a new NACP, {e.output} [{e.returncode}]")
                 sys.exit(2)
+
+        if craft_nacp:
+            log.info("Crafting a new NACP from scratch")
+            build_nacp()
+            log.info("Built a new NACP")
+        else:
+            control_file_res = nstool.get_nacp(path, control_file)
+            if control_file_res:
+                if control_file_res == "No NACP was extracted from the asset.":
+                    log.warning("The NRO does not have a NACP partition, crafting a new one from scratch.")
+                    build_nacp()
+                    log.info("Built a new NACP")
+                else:
+                    log.critical(f"Failed extracting the NACP partition from the NRO, {control_file_res}")
+                    sys.exit(2)
 
         control_file_data = bytearray(control_file.read_bytes())
         log.debug("Got the Control partition")
