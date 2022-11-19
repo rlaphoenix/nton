@@ -47,6 +47,7 @@ def main(version: bool, debug: bool) -> None:
 @click.option("--id", "id_", type=str, default=None, help="Title ID.")
 @click.option("--rom", type=str, default=None, help="ROM path for Direct RetroArch Game Forwarding.")
 @click.option("--sdmc", type=str, default=None, help="NRO path relative to the root of the Switch's microSD card.")
+@click.option("--no-verify", is_flag=True, default=False, help="Skip NRO verification.")
 def build(
     path: Path,
     name: str | None,
@@ -55,7 +56,8 @@ def build(
     icon: Path | None,
     id_: str | None,
     rom: str | None,
-    sdmc: str | None
+    sdmc: str | None,
+    no_verify: bool
 ):
     """
     Build an NSP that loads an NRO on the Switch's microSD card.
@@ -73,6 +75,7 @@ def build(
             using RetroArch. The NRO path must be to a RetroArch Core. It must also be an absolute path.
         sdmc: Path to the NRO path relative to the root of the Switch's microSD card. This should only be used if the
             NRO path you provided is NOT on the microSD card, as it is implicitly inferred.
+        no_verify: Skip NRO verification. Only recommended if nstool failed due to a program error.
     """
     log = logging.getLogger("build")
     log.info("Building!")
@@ -100,12 +103,14 @@ def build(
         # only works if the path is on the Switch's microSD card, or the relative path matches the microSD card
         sdmc = str(path.resolve().absolute()).replace(f"{path.drive}:/", "sdmc:/")
 
-    verification = nstool.verify(path, "nro")
-    if verification:
-        log.critical(f"The NRO \"%s\" is invalid, %s", path, verification)
-        sys.exit(2)
-
-    log.info("NRO checked and verified")
+    if no_verify:
+        log.warning("NRO verification was skipped due to --no-verify")
+    else:
+        verification = nstool.verify(path, "nro")
+        if verification:
+            log.critical(f"The NRO \"%s\" is invalid, %s", path, verification)
+            sys.exit(2)
+        log.info("NRO checked and verified")
 
     if id_:
         if any(c not in string.hexdigits for c in id_):
