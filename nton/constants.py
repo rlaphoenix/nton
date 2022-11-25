@@ -31,6 +31,16 @@ class Files:
     keys = keys_cwd if keys_cwd.is_file() else keys_home
 
 
+for binary, path in vars(Binaries).items():
+    if binary.startswith("__"):
+        continue
+    if not path:
+        print(
+            f"!! {binary} cannot be found! Please place it in the current working directory or"
+            "put it's path in your PATH Environment Variable, or put the binary."
+        )
+        sys.exit(1)
+
 if not Files.keys.is_file():
     print(f"!! prod.keys is missing! Please place it in the current working directory or at \"{Files.keys_home}\"")
     sys.exit(1)

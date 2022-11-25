@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- Added an error message when a required binary was not found.
+
 ### Fixed
 
 - Fix loading of `prod.keys` from the `~/.switch` folder due to incorrect file-exists checks.
