@@ -28,7 +28,7 @@ class Binaries:
 class Files:
     keys_home = (Path.home() / ".switch" / "prod.keys")
     keys_cwd = Path("./prod.keys").absolute()
-    keys = keys_cwd or keys_home
+    keys = keys_cwd if keys_cwd.is_file() else keys_home
 
 
 if not Files.keys.is_file():
