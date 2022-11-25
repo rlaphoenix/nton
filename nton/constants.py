@@ -28,10 +28,9 @@ class Binaries:
 class Files:
     keys_home = (Path.home() / ".switch" / "prod.keys")
     keys_cwd = Path("./prod.keys").absolute()
-    keys_exist = keys_home.is_file() or keys_cwd.is_file()
     keys = keys_cwd if keys_cwd.is_file() else keys_home
 
 
-if not Files.keys_exist:
+if not Files.keys:
     print(f"!! prod.keys is missing! Please place it in the current working directory or at \"{Files.keys_home}\"")
     sys.exit(1)
