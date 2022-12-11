@@ -60,6 +60,7 @@ def build(
     """
     Build an NSP that loads an NRO on the Switch's microSD card.
 
+    \b
     Parameters:
         path: Path to the NRO file. You MUST provide the path on the Switch's microSD card, NOT a file on your PCs
             HDD! This is so we can automatically get the sdmc:/ path in a foolproof way.
