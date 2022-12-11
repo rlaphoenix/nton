@@ -234,6 +234,9 @@ def build(
         if not name:
             log.error("The Control Partition does not have any listed Name nor was one manually specified.")
             sys.exit(1)
+        if not any(x in string.ascii_letters + string.digits for x in name):
+            log.error(f"The Application Name, \"{name}\", cannot be all special characters.")
+            sys.exit(1)
         if len(name.encode("utf8")) > 0x200:  # fits 0x200 * 10 (16 fields)
             log.error(f"The Title Name \"{name}\" is too large to fit in the NSP.")
             sys.exit(1)
@@ -243,6 +246,9 @@ def build(
             publisher = control_file_data[0x0200:0x020F].replace(b"\x00", b"").strip().decode("utf8")
         if not publisher:
             log.error("The Control Partition does not have any listed Publisher nor was one manually specified.")
+            sys.exit(1)
+        if not any(x in string.ascii_letters + string.digits for x in publisher):
+            log.error(f"The Publisher, \"{publisher}\", cannot be all special characters.")
             sys.exit(1)
         if len(publisher.encode("utf8")) > 0x100:  # fits 0x100 * 10 (16 fields)
             log.error(f"The Title Publisher \"{publisher}\" is too large to fit in the NSP.")
