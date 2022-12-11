@@ -231,31 +231,37 @@ def build(
             # TODO: Assumes first region/language of the NROs title/name data is wanted
             #       Is UTF8 or ANSI wanted here when decoding? UTF8 should be fine
             name = control_file_data[0x0000:0x000F].replace(b"\x00", b"").strip().decode("utf8")
-        elif len(name.encode("utf8")) > 0x200:  # fits 0x200 * 10 (16 fields)
+        if not name:
+            log.error("The Control Partition does not have any listed Name nor was one manually specified.")
+            sys.exit(1)
+        if len(name.encode("utf8")) > 0x200:  # fits 0x200 * 10 (16 fields)
             log.error(f"The Title Name \"{name}\" is too large to fit in the NSP.")
             sys.exit(1)
-
         log.info("Title Name: %s", name)
 
         if not publisher:
             publisher = control_file_data[0x0200:0x020F].replace(b"\x00", b"").strip().decode("utf8")
-        elif len(publisher.encode("utf8")) > 0x100:  # fits 0x100 * 10 (16 fields)
+        if not publisher:
+            log.error("The Control Partition does not have any listed Publisher nor was one manually specified.")
+            sys.exit(1)
+        if len(publisher.encode("utf8")) > 0x100:  # fits 0x100 * 10 (16 fields)
             log.error(f"The Title Publisher \"{publisher}\" is too large to fit in the NSP.")
             sys.exit(1)
-
         log.info("Publisher: %s", publisher)
 
-        if not version:
-            version = control_file_data[0x3060:0x306F].replace(b"\x00", b"").strip().decode("utf8")
-        else:
+        if version:
             version_utf8 = version.encode("utf8")
-            if len(version_utf8) > 0x10:
-                log.error(f"The Title Version \"{version}\" is too large to fit in the NSP.")
-                sys.exit(1)
             while len(version_utf8) < 0x10:
-                version_utf8 += b"\xFF"
+                version_utf8 += b"\xFF"  # TODO: FF or 00?
             control_file_data[0x3060:0x306F] = version_utf8
-
+        else:
+            version = control_file_data[0x3060:0x306F].replace(b"\x00", b"").strip().decode("utf8")
+            if not version:
+                log.error("The Control Partition does not have any listed Version nor was one manually specified.")
+                sys.exit(1)
+        if len(version.encode("utf8")) > 0x10:
+            log.error(f"The Title Version \"{version}\" is too large to fit in the NSP.")
+            sys.exit(1)
         log.info("Version: %s", version)
 
         control_file.write_bytes(control_file_data)
