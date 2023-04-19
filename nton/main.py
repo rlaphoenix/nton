@@ -101,7 +101,7 @@ def build(
             log.error("The NRO path must be a path on your Switch's microSD card to implicitly infer the sdmc path.")
             log.error("You can use --sdmc to manually specify the path relative to the Switch's microSD card.")
             sys.exit(1)
-        sdmc = str(path.resolve().absolute()).replace(f"{path.drive}:/", "sdmc:/")
+        sdmc = path.resolve().absolute().as_posix().replace(path.anchor.replace("\\", "/"), "sdmc:/")
 
     verification = nstool.verify(path, "nro")
     if verification:
