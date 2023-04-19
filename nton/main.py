@@ -303,7 +303,7 @@ def build(
 
         next_argv = next_nro_path
         if rom:
-            next_argv += f" sdmc:{rom}"
+            next_argv += f' "sdmc:{rom}"'
         next_argv_file.write_text(next_argv)
 
         # only make this directory at this point because we have a high chance of success
