@@ -10,13 +10,13 @@ jobs:
     name: Tagged Release
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: '3.10.x'
     - name: Install Poetry
-      uses: abatilo/actions-poetry@v2.1.6
+      uses: abatilo/actions-poetry@v2.3.0
       with:
         poetry-version: '1.2.2'
     - name: Configure poetry
@@ -74,7 +74,7 @@ jobs:
     - name: Build a wheel
       run: poetry build
     - name: Upload wheel
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v3
       with:
         name: Python Wheel
         path: "dist/*.whl"
