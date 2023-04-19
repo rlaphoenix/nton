@@ -45,7 +45,7 @@ def main(version: bool, debug: bool) -> None:
 @click.option("-v", "--version", type=str, default=None, help="Title Version.")
 @click.option("-i", "--icon", type=Path, default=None, help="Title Icon (256x256px recommended, supports any image).")
 @click.option("--id", "id_", type=str, default=None, help="Title ID.")
-@click.option("--rom", type=str, default=None, help="ROM path for Direct RetroArch Game Forwarding.")
+@click.option("--rom", type=str, default=None, help="ROM path for Direct Game Forwarding.")
 @click.option("--sdmc", type=str, default=None, help="NRO path relative to the root of the Switch's microSD card.")
 def build(
     path: Path,
@@ -70,8 +70,9 @@ def build(
             resolution. A 256x256px image is recommended.
         id_: Set a specific Title ID, otherwise a Random Title ID is used. There's a miniscule chance it could get the
             same Title ID as another installed Title, but it's so miniscule you shouldn't realistically worry about it.
-        rom: Path to a ROM file on the Switch's microSD card to create a forwarder that boots directly into the game
-            using RetroArch. The NRO path must be to a RetroArch Core. It must also be an absolute path.
+        rom: Path to a ROM file on the Switch's microSD card to create a forwarder that boots directly into the game.
+            The path to the ROM must be an absolute path. The NRO used must be a homebrew that supports specifying a
+            ROM by args (e.g., a RetroArch Core, MGBA, possibly others).
         sdmc: Path to the NRO path relative to the root of the Switch's microSD card. This should only be used if the
             NRO path you provided is NOT on the microSD card, as it is implicitly inferred.
     """
@@ -127,13 +128,8 @@ def build(
         while id_ in title_ids.ALL:
             id_ = "01%s000" % os.urandom(6).hex()[:-1]
 
-    if rom:
-        if not rom.startswith("/"):
-            rom = f"/{rom}"
-        if "/retroarch/cores/" not in (str(path) + str(sdmc)).lower():
-            log.error(f"Setting a ROM path for the forwarder requires the NRO path to be to a RetroArch Core.")
-            log.error(f"Make sure you set it to a RetroArch Core and not to RetroArch itself or any other NRO.")
-            sys.exit(1)
+    if rom and not rom.startswith("/"):
+        rom = f"/{rom}"
 
     log.info(f"Title ID: %s", id_)
 
