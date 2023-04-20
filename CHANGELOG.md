@@ -5,15 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [1.2.1] - 2023-04-20
 
 ### Added
 
 - Added an error message when a required binary was not found.
+- Added check to ensure the Title and Publisher have at least one alphanumerical character to stop using
+  vague details like `-` or `...` e.t.c.
+- Added error messages when a value from NACP was empty/unavailable and one was not manually specified.
+
+### Changed
+
+- NTON now checks if the NRO path you provide is on your Switch microSD card by looking for `Nintendo` & `switch`
+  folders, or `atmosphere` & `bootloader` folders. This is much more reliable than simply assuming any drive that
+  isn't the C drive to be your microSD card.
 
 ### Fixed
 
 - Fix loading of `prod.keys` from the `~/.switch` folder due to incorrect file-exists checks.
+- Exiting from the Homebrew via the B button or an Exit option no longer crashes. The ExeFS ROM was updated by
+  @Skywalker25 to support this feature properly.
+- Fixed crashes when launching forwarders if the ROM path had any spaces.
+- Fixed edge-case of incorrect sdmc path calculation on some Windows machines where the drive letter being replaced
+  with `sdmc:/` failed causing forwarders to crash on launch.
 
 ## [1.2.0] - 2022-11-13
 
@@ -108,6 +122,7 @@ Initial release (as a Python script).
 
 Initial release (as CMD script).
 
+[1.2.1]: https://github.com/rlaphoenix/nton/releases/tag/v1.2.1
 [1.2.0]: https://github.com/rlaphoenix/nton/releases/tag/v1.2.0
 [1.1.0]: https://github.com/rlaphoenix/nton/releases/tag/v1.1.0
 [1.0.1]: https://github.com/rlaphoenix/nton/releases/tag/v1.0.1
