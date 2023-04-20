@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - NTON now checks if the NRO path you provide is on your Switch microSD card by looking for `Nintendo` & `switch`
   folders, or `atmosphere` & `bootloader` folders. This is much more reliable than simply assuming any drive that
   isn't the C drive to be your microSD card.
+- The NRO path is no longer forced to be within `/retroarch/cores` when `--rom` is used. This is to allow use of
+  `--rom` with other Homebrew, e.g., MGBA. 
 
 ### Fixed
 
