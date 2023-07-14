@@ -103,6 +103,9 @@ E.g., to make a forwarder for the Homebrew Menu that's on your Switch's microSD 
 
 Take a look at `nton build --help` for advanced usage like changing the Icon, Title Name, and so on.
 
+> __Warning__ Tinfoil corrupts the Installation of Forwarder NSPs for some reason, I recommend using DBI or Goldleaf.
+See the Troubleshooting article "[The forwarder's icon is a loading circle, opening fails](#the-forwarders-icon-is-a-loading-circle-opening-fails)".
+
 ### Direct RetroArch Game forwarding
 
 Use a RetroArch Game Core as the NRO path and provide the path to the ROM on your Switch's microSD card with `--rom`.  
