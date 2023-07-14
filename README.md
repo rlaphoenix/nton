@@ -145,6 +145,23 @@ image not being a JPEG, or it has EXIF data or an embedded color space.
 I recommend stripping all EXIF metadata and saving without an Embed Color Space. You can do this quickly with ImageMagick,
 `magick mogrify -format jpg -resize 256x256 -strip "C:\Users\John\Downloads\icon.png"`.
 
+### The forwarder's icon is a loading circle, opening fails
+
+This is a problematic issue and it isn't quiet clear why it happens, but there are steps to resolve it.
+
+In this situation, leaving it partially installed and reinstalling does not seem to help, nor does deleting the NSP from
+Data Management and then reinstalling. This seems to happen when there's some sort of software/data management corruption.
+It may be caused when installing a Game or Software on an unsupported Firmware Version, then updating your Firmware and attempting
+to reinstall a new Game or Software with the same Title ID. E.g., installing an NTON forwarder on 9.0.0 causing a corrupt
+title, then updating to 12.0.0 bringing the corrupt installation with you, will continue to prevent that Title ID from working.
+
+However, what helped me in this weird situation, is just deleting the software and then reinstalling with Goldleaf instead.
+Goldleaf will warn you that it seems to be already installed (yet you deleted it via Data Management ?). Proceed to install
+and overwrite anyway and it should then properly install and show the icon and launch without problems.
+
+This weird sort of Software Installation database corruption seems to be somewhat common when using Tinfoil. I recommend using
+Goldleaf for future Forwarder installations.
+
 ### The forwarder randomly stopped working after a while, I changed nothing!
 
 You most likely updated your Switch's Firmware and need to update your sigpatches. If not, you may have deleted the NRO from
