@@ -19,16 +19,16 @@ of the Homebrew Launcher.
 
 - 🛡️ Safety-first approach; System/Game Title IDs cannot be used and NRO files are validated
 - 🕹️ Boot right into an Emulated Game with Direct RetroArch Game Forwarding
-- 🖼️ Supports any Image file of any resolution or format for the NSP Icon
+- 🎥 Video Capture and Screenshots
+- 🖼️ Custom Forwarder Icon of any resolution or format
 - 🤖 The Title Name, Publisher, Icon, and more are automatically extracted from the NRO
-- 🎥 Supports Video Capture and Screenshots
 - ⚙ Currently Supports Firmware 12.0.0 and up
 - 🧩 Plug-and-play installation via PIP/PyPI
 - ❤️ Forever FOSS!
 
 ## Installation
 
-*Note: Requires [Python] 3.7.0 or newer with PIP installed.*
+> **Note** *Requires [Python] 3.7.0 or newer with PIP installed.*
 
 ```shell
 $ pip install nton
@@ -37,71 +37,66 @@ $ pip install nton
 You now have the `nton` package installed and a `nton` executable is now available.
 Check it out with `nton --help` - Voilà 🎉!
 
-*If you see any warnings about a path not being in your PATH environment variable, add it, or `nton` won't run.*
+> **Warning**<br>
+If pip gives you a warning about a path not being in your PATH environment variable then promptly add that path then
+close all open command prompt Windows, or running `nton` won't work as it will not be recognized as a program.
 
-### Dependencies
+  [Python]: <https://python.org>
 
-The following is a list of programs required to be installed manually.  
-I recommend installing these with [winget] or [chocolatey] where possible as it automatically adds them to your
-`PATH` environment variable and will be easier to update in the future.
+### 1. Dependencies
+
+The following is a list of programs required to be installed manually.
 
 - [hacBrewPack] for packing the NSP.
 - [ImageMagick] for Icon conversion and preparation.
 - [nstool] for NRO extraction and verification.
 - [hptnacp] for creating new NACP partitions if the NRO did not have one.
 
-For portable downloads, make sure you put them in your current working directory, in the installation directory,
-or put the directory path in your `PATH` environment variable. If you do not do this then NTON will not be able to
-find any of the binaries.
+Make sure you put them in your current working directory, in NTON's installation directory, or put the dependency's
+installation folder in your `PATH` environment variable. If you do not do this then NTON will not be able to find said
+dependency and will not be able to continue.
 
-  [winget]: <https://winget.run>
-  [chocolatey]: <https://chocolatey.org>
   [hacBrewPack]: <https://github.com/The-4n/hacBrewPack>
   [ImageMagick]: <https://imagemagick.org/script/download.php>
   [nstool]: <https://github.com/jakcron/nstool>
   [hptnacp]: <https://github.com/The-4n/hacPack/tree/master/hacPack-Tools/hacPackTools-NACP>
 
-### Keys
+### 2. Keys
 
-NTON requires the use of proprietary key data for use in various ways.
+Proprietary Keys known as `prod.keys` are required. You can obtain them from your own personal Switch using
+Lockpick_RCM.
 
-Place your `prod.keys` file at `C:\Users\<User>\.switch\prod.keys` or in your current working directory for
-NTON to be able to find and use your keys.
-
-Make sure your `prod.keys` file is up-to-date for the firmware version your Nintendo Switch is on. It can be extracted
-from your Nintendo Switch with [Lockpick_RCM](https://github.com/shchmue/Lockpick_RCM).
-
-### From Source Code
-
-The following steps are instructions on downloading, preparing, and running the code under a Poetry environment.
-You can skip steps 3-5 with a simple `pip install .` call instead, but you miss out on a wide array of benefits.
-
-1. `git clone https://github.com/rlaphoenix/nton`
-2. `cd nton`
-3. (optional) `poetry config virtualenvs.in-project true` 
-4. `poetry install`
-5. `poetry run nton --help`
-
-As seen in Step 5, running the `nton` executable is somewhat different to a normal PIP installation.
-See [Poetry's Docs] on various ways of making calls under the virtual-environment.
-
-  [Python]: <https://python.org>
-  [Poetry]: <https://python-poetry.org>
-  [Poetry's Docs]: <https://python-poetry.org/docs/basic-usage/#using-your-virtual-environment>
+It must be placed at `C:\Users\<User>\.switch\prod.keys`, in your current working directory, or in
+NTON's installation directory for NTON to be able to find and use the keys.
 
 ## Usage
 
-Take a look at `nton --help`, specifically `nton build --help`.  
-If you simply want to take an NRO and get an NSP forwarder, simply run `nton build "<nro path>"`.
+NTON is quite simple, just give it the path to the NRO on your microSD card!
 
-Note that the NRO path MUST be on your Switch microSD card. Do not provide a path in your C:/ Drive or such.
-Two different kinds of paths are used based on the initial file path, therefore it must be from your Switch microSD
-card.
+*For example, to create a forwarder for the Daybreak Homebrew included with Atmosphere, it's as simple as:*
 
-E.g., to make a forwarder for the Homebrew Menu that's on your Switch's microSD at `D:\hbmenu.nro`, simply run
-`nton build "D:/hbmenu.nro"`
+```shell
+nton build "D:/switch/daybreak.nro"
+```
 
-Take a look at `nton build --help` for advanced usage like changing the Icon, Title Name, and so on.
+This will build a forwarder with the Title Name, Publisher, Version, and Icon automatically extracted from the NRO.
+The Title ID will be a randomly assigned value within generally conformed bounds. You may manually set a value with
+`--name`, `--publisher`, `--version`, `--icon`, and `--id` respectively.
+
+The Title ID is automatically checked against a periodically updated list of pre-existing System and Software Title IDs
+to ensure a collision does not occur. However, you should still be cautious and verify the Title ID is not already used
+by other Software before using. 
+
+> **Note**<br>
+> While NTON can be used on NRO files stored on your PC, it was designed to be used directly from your Switch's
+> microSD card. If you prefer to create forwarders with NRO files on your PC, or for batch purposes, you can specify
+> the path that the NRO file will reside on your microSD card during generation with `--sdmc`.
+
+For example, to make a forwarder for an NRO that is on your PC:
+
+```shell
+nton build "C:/Users/rlaphoenix/Downloads/haze.nro" --sdmc "/switch/haze.nro"
+```
 
 ### Direct RetroArch Game forwarding
 
@@ -109,50 +104,96 @@ Use a RetroArch Game Core as the NRO path and provide the path to the ROM on you
 This will then load the Core directly under RetroArch and provide the path to the ROM as a startup argument to the
 RetroArch Core.
 
-Note:
-
-- You must use a path to a RetroArch Game Core NRO, not the path to the RetroArch NRO itself.
-- Do not move, delete, or rename the ROM or the Core NRO files that are on your microSD card, or it will break.
+> **Note**
+> - You must use a path to a RetroArch Game Core NRO, not the path to the RetroArch NRO itself.
+> - Do not move, delete, or rename the ROM or the Core NRO files that are on your microSD card, or it will break.
 
 ## Troubleshooting
 
 Before continuing try running the homebrew from the Homebrew Launcher and see if it works through there.
-If it does not work through the Homebrew launcher either, then it was never the forwarder's fault and you should
+If it does not work through the Homebrew launcher either, then it was never the forwarder's fault, and you should
 check on your NRO or application installation.
 
 Please note that using Forwarders others have created has a good chance of not working on your system.
 The location of the NRO on their system may differ from the location on your system, hence the NSP won't be able
-to load the homebrew.
+to load the homebrew. I will not provide support if you are having an issue with a Forwarder you did not build
+yourself.
 
 ### The forwarder does not launch, "The software was closed because an error occurred."
 
-You're sigpatches that allow non-signed software to launch is outdated or not set up correctly.
-The `prod.keys` you used to create the NSP may also be outdated. Get new ones with [Lockpick_RCM] and
-make sure you choose to get keys from whichever SysNAND or EmuNAND is actually on the latest firmware.
+Your "sigpatches" (signature patches) that allow unsigned titles to launch is likely outdated or not set up correctly.
+Sigpatches can go outdated from Horizon OS firmware updates, Atmosphere updates (as well as silent updates). It is
+recommended to use the [sys-patch](https://github.com/ITotalJustice/sys-patch) sys-module to automatically patch your
+system from signature checks as well as other useful patches. The default configuration is fine for the majority of
+systems and is a simple copy & paste to your microSD card to install.
+
+It's also possible the `prod.keys` you used with NTON is outdated for your firmware. Get new ones with Lockpick_RCM
+and make sure you choose to get keys from the SysMMC or EmuMMC that you will be installing the forwarder on (or
+whichever has a newer firmware version).
 
 ### The forwarder starts loading but then crashes
 
-If it gets to the black loading screen with the Nintendo Switch logo, but then crashes, you may be setting
-the NRO path wrong when making the NSP. Make sure it starts with `/` and is an absolute path to an existing
-NRO file on your Switch's microSD card. The path you built for must be where the NRO file lies in your Switch's
-microSD card, not your PC.
+The NRO path set when building the forwarder is incorrect or the NRO file is currently missing (or your microSD card is
+not inserted). Make sure the path you choose starts with `/` and is an absolute path to an existing NRO file on your
+Switch's microSD card (not your PC).
 
 ### The forwarder's icon is a '?'
 
-The `icon_AmericanEnglish.dat` is not to the spec that Nintendo likes in some way. This is usually caused by the format of the
-image not being a JPEG, or it has EXIF data or an embedded color space.
+This happens when the `icon_AmericanEnglish.dat` within the built forwarder is not to the spec that Nintendo likes, in
+some way. This is usually caused by the format of the image not being JPEG, or it has EXIF data or other unnecessary
+extra metadata.
 
-I recommend stripping all EXIF metadata and saving without an Embed Color Space. You can do this quickly with ImageMagick,
-`magick mogrify -format jpg -resize 256x256 -strip "C:\Users\John\Downloads\icon.png"`.
+> **Note**<br>
+This is considered a bug if it happens to you after using NTON as it should automatically sanitize the
+images when building the forwarder. If this happens to you, please report what image you chose to use, or give
+information on what exact NRO you were making a forwarder from.
 
-### The forwarder randomly stopped working after a while, I changed nothing!
+### The forwarder's icon is a loading circle, opening fails
 
-You most likely updated your Switch's Firmware and need to update your sigpatches. If not, you may have deleted the NRO from
-your Switch's microSD card or moved the NRO somewhere else. It cannot be moved as the built NSP loads the NRO at the specified
-path when you ran `build`.
+The installation of the Forwarder NSP failed in some way and the result is a corrupt title under that Title ID.
+This may have happened when trying to install data to the Title ID you chose or had randomly assigned to your forwarder
+NSP on an unsupported firmware version. This also happens when trying to install DLC to a Title without having the
+minimum required Game Update for that DLC (i.e. Installing the DLC Courses while on Mario Kart 8 Deluxe v1.0). However,
+since this happened on your Forwarder NSP you can likely rule that out.
 
-It's also possible the firmware update has broken the [forwarder ROM][ROM] that is used and needs to be fixed.
-Firmware 9.0.0 and 12.0.0 are times the firmware has broken different forwarder ROMs in the past.
+When this happens deleting and reinstalling the same NSP likely won't fix it or do anything. You may need to reinstall
+the NSP via Goldleaf and hit "Proceed" when it warns yo uthat the title is already installed. Goldleaf will deal with
+the pre-existing files properly unlike Tinfoil (where you likely had the corruption in the first place). DBI may also
+help you resolve this issue as it has tools to remove partial installs and leftover files.
+
+### The forwarder randomly stopped working, I've read everything so far
+
+You most likely updated Atmosphere or Horizon OS's Firmware and need to update your Sigpatches. If that hasn't fixed
+it, make sure you haven't deleted or moved the NRO on your Switch's microSD card. It cannot be moved as the built
+forwarder has a hardcoded file path that it loads the NRO from when launched.
+
+If it still does not work, it's possible a firmware update has broken the [forwarder ROM][ROM] that is used and needs
+to be updated. Both Firmware 9.0.0 and 12.0.0 have previously broken different forwarder ROMs requiring updates. If
+you believe this to be the case then please make an Issue.
+
+## Development
+
+The following steps are basic instructions on downloading and working on the code under a [Poetry] environment.
+
+1. Follow Poetry's Docs to [Install Poetry].
+2. Download NTON's latest code, `git clone https://github.com/rlaphoenix/nton`
+3. Navigate to the downloaded code repository, `cd nton`
+4. _Optionally_ have Poetry install the virtual-env in the project, `poetry config virtualenvs.in-project true` 
+5. Install NTON's dependencies and development tools, `poetry install`
+6. Run NTON from within the Poetry venv, `poetry run nton --help`
+
+As shown, running the `nton` executable is somewhat different to a normal installation. This is because Poetry installs
+all dependencies and the `nton` shim itself within a virtual-environment, which is like a clone of your Python install
+stripped clean, with only NTON's dependencies installed. That way you don't mess around with any dependencies from any
+other installed Python applications, nor the other way around. A secluded environment.
+
+I recommend taking a look at [Poetry's Docs] for further information, why not get started by reading Poetry's guide on
+[Using Your Virtual Environment].
+
+  [Poetry]: <https://python-poetry.org>
+  [Install Poetry]: <https://python-poetry.org/docs/#installation>
+  [Poetry's Docs]: <https://python-poetry.org/docs>
+  [Using Your Virtual Environment]: <https://python-poetry.org/docs/basic-usage/#using-your-virtual-environment>
 
 ## Credit
 
