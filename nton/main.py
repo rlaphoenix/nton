@@ -12,6 +12,7 @@ from pathlib import Path
 
 import click as click
 import coloredlogs
+from PIL import Image
 from bs4 import BeautifulSoup
 
 from nton import __version__, nstool, title_ids
@@ -285,19 +286,16 @@ def build(
 
         if icon_file.exists():
             # We must strip every unnecessary metadata or the icon will be a '?'
-            try:
-                subprocess.check_output([
-                    Binaries.magick, "mogrify",
-                    "-format", "jpg",
-                    "-resize", "256x256",
-                    "-strip", str(icon_file.absolute())
-                ])
-                # magick changes the .dat to .jpg, let's undo that
-                icon_file.unlink()
-                shutil.move(icon_file.with_suffix(".jpg"), icon_file)
-            except subprocess.CalledProcessError as e:
-                log.critical(f"Failed to convert and strip the Icon, {e.output} [{e.returncode}]")
-                sys.exit(2)
+            im = Image.open(icon_file)
+            if im.size != (256, 256):
+                im = im.resize((256, 256))
+            if im.mode != "RGB":
+                im = im.convert("RGB")
+            clean_im = Image.new(im.mode, im.size)
+            clean_im.putdata(list(im.getdata()))
+            clean_im.save(icon_file, format="JPEG")
+            clean_im.close()
+            im.close()
 
         next_nro_path = sdmc
         next_nro_path_file.write_text(next_nro_path)

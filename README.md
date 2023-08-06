@@ -48,7 +48,6 @@ close all open command prompt Windows, or running `nton` won't work as it will n
 The following is a list of programs required to be installed manually.
 
 - [hacBrewPack] for packing the NSP.
-- [ImageMagick] for Icon conversion and preparation.
 - [nstool] for NRO extraction and verification.
 - [hptnacp] for creating new NACP partitions if the NRO did not have one.
 
@@ -57,7 +56,6 @@ installation folder in your `PATH` environment variable. If you do not do this t
 dependency and will not be able to continue.
 
   [hacBrewPack]: <https://github.com/The-4n/hacBrewPack>
-  [ImageMagick]: <https://imagemagick.org/script/download.php>
   [nstool]: <https://github.com/jakcron/nstool>
   [hptnacp]: <https://github.com/The-4n/hacPack/tree/master/hacPack-Tools/hacPackTools-NACP>
 
