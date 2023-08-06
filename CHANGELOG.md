@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2023-08-06
+
+### Added
+
+- All leftover external dependencies are now redistributed and bundled with the project. NTON is now truly
+  Plug-and-play! Just install NTON and it's ready to go!
+- Licenses for the dependencies are now bundled alongside the redistributed binaries.
+- Stating of these dependencies' source code/link, license, and any changes has been added to the README.
+
+### Fixed
+
+- Corrected the invalid use "Operating System :: OS Independent" when NTON currently only supports Windows 7+.
+- Updated severely outdated `__version__` variable affecting the version number displayed with `nton --version`.
+
 ## [1.2.3] - 2023-08-06
 
 ### Added
@@ -148,6 +162,7 @@ Initial release (as a Python script).
 
 Initial release (as CMD script).
 
+[1.3.0]: https://github.com/rlaphoenix/nton/releases/tag/v1.3.0
 [1.2.3]: https://github.com/rlaphoenix/nton/releases/tag/v1.2.3
 [1.2.2]: https://github.com/rlaphoenix/nton/releases/tag/v1.2.2
 [1.2.1]: https://github.com/rlaphoenix/nton/releases/tag/v1.2.1
