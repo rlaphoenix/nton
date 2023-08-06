@@ -12,11 +12,13 @@ from pathlib import Path
 
 import click as click
 import coloredlogs
+import jsonpickle
 from PIL import Image
 from bs4 import BeautifulSoup
 
 from nton import __version__, nstool, title_ids
 from nton.constants import Directories, Binaries, Files
+from nton.title_ids import get_game_title_ids
 
 
 @click.group(invoke_without_command=True)
@@ -334,3 +336,15 @@ def build(
             shutil.rmtree(build_dir)
         if hacbrewpack_backup_dir.exists():
             shutil.rmtree(hacbrewpack_backup_dir)
+
+
+@main.command()
+def update_game_ids():
+    """
+    Update the pre-existing Title ID registry.
+
+    Note: This makes calls to Tinfoil.io that may fail.
+    """
+    print("Updating the Game Title ID registry via Tinfoil API, this may take a while...")
+    game_title_ids = get_game_title_ids()
+    Files.game_title_ids.write_text(jsonpickle.dumps(game_title_ids), encoding="utf8")
