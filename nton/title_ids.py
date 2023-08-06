@@ -1,12 +1,13 @@
 # Source: https://switchbrew.org/wiki/Title_list
 # Last updated: 2022-11-12 08:00 UTC+0
 # When updating make sure all title IDs are lowercase hex, 16 digits in length (a-z0-9{16}).
+import sys
 import time
 
 import jsonpickle
 import requests
 
-from nton.constants import Directories
+from nton.constants import Files
 
 system_modules = (
     # https://switchbrew.org/wiki/Title_list#System_Modules
@@ -466,23 +467,10 @@ def get_game_title_ids() -> dict:
     return title_ids
 
 
-# get a list of game title ids (cached) via tinfoil's API
-Directories.cache.mkdir(parents=True, exist_ok=True)
-game_title_ids_cache = Directories.cache / "tinfoil_game_ids.json"
-if game_title_ids_cache.exists():
-    if game_title_ids_cache.stat().st_mtime + 43200 < time.time():
-        # expired
-        print("Refreshing the list of Game Title IDs...")
-        game_title_ids = get_game_title_ids()
-        game_title_ids_cache.write_text(jsonpickle.dumps(game_title_ids), encoding="utf8")
-    else:
-        # valid
-        game_title_ids = jsonpickle.loads(game_title_ids_cache.read_text("utf8"))
-else:
-    # no cache
-    print("Downloading a list of Game Title IDs...")
-    game_title_ids = get_game_title_ids()
-    game_title_ids_cache.write_text(jsonpickle.dumps(game_title_ids), encoding="utf8")
+if not Files.game_title_ids.exists():
+    print("[ERROR]: The Game Title ID registry is missing! Please re-add `/assets/game_title_ids.json`!")
+    sys.exit(1)
+game_title_ids = jsonpickle.loads(Files.game_title_ids.read_text("utf8"))
 
 
 ALL_SYSTEM = (
