@@ -43,23 +43,7 @@ close all open command prompt Windows, or running `nton` won't work as it will n
 
   [Python]: <https://python.org>
 
-### 1. Dependencies
-
-The following is a list of programs required to be installed manually.
-
-- [hacBrewPack] for packing the NSP.
-- [nstool] for NRO extraction and verification.
-- [hptnacp] for creating new NACP partitions if the NRO did not have one.
-
-Make sure you put them in your current working directory, in NTON's installation directory, or put the dependency's
-installation folder in your `PATH` environment variable. If you do not do this then NTON will not be able to find said
-dependency and will not be able to continue.
-
-  [hacBrewPack]: <https://github.com/The-4n/hacBrewPack>
-  [nstool]: <https://github.com/jakcron/nstool>
-  [hptnacp]: <https://github.com/The-4n/hacPack/tree/master/hacPack-Tools/hacPackTools-NACP>
-
-### 2. Keys
+### Keys
 
 Proprietary Keys known as `prod.keys` are required. You can obtain them from your own personal Switch using
 Lockpick_RCM.
@@ -204,6 +188,21 @@ I recommend taking a look at [Poetry's Docs] for further information, why not ge
   [ROM]: <https://github.com/Skywalker25/Forwarder-Mod>
   [sdl-hello-world]: <https://github.com/vgmoose/sdl-hello-world>
 
-## License
+## Licensing
 
-[GNU General Public License, Version 3.0](LICENSE)
+This software is licensed under the terms of [GNU General Public License, Version 3.0](LICENSE).
+You can find a copy of the license in the LICENSE file in the root folder
+
+This project uses the following software:
+
+- hacBrewPack licensed under GPL-v2 for packing the NSP: https://github.com/The-4n/hacBrewPack
+- nstool licensed under MIT for NRO extraction and verification: https://github.com/jakcron/nstool
+- hptnacp from hacPack licensed under GPL-v2 for creating new NACP partitions if the NRO did not have one:
+  https://github.com/The-4n/hacPack/tree/master/hacPack-Tools/hacPackTools-NACP
+
+No changes were made to any of the aforementioned software and copies of their licenses can be found next to their
+binaries within the bin folder.
+
+* * *
+
+© rlaphoenix 2022-2023

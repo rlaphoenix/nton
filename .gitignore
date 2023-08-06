@@ -8,6 +8,7 @@ control/
 *.keys
 keys.txt
 !sdl-hello.nro
+!nton/bin/*.exe
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

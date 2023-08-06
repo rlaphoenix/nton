@@ -1,3 +1,4 @@
+import os
 import shutil
 import sys
 import tempfile
@@ -9,6 +10,12 @@ class Directories:
     temp = Path(tempfile.gettempdir()) / "rlaphoenix-nton"
     output = Path.home() / "Desktop" / "NTON"
     assets = root / "assets"
+    bin = root / "bin"
+
+
+PATH = os.environ.get("PATH", "")
+PATH = os.pathsep.join([str(Directories.bin), PATH])
+os.environ["PATH"] = PATH
 
 
 class Binaries:
