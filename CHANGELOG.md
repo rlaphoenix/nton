@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3] - 2023-08-06
+
+### Added
+
+- Added `update-game-ids` command to manually update the Game Title ID registry.
+- Added warning when Game Title ID registry is older than 30 days.
+
+### Changed
+
+- Game Title ID cache no longer expires, therefore is no longer considered cache and is now known as the Game Title ID
+  registry.
+- Game Title ID registry is now part of the project/package files and will be updated on each release.
+- Replaced usage of ImageMagick with Pillow; ImageMagick is no longer a dependency.
+
+### Fixed
+
+- Fixed API call within `get_game_title_ids()`, though it still sometimes errors with HTTP 500. 
+
 ## [1.2.2] - 2023-04-20
 
 ## Added
@@ -130,6 +148,7 @@ Initial release (as a Python script).
 
 Initial release (as CMD script).
 
+[1.2.3]: https://github.com/rlaphoenix/nton/releases/tag/v1.2.3
 [1.2.2]: https://github.com/rlaphoenix/nton/releases/tag/v1.2.2
 [1.2.1]: https://github.com/rlaphoenix/nton/releases/tag/v1.2.1
 [1.2.0]: https://github.com/rlaphoenix/nton/releases/tag/v1.2.0
