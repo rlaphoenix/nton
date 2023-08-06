@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "nton"
-version = "1.2.3"
+version = "1.3.0"
 description = "Nintendo Switch NRO to NSP Forwarder."
 authors = ["rlaphoenix <rlaphoenix@pm.me>"]
 license = "GPL-3.0-only"
