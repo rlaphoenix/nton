@@ -447,8 +447,10 @@ def get_game_title_ids() -> dict:
             "_": str(time.time_ns() // 1000000)
         },
         headers={
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0"
+            "Accept": "application/json, text/javascript, */*; q=0.01",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0",
+            "Origin": "https://tinfoil.io",
+            "Referer": "https://tinfoil.io/"
         }
     )
 
@@ -457,7 +459,7 @@ def get_game_title_ids() -> dict:
             f"Failed to get a list of Game Title IDs from Tinfoil's API, [{res.status_code}]")
 
     title_ids = {
-        title["id"].lower(): title["name"].split(">", maxsplit=1)[1].split("</a>", maxsplit=1)[0]
+        title["id"].lower(): title["name"].removeprefix("<a>").removesuffix("</a>")
         for title in res.json()["data"]
     }
 
