@@ -1,0 +1,11 @@
+<RCC>
+  <qresource prefix="menubar">
+    <file alias="open.png">images/folder.png</file>
+    <file alias="close.png">images/delete.png</file>
+    <file alias="exit.png">images/remove.png</file>
+  </qresource>
+  <qresource prefix="branding">
+    <file>images/sad.png</file>
+    <file>images/nton.ico</file>
+  </qresource>
+</RCC>

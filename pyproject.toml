@@ -24,6 +24,7 @@ classifiers = [
     "Topic :: Games/Entertainment",
     "Topic :: Utilities"
 ]
+exclude = ["nton/gui/resources"]
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/rlaphoenix/nton/issues"
@@ -39,6 +40,10 @@ coloredlogs = "^15.0.1"
 beautifulsoup4 = "^4.12.2"
 lxml = "^4.9.3"
 pillow = "^9.5.0"
+pyside6 = { version = "^6.5.2", optional = true }
+
+[tool.poetry.extras]
+gui = ["pyside6"]
 
 [tool.poetry.scripts]
 nton = "nton.main:main"

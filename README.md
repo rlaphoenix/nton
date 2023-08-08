@@ -7,41 +7,43 @@
   <img align="right" src="https://img.shields.io/badge/license-GPLv3-blue" alt="License (GPLv3)"/>
 </a>
 
+<img src="https://github.com/rlaphoenix/nton/assets/17136956/c6306192-9a57-41f2-8840-cc8db03fef93" style="width:300px" align="right" />
+
 NTON is a Nintendo Switch NRO to NSP Forwarder for firmware 12.0.0 and newer.
 
-A forwarder lets you open a Homebrew NRO file from your SD card through the Nintendo Switch Home Screen instead
+A forwarder lets you open Homebrew files from your SD card through the Nintendo Switch Home Screen instead
 of the Homebrew Launcher.
 
-![Preview](https://user-images.githubusercontent.com/17136956/206882948-4f05cace-16a3-4300-9047-8cba33106a64.jpg)
-*Forwarders made with NTON.*
+<img src="https://user-images.githubusercontent.com/17136956/206882948-4f05cace-16a3-4300-9047-8cba33106a64.jpg" style="width:505px" />
 
 ## Features
 
-- 🛡️ Safety-first approach; System/Game Title IDs cannot be used and NRO files are validated
-- 🕹️ Boot right into an Emulated Game with Direct RetroArch Game Forwarding
-- 🎥 Video Capture and Screenshots
-- 🖼️ Custom Forwarder Icon of any resolution or format
-- 🤖 The Title Name, Publisher, Icon, and more are automatically extracted from the NRO
-- ⚙ Currently Supports Firmware 12.0.0 and up
-- 🧩 Plug-and-play installation via PIP/PyPI
+- ⚙ Firmware 12.0.0+ Support
+- 🛡️ Title ID Conflict Checks
+- 🤖 Automatically Extracts Title Information and Icon from NRO
+- 🕹️ Direct Game Forwarding
+- 🎥 Enable or Disable Video Capture and Screenshots
+- 💾 1MB Install Size
+- 🖼️ Custom Icons
+- 🧩 Plug-and-play
+- ✨ GUI and CLI Interfaces
 - ❤️ Forever FOSS!
 
 ## Installation
 
-> **Note** *Requires [Python] 3.7.0 or newer with PIP installed.*
-
 ```shell
-$ pip install nton
+$ pip install nton[gui]
 ```
 
-You now have the `nton` package installed and a `nton` executable is now available.
-Check it out with `nton --help` - Voilà 🎉!
+*Exclude `[gui]` if you do not plan on using the GUI*
 
-> **Warning**<br>
+> **Note**
 If pip gives you a warning about a path not being in your PATH environment variable then promptly add that path then
 close all open command prompt Windows, or running `nton` won't work as it will not be recognized as a program.
 
-  [Python]: <https://python.org>
+You now have the `nton` package installed - Voilà 🎉!  
+Launch the GUI by running `nton` without another subcommand in your Terminal or Windows Run.  
+Otherwise, use the CLI by checking out `nton --help`.
 
 ### Keys
 
@@ -89,6 +91,23 @@ RetroArch Core.
 > **Note**
 > - You must use a path to a RetroArch Game Core NRO, not the path to the RetroArch NRO itself.
 > - Do not move, delete, or rename the ROM or the Core NRO files that are on your microSD card, or it will break.
+
+## Storage Sizes
+
+On Installation an NSP can allocate storage for specific purposes. There's three primary types of Storage:
+
+- User Account Save Data: Storage allocated to each User profile. Most titles use this to save game progress.
+- Device Save Data: Storage allocated to the Device itself. Typically used for data or information that should be set 
+  to and used by all User profiles. For example, Animal Crossing: New Horizons uses this to store the Island data for
+  all profiles to use.
+- Cache Storage: Storage allocated for temporary data. Data stored here will be wiped without warning.
+
+The NSP can specify how much data to allocate initially, as well as the maximum amount of storage that data can occupy
+over time. Furthermore, the initial and maximimum size allocated for Journaling (a form of recovery and data integrity)
+can also be specified.
+
+A Forwarder like the ROM NTON uses does not need any form of storage or save data. Therefore, NTON automatically sets
+all storage sizes to `0` to reduce storage usage.
 
 ## Troubleshooting
 
@@ -161,8 +180,10 @@ The following steps are basic instructions on downloading and working on the cod
 2. Download NTON's latest code, `git clone https://github.com/rlaphoenix/nton`
 3. Navigate to the downloaded code repository, `cd nton`
 4. _Optionally_ have Poetry install the virtual-env in the project, `poetry config virtualenvs.in-project true` 
-5. Install NTON's dependencies and development tools, `poetry install`
+5. Install NTON's dependencies and development tools, `poetry install -E gui`
 6. Run NTON from within the Poetry venv, `poetry run nton --help`
+
+> **Note** If you plan to work on or use the GUI during development, then add `-E gui` during Step 5.
 
 As shown, running the `nton` executable is somewhat different to a normal installation. This is because Poetry installs
 all dependencies and the `nton` shim itself within a virtual-environment, which is like a clone of your Python install
@@ -202,6 +223,10 @@ This project uses the following software:
 
 No changes were made to any of the aforementioned software and copies of their licenses can be found next to their
 binaries within the bin folder.
+
+- [Open folder icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/open-folder)
+- [Close icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/close)
+- [Delete icons created by Pixel perfect - Flaticon](https://www.flaticon.com/free-icons/delete)
 
 * * *
 

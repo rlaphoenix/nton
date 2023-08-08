@@ -7,6 +7,8 @@ from nton.constants import Binaries, Files
 
 BIN = Binaries.nstool
 FILE_TYPES = ("xci", "pfs", "romfs", "nca", "meta", "cnmt", "nso", "nro", "ini", "kip", "nacp", "aset", "cert", "tik")
+SUBPROCESS_STARTUP_INFO = subprocess.STARTUPINFO()
+SUBPROCESS_STARTUP_INFO.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
 
 def verify(path: Path, type_: str) -> str | int | None:
@@ -30,12 +32,16 @@ def verify(path: Path, type_: str) -> str | int | None:
         raise ValueError(f"The type_ \"{type_}\" is not a valid type. File types: {', '.join(FILE_TYPES)}")
 
     try:
-        subprocess.check_output([
-            BIN,
-            "-k", str(Files.keys.absolute()),
-            "-t", type_,
-            "--verify", str(path.absolute())
-        ], stderr=subprocess.PIPE)
+        subprocess.check_output(
+            [
+                BIN,
+                "-k", str(Files.keys.absolute()),
+                "-t", type_,
+                "--verify", str(path.absolute())
+            ],
+            stderr=subprocess.PIPE,
+            startupinfo=SUBPROCESS_STARTUP_INFO
+        )
         return None
     except subprocess.CalledProcessError as e:
         return e.output.decode("utf8").strip() or e.returncode
@@ -52,12 +58,15 @@ def get_nacp(asset_path: Path, output_path: Path) -> str | int | None:
     Returns an empty string if valid, an error str or return code otherwise.
     """
     try:
-        subprocess.check_output([
-            BIN,
-            "-k", str(Files.keys.absolute()),
-            "--nacp", str(output_path.absolute()),
-            str(asset_path.absolute())
-        ])
+        subprocess.check_output(
+            [
+                BIN,
+                "-k", str(Files.keys.absolute()),
+                "--nacp", str(output_path.absolute()),
+                str(asset_path.absolute())
+            ],
+            startupinfo=SUBPROCESS_STARTUP_INFO
+        )
         if not output_path.is_file():
             return "No NACP was extracted from the asset."
         if output_path.stat().st_size <= 2:
@@ -78,12 +87,15 @@ def get_icon(asset_path: Path, output_path: Path) -> str | int | None:
     Returns an empty string if valid, an error str or return code otherwise.
     """
     try:
-        subprocess.check_output([
-            BIN,
-            "-k", str(Files.keys.absolute()),
-            "--icon", str(output_path.absolute()),
-            str(asset_path.absolute())
-        ])
+        subprocess.check_output(
+            [
+                BIN,
+                "-k", str(Files.keys.absolute()),
+                "--icon", str(output_path.absolute()),
+                str(asset_path.absolute())
+            ],
+            startupinfo=SUBPROCESS_STARTUP_INFO
+        )
         if not output_path.is_file():
             return "No Icon was extracted from the asset."
         if output_path.stat().st_size <= 2:

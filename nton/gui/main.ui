@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>rlaphoenix</author>
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>420</width>
+    <height>547</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>420</width>
+    <height>547</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>420</width>
+    <height>547</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>NTON v1.0.0</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources/icons.qrc">
+    <normaloff>:/branding/images/nton.ico</normaloff>:/branding/images/nton.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="FileDropWidget" name="stackedWidget">
+      <property name="acceptDrops">
+       <bool>true</bool>
+      </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="page1">
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <widget class="ClickableLabel" name="openLabel">
+          <property name="font">
+           <font>
+            <family>Segoe UI Light</family>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: 3px solid #dcdcdc;
+border-style: dashed;
+border-radius: 8px;</string>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Choose an NRO&lt;/span&gt; or drag it here.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page2">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="a_nameAuthorIconLayout">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <property name="spacing">
+             <number>4</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="nameBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="title">
+               <string>&amp;Name</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <item>
+                <widget class="QLineEdit" name="name">
+                 <property name="text">
+                  <string>nx-hbmenu</string>
+                 </property>
+                 <property name="maxLength">
+                  <number>512</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="authorBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="title">
+               <string>&amp;Author</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <item>
+                <widget class="QLineEdit" name="author">
+                 <property name="text">
+                  <string>switchbrew</string>
+                 </property>
+                 <property name="maxLength">
+                  <number>256</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="ClickableLabel" name="icon">
+            <property name="minimumSize">
+             <size>
+              <width>125</width>
+              <height>125</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>125</width>
+              <height>125</height>
+             </size>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::Box</enum>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="resources/icons.qrc">:/branding/images/sad.png</pixmap>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="b_generalInfoBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>General Information</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="1" column="3">
+              <widget class="QComboBox" name="screenshots">
+               <item>
+                <property name="text">
+                 <string>Enabled</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Disabled</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QLabel" name="screenshotsLabel">
+               <property name="text">
+                <string>Screenshots</string>
+               </property>
+               <property name="buddy">
+                <cstring>screenshots</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="videoCaptureLabel">
+               <property name="text">
+                <string>Video Capture</string>
+               </property>
+               <property name="buddy">
+                <cstring>videoCapture</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="displayVersionLabel">
+               <property name="text">
+                <string>&amp;Display Version</string>
+               </property>
+               <property name="buddy">
+                <cstring>displayVersion</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QLineEdit" name="displayVersion">
+               <property name="text">
+                <string>3.5.1</string>
+               </property>
+               <property name="maxLength">
+                <number>16</number>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="versionLabel">
+               <property name="text">
+                <string>&amp;Version</string>
+               </property>
+               <property name="buddy">
+                <cstring>version</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QComboBox" name="videoCapture">
+               <item>
+                <property name="text">
+                 <string>Disabled</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Manual</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Enabled</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QSpinBox" name="version">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="toolTip">
+                <string>hacBrewPack cannot yet specify the Application Version, see https://github.com/The-4n/hacBrewPack/issues/15</string>
+               </property>
+               <property name="maximum">
+                <number>999999999</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="d_titleIdBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>Title ID</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QLineEdit" name="titleId">
+               <property name="font">
+                <font>
+                 <family>Courier New</family>
+                </font>
+               </property>
+               <property name="inputMask">
+                <string>&gt;BBHHHHHHHHHHHBBB</string>
+               </property>
+               <property name="text">
+                <string>010D6FD3B35CD000</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="randomizeIdButton">
+               <property name="text">
+                <string>Randomize</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="titleIdWarning">
+             <property name="text">
+              <string>Warning: Setting the Title ID to that of another Title will override it, and in Tinfoil's case, without warning. Overriding a System Title will brick your system!</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="argsBox">
+          <property name="title">
+           <string>Arguments</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QLineEdit" name="args">
+             <property name="placeholderText">
+              <string>Extra parameters used when calling the NRO...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="loadRomButton">
+             <property name="text">
+              <string>Create ROM Forwarder</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="e_buildLayout">
+          <item>
+           <widget class="QCommandLinkButton" name="buildButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>182</width>
+              <height>41</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Build NSP Forwarder</string>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+Space</string>
+            </property>
+            <property name="description">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>420</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionClose"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionTroubleshooting"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="sizeGripEnabled">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <action name="actionOpen">
+   <property name="icon">
+    <iconset resource="resources/icons.qrc">
+     <normaloff>:/menubar/open.png</normaloff>:/menubar/open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="icon">
+    <iconset resource="resources/icons.qrc">
+     <normaloff>:/menubar/close.png</normaloff>:/menubar/close.png</iconset>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset resource="resources/icons.qrc">
+     <normaloff>:/menubar/exit.png</normaloff>:/menubar/exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+F4</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::QuitRole</enum>
+   </property>
+  </action>
+  <action name="actionTroubleshooting">
+   <property name="text">
+    <string>Troubleshooting</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::AboutRole</enum>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FileDropWidget</class>
+   <extends>QStackedWidget</extends>
+   <header>filedropwidget</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ClickableLabel</class>
+   <extends>QLabel</extends>
+   <header>clickablelabel</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>name</tabstop>
+  <tabstop>author</tabstop>
+  <tabstop>version</tabstop>
+  <tabstop>displayVersion</tabstop>
+  <tabstop>videoCapture</tabstop>
+  <tabstop>screenshots</tabstop>
+  <tabstop>buildButton</tabstop>
+ </tabstops>
+ <resources>
+  <include location="resources/icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>

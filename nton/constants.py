@@ -29,6 +29,7 @@ class Files:
     keys_cwd = Path("./prod.keys").absolute()
     keys = keys_cwd if keys_cwd.is_file() else keys_home
     game_title_ids = Directories.assets / "game_title_ids.json"
+    ui_file = Directories.root / "gui" / "main.ui"
 
 
 for binary, path in vars(Binaries).items():
