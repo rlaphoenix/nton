@@ -258,7 +258,7 @@ def build(
         if version:
             version_utf8 = version.encode("utf8")
             while len(version_utf8) < 0x10:
-                version_utf8 += b"\xFF"  # TODO: FF or 00?
+                version_utf8 += b"\x00"
             control_file_data[0x3060:0x306F] = version_utf8
         else:
             version = control_file_data[0x3060:0x306F].replace(b"\x00", b"").strip().decode("utf8")
