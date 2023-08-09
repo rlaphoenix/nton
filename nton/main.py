@@ -228,8 +228,7 @@ def build(
                 log.info(f"Removed {offset_name} Allocation")
 
         if not name:
-            # TODO: Assumes first region/language of the NROs title/name data is wanted
-            #       Is UTF8 or ANSI wanted here when decoding? UTF8 should be fine
+            # TODO: Assumes "AmericanEnglish" name is the one that's used and wanted
             name = control_file_data[0x0000:0x000F].replace(b"\x00", b"").strip().decode("utf8")
         if not name:
             log.error("The Control Partition does not have any listed Name nor was one manually specified.")
@@ -243,6 +242,7 @@ def build(
         log.info("Title Name: %s", name)
 
         if not publisher:
+            # TODO: Assumes "AmericanEnglish" publisher is the one that's used and wanted
             publisher = control_file_data[0x0200:0x020F].replace(b"\x00", b"").strip().decode("utf8")
         if not publisher:
             log.error("The Control Partition does not have any listed Publisher nor was one manually specified.")
