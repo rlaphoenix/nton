@@ -5,76 +5,11 @@
         <Name>Name</Name>
         <Publisher>Publisher</Publisher>
     </Title>
-    <Title>
-        <Language>BritishEnglish</Language>
-        <Name>Name</Name>
-        <Publisher>Publisher</Publisher>
-    </Title>
-    <Title>
-        <Language>Japanese</Language>
-        <Name>Name</Name>
-        <Publisher>Publisher</Publisher>
-    </Title>
-    <Title>
-        <Language>French</Language>
-        <Name>Name</Name>
-        <Publisher>Publisher</Publisher>
-    </Title>
-    <Title>
-        <Language>German</Language>
-        <Name>Name</Name>
-        <Publisher>Publisher</Publisher>
-    </Title>
-    <Title>
-        <Language>LatinAmericanSpanish</Language>
-        <Name>Name</Name>
-        <Publisher>Publisher</Publisher>
-    </Title>
-    <Title>
-        <Language>Spanish</Language>
-        <Name>Name</Name>
-        <Publisher>Publisher</Publisher>
-    </Title>
-    <Title>
-        <Language>Italian</Language>
-        <Name>Name</Name>
-        <Publisher>Publisher</Publisher>
-    </Title>
-    <Title>
-        <Language>Dutch</Language>
-        <Name>Name</Name>
-        <Publisher>Publisher</Publisher>
-    </Title>
-    <Title>
-        <Language>CanadianFrench</Language>
-        <Name>Name</Name>
-        <Publisher>Publisher</Publisher>
-    </Title>
-    <Title>
-        <Language>Portuguese</Language>
-        <Name>Name</Name>
-        <Publisher>Publisher</Publisher>
-    </Title>
-    <Title>
-        <Language>Russian</Language>
-        <Name>Name</Name>
-        <Publisher>Publisher</Publisher>
-    </Title>
     <Isbn/>
     <StartupUserAccount>Required</StartupUserAccount>
     <UserAccountSwitchLock>Disable</UserAccountSwitchLock>
     <ParentalControl>None</ParentalControl>
     <SupportedLanguage>AmericanEnglish</SupportedLanguage>
-    <SupportedLanguage>BritishEnglish</SupportedLanguage>
-    <SupportedLanguage>Japanese</SupportedLanguage>
-    <SupportedLanguage>French</SupportedLanguage>
-    <SupportedLanguage>German</SupportedLanguage>
-    <SupportedLanguage>LatinAmericanSpanish</SupportedLanguage>
-    <SupportedLanguage>Spanish</SupportedLanguage>
-    <SupportedLanguage>Italian</SupportedLanguage>
-    <SupportedLanguage>Dutch</SupportedLanguage>
-    <SupportedLanguage>CanadianFrench</SupportedLanguage>
-    <SupportedLanguage>Russian</SupportedLanguage>
     <Screenshot>Allow</Screenshot>
     <VideoCapture>Enable</VideoCapture>
     <PresenceGroupId>0x0100000000000000</PresenceGroupId>
