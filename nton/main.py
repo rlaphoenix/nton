@@ -227,6 +227,9 @@ def build(
                 control_file_data[offset:offset + 8] = b"\x00" * 8
                 log.info(f"Removed {offset_name} Allocation")
 
+        # disable user profile on launch requirement as it's unnecessary
+        control_file_data[0x3025] = 0x00
+
         if not name:
             # TODO: Assumes "AmericanEnglish" name is the one that's used and wanted
             name = control_file_data[0x0000:0x000F].replace(b"\x00", b"").strip().decode("utf8")
