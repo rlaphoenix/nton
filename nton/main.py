@@ -210,16 +210,21 @@ def build(
             control_file_data[0x3034] = 0x00
             log.info("Enabled Screenshots")
 
-        # disable save allocation as it's a complete waste of space
+        # disable storage allocation as none of them would be used
         save_data_size_offsets = {
             0x3080: "User Account Save Data",
             0x3088: "User Account Save Data Journal",
             0x3090: "Device Save Data",
             0x3098: "Device Save Data Journal",
+            0x30A0: "BCAT Delivery Cache Storage",
             0x3148: "Max User Account Save Data",
             0x3150: "Max User Account Save Data Journal",
             0x3158: "Max Device Save Data",
             0x3160: "Max Device Save Data Journal",
+            0x3168: "Temporary Storage",
+            0x3170: "Cache Storage",
+            0x3178: "Cache Storage Journal",
+            0x3180: "Max Cache Storage Data and Journal"
         }
         for offset, offset_name in save_data_size_offsets.items():
             save_data_size = int.from_bytes(control_file_data[offset:offset + 8], byteorder="little")
@@ -227,7 +232,10 @@ def build(
                 control_file_data[offset:offset + 8] = b"\x00" * 8
                 log.info(f"Removed {offset_name} Allocation")
 
-        # disable user profile on launch requirement as it's unnecessary
+        # set cache storage index max to 0
+        control_file_data[0x3188:0x3188+0x2] = b"\x00\x00"
+
+        # disable user profile selection as it's unnecessary
         control_file_data[0x3025] = 0x00
 
         if not name:
