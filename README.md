@@ -31,11 +31,15 @@ of the Homebrew Launcher.
 
 ## Installation
 
+*Windows Installers for the GUI version is available on the [Releases] page.*
+
+Alternatively you can download and install NTON from PIP/PyPI:
+
 ```shell
 $ pip install nton[gui]
 ```
 
-*Exclude `[gui]` if you do not plan on using the GUI*
+*(Exclude `[gui]` if you do not plan on using the GUI)*
 
 > **Note**
 If pip gives you a warning about a path not being in your PATH environment variable then promptly add that path then
@@ -44,6 +48,8 @@ close all open command prompt Windows, or running `nton` won't work as it will n
 You now have the `nton` package installed - Voilà 🎉!  
 Launch the GUI by running `nton` without another subcommand in your Terminal or Windows Run.  
 Otherwise, use the CLI by checking out `nton --help`.
+
+  [Releases]: <https://github.com/rlaphoenix/nton/releases>
 
 ### Keys
 
