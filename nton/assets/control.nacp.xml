@@ -6,7 +6,7 @@
         <Publisher>Publisher</Publisher>
     </Title>
     <Isbn/>
-    <StartupUserAccount>Required</StartupUserAccount>
+    <StartupUserAccount>None</StartupUserAccount>
     <UserAccountSwitchLock>Disable</UserAccountSwitchLock>
     <ParentalControl>None</ParentalControl>
     <SupportedLanguage>AmericanEnglish</SupportedLanguage>
