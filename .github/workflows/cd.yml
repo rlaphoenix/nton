@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip wheel
-        poetry install
+        poetry install -E gui
     - name: Cache external Homebrew Tools
       id: cache-hb-tools
       uses: actions/cache@v3
@@ -71,6 +71,16 @@ jobs:
       with:
         name: Pre-built NSPs
         path: C:/Users/runneradmin/Desktop/NTON/*.nsp
+    - name: Build EXE with PyInstaller
+      run: poetry run python pyinstaller.py
+    - name: Create Windows Installer with Inno Setup
+      run: |
+        iscc setup.iss
+        mv dist/NTON-*.exe .
+    - name: Build Portable EXE with PyInstaller
+      run: |
+        poetry run python pyinstaller.py --one-file
+        mv dist/NTON.exe NTON-${{ github.ref_name }}-portable.exe
     - name: Build a wheel
       run: poetry build
     - name: Upload wheel
@@ -85,6 +95,8 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         files: |
           dist/*.whl
+          NTON-*.exe
+          NTON-*-portable.exe
           C:/Users/runneradmin/Desktop/NTON/*.nsp
     - name: Publish to PyPI
       env:
