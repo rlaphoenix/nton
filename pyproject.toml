@@ -40,10 +40,13 @@ coloredlogs = "^15.0.1"
 beautifulsoup4 = "^4.12.2"
 lxml = "^4.9.3"
 pillow = "^9.5.0"
-pyside6 = { version = "^6.5.2", optional = true }
+PySide6-Essentials = { version = "^6.5.2", optional = true }
+
+[tool.poetry.group.dev.dependencies]
+pyinstaller = "^5.13.0"
 
 [tool.poetry.extras]
-gui = ["pyside6"]
+gui = ["PySide6-Essentials"]
 
 [tool.poetry.scripts]
 nton = "nton.main:main"
