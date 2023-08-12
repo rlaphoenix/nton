@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2023-08-12
+
+### Added
+
+- Force Disabled the "Select User" launch requirement on Control NACPs. This removes the menu asking you to choose
+  a User Profile when launching the Forwarder when you have two or more User Profiles. Choosing a User Profile is
+  unnecessary as we do not use any kind of storage, let alone per-profile storage.
+- Disabled more types of Storage allocation, in some cases freeing up even more post-install storage usage.
+
+### Changed
+
+- Now only keeping one Language Name/Publisher on both NRO-derived Control NACPs and new Control NACPs. This is so NSP
+  tools and the Switch only reads one Icon file, and one Language, since only one of these can be defined by the CLI.
+  Non-English language Switch's will still support the NSP.
+
+### Fixed
+
+- Manually set Display Version used incorrect byte for padding.
+
 ## [1.3.0] - 2023-08-06
 
 ### Added
@@ -162,6 +181,7 @@ Initial release (as a Python script).
 
 Initial release (as CMD script).
 
+[1.4.0]: https://github.com/rlaphoenix/nton/releases/tag/v1.4.0
 [1.3.0]: https://github.com/rlaphoenix/nton/releases/tag/v1.3.0
 [1.2.3]: https://github.com/rlaphoenix/nton/releases/tag/v1.2.3
 [1.2.2]: https://github.com/rlaphoenix/nton/releases/tag/v1.2.2
