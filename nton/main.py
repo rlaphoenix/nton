@@ -7,6 +7,7 @@ import shutil
 import string
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 import click as click
@@ -54,6 +55,11 @@ def main(ctx: click.Context, version: bool, debug: bool) -> None:
                 "prod.keys cannot be found! Place it in the current working directory, "
                 f"or at \"{Files.keys_home}\"")
             sys.exit(1)
+        if not Files.game_title_ids.exists():
+            log.error("Game Title ID registry is missing! Please re-add `/assets/game_title_ids.json`!")
+            sys.exit(1)
+        if Files.game_title_ids.stat().st_mtime + (60 * 24 * 30) < time.time():
+            log.warning("Game Title ID registry is quite old, I recommend updating it with `nton update-game-ids`")
 
 
 @main.command()

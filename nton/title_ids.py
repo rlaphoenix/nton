@@ -1,8 +1,6 @@
 # Source: https://switchbrew.org/wiki/Title_list
 # Last updated: 2022-11-12 08:00 UTC+0
 # When updating make sure all title IDs are lowercase hex, 16 digits in length (a-z0-9{16}).
-import logging
-import sys
 import time
 
 import jsonpickle
@@ -468,13 +466,10 @@ def get_game_title_ids() -> dict:
     return title_ids
 
 
-if not Files.game_title_ids.exists():
-    print("[ERROR]: The Game Title ID registry is missing! Please re-add `/assets/game_title_ids.json`!")
-    sys.exit(1)
-if Files.game_title_ids.stat().st_mtime + (60 * 24 * 30) < time.time():
-    log = logging.getLogger()
-    log.warning("Game Title ID registry is quite old, I recommend updating it with `nton update-game-ids`")
-game_title_ids = jsonpickle.loads(Files.game_title_ids.read_text("utf8"))
+if Files.game_title_ids.exists():
+    game_title_ids = jsonpickle.loads(Files.game_title_ids.read_text("utf8"))
+else:
+    game_title_ids = {}
 
 
 ALL_SYSTEM = (
