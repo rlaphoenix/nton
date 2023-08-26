@@ -70,6 +70,15 @@ def ensure_dependencies(window: QMainWindow) -> None:
                 QMessageBox.StandardButton.Ok
             )
             sys.exit(1)
+    if not Files.game_title_ids.exists():
+        QMessageBox.critical(
+            window,
+            "Corrupt Installation",
+            f"Could not Game Title ID registry which should be pre-bundled with NTON.<br/><br/>"
+            "If this continues to happen <a href='https://github.com/rlaphoenix/nton/issues'>Create an Issue</a>.",
+            QMessageBox.StandardButton.Ok
+        )
+        sys.exit(1)
     while not Files.keys.is_file():
         QMessageBox.critical(
             window,
@@ -79,6 +88,10 @@ def ensure_dependencies(window: QMainWindow) -> None:
             "Press OK once done to continue.",
             QMessageBox.StandardButton.Ok
         )
+
+    # TODO: Add GUI menu bar option to update Game Title ID registry, then warn if outdated
+    # if Files.game_title_ids.stat().st_mtime + (60 * 24 * 30) < time.time():
+    #     log.warning("Game Title ID registry is quite old, I recommend updating it with `nton update-game-ids`")
 
 
 def setup_logic(window: QMainWindow) -> None:
