@@ -1,7 +1,7 @@
 ; https://jrsoftware.org/ishelp/index.php
 
 #define AppName "NTON"
-#define Version "2.0.0"
+#define Version "2.0.1"
 
 [Setup]
 AppId={#AppName}
