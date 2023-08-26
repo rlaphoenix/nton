@@ -39,6 +39,21 @@ def main(ctx: click.Context, version: bool, debug: bool) -> None:
     if not ctx.invoked_subcommand:
         from nton import gui  # noqa
         gui.start(debug)
+    else:
+        for binary, path in vars(Binaries).items():
+            if binary.startswith("__"):
+                continue
+            if not path:
+                log.error(
+                    f"{binary} cannot be found! Place it in the current working directory, "
+                    "or put the folder it's at into your PATH Environment Variable."
+                )
+                sys.exit(1)
+        if not Files.keys.is_file():
+            log.error(
+                "prod.keys cannot be found! Place it in the current working directory, "
+                f"or at \"{Files.keys_home}\"")
+            sys.exit(1)
 
 
 @main.command()
