@@ -42,10 +42,11 @@ def start(debug: bool = False) -> None:
     loader.registerCustomWidget(ClickableLabel)
 
     window: QMainWindow = loader.load(Files.ui_file, None)  # noqa
-    setup_logic(window)
-
-    reset_ui(window)  # clear UI file's placeholder data
     window.setWindowTitle(f"NTON v{__version__}")
+
+    ensure_dependencies(window)
+    setup_logic(window)
+    reset_ui(window)  # clear UI file's placeholder data
 
     window.show()
 
@@ -54,6 +55,30 @@ def start(debug: bool = False) -> None:
         window.log.setLevel("DEBUG")
 
     gui.exec_()
+
+
+def ensure_dependencies(window: QMainWindow) -> None:
+    for binary, path in vars(Binaries).items():
+        if binary.startswith("__"):
+            continue
+        if not path:
+            QMessageBox.critical(
+                window,
+                "Corrupt Installation",
+                f"Could not find binary for {binary} which should be pre-bundled with NTON.<br/><br/>"
+                "If this continues to happen <a href='https://github.com/rlaphoenix/nton/issues'>Create an Issue</a>.",
+                QMessageBox.StandardButton.Ok
+            )
+            sys.exit(1)
+    while not Files.keys.is_file():
+        QMessageBox.critical(
+            window,
+            "No prod.keys",
+            f"Could not find prod.keys file. Place it in the installation directory, or at \"{Files.keys_home}\"."
+            "<br/><br/>"
+            "Press OK once done to continue.",
+            QMessageBox.StandardButton.Ok
+        )
 
 
 def setup_logic(window: QMainWindow) -> None:
