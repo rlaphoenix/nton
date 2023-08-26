@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2023-08-26
+
+### Changed
+
+- Moved the Binary dependency and prod.keys checks from `constants.py` to `main.py` so it only runs if you actually
+  run the CLI.
+- Moved the Game Title ID registry checks from `title_ids.py` to `main.py`, again so it only runs if you actually
+  run the CLI.
+
+### Fixed
+
+- Fixed silent crash when running the GUI if the Binary dependencies are missing.
+- Fixed silent crash when running the GUI if the Game Title ID registry is missing.
+- Fixed silent crash when running the GUI if the `prod.keys` file is missing.
+
 ## [2.0.0] - 2023-08-12
 
 ### Added
@@ -188,6 +203,7 @@ Initial release (as a Python script).
 
 Initial release (as CMD script).
 
+[2.0.1]: https://github.com/rlaphoenix/nton/releases/tag/v2.0.1
 [2.0.0]: https://github.com/rlaphoenix/nton/releases/tag/v2.0.0
 [1.4.0]: https://github.com/rlaphoenix/nton/releases/tag/v1.4.0
 [1.3.0]: https://github.com/rlaphoenix/nton/releases/tag/v1.3.0
