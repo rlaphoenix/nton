@@ -687,8 +687,6 @@ def build(window: QMainWindow) -> bool:
                 [
                     Binaries.hacbrewpack,
                     "--titleid", title_id,
-                    "--titlename", name,
-                    "--titlepublisher", author,
                     "--nspdir", str(Directories.output.absolute()),
                     "-k", str(Files.keys.absolute())
                 ],

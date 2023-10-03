@@ -352,8 +352,6 @@ def build(
             subprocess.check_output([
                 Binaries.hacbrewpack,
                 "--titleid", id_,
-                "--titlename", name,
-                "--titlepublisher", publisher,
                 "--nspdir", str(Directories.output.absolute()),
                 "-k", str(Files.keys.absolute())
             ], cwd=build_dir)
