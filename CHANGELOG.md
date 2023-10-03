@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2023-10-03
+
+### Changed
+
+- Dropped support for Python 3.7.
+- Portable and Installer GUI builds are now built on PyInstaller 6.
+- HacBrewPack no longer sets/deals with the Name/Publisher language data.
+
+### Fixed
+
+- Name and Publisher was Padded with 0x00 on the wrong side. However, it ultimately was not an issue as HacBrewPack
+  effectively overrode all Name/Publisher changes anyway, but still.
+- Special characters like "é" etc. are no longer garbled in the built NSP. This was a bug when HacBrewPack set the
+  name and publisher, yet that was never intended anyway. Now NTON itself fully manages setting the Name and Publisher.
+- Multiple language data being included but with missing data is now fixed. Only AmericanEnglish is enabled, and only
+  AmericanEnglish has language data. Similarly to the previous issue, this was caused by HacBrewPack in the same way. 
+
 ## [2.0.1] - 2023-08-26
 
 ### Changed
@@ -203,6 +220,7 @@ Initial release (as a Python script).
 
 Initial release (as CMD script).
 
+[2.1.0]: https://github.com/rlaphoenix/nton/releases/tag/v2.1.0
 [2.0.1]: https://github.com/rlaphoenix/nton/releases/tag/v2.0.1
 [2.0.0]: https://github.com/rlaphoenix/nton/releases/tag/v2.0.0
 [1.4.0]: https://github.com/rlaphoenix/nton/releases/tag/v1.4.0
