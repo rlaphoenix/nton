@@ -33,17 +33,17 @@ exclude = ["nton/gui/resources"]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.12"
-click = "^8.1.6"
+click = "^8.1.7"
 requests = "^2.31.0"
-jsonpickle = "^3.0.1"
+jsonpickle = "^3.0.2"
 coloredlogs = "^15.0.1"
 beautifulsoup4 = "^4.12.2"
 lxml = "^4.9.3"
-pillow = "^9.5.0"
+Pillow = "^10.0.1"
 PySide6-Essentials = { version = "^6.5.2", optional = true }
 
 [tool.poetry.group.dev.dependencies]
-pyinstaller = "^5.13.0"
+pyinstaller = "^6.0.0"
 
 [tool.poetry.extras]
 gui = ["PySide6-Essentials"]

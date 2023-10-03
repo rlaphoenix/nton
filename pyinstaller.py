@@ -1,5 +1,4 @@
 import itertools
-import os
 import shutil
 from argparse import ArgumentParser
 from pathlib import Path
@@ -33,7 +32,7 @@ ADDITIONAL_DATA = [
 ]
 HIDDEN_IMPORTS = []
 EXTRA_ARGS = [
-    "-y", "--win-private-assemblies", "--win-no-prefer-redirects"
+    "-y"
 ]
 
 """Prepare environment to ensure output data is fresh."""
@@ -85,7 +84,7 @@ try:
         "-i", ["NONE", args.icon_file][bool(args.icon_file)],
         ["-D", "-F"][args.one_file],
         ["-w", "-c"][args.console],
-        *itertools.chain(*[["--add-data", os.pathsep.join(x)] for x in ADDITIONAL_DATA]),
+        *itertools.chain(*[["--add-data", ":".join(x)] for x in ADDITIONAL_DATA]),
         *itertools.chain(*[["--hidden-import", x] for x in HIDDEN_IMPORTS]),
         "--version-file", str(version_file),
         *EXTRA_ARGS
