@@ -290,8 +290,8 @@ def build(
         # only keep one name/publisher, store as AmericanEnglish
         # this is because the CLI has only one name/publisher option to use
         control_file_data[0x0:0x3000] = b"\x00" * 0x3000
-        control_file_data[0x0:0x200] = name.encode("utf8").rjust(0x200, b"\x00")
-        control_file_data[0x200:0x300] = publisher.encode("utf8").rjust(0x100, b"\x00")
+        control_file_data[0x0:0x200] = name.encode("utf8").ljust(0x200, b"\x00")
+        control_file_data[0x200:0x300] = publisher.encode("utf8").ljust(0x100, b"\x00")
 
         if version:
             version_utf8 = version.encode("utf8")
