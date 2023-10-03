@@ -32,7 +32,7 @@ exclude = ["nton/gui/resources"]
 "Changelog" = "https://github.com/rlaphoenix/nton/blob/master/CHANGELOG.md"
 
 [tool.poetry.dependencies]
-python = ">=3.7,<3.12"
+python = ">=3.8,<3.12"
 click = "^8.1.6"
 requests = "^2.31.0"
 jsonpickle = "^3.0.1"
