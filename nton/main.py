@@ -364,7 +364,7 @@ def build(
         if nsp_final_path.exists():
             log.warning("An NSP forwarder of the same name, publisher and title ID already existed.")
             nsp_final_path.unlink()
-        (Directories.output / f"{id_}.nsp").rename(nsp_final_path)
+        shutil.move(Directories.output / f"{id_}.nsp", nsp_final_path)
 
         log.info(f"Done! The NSP has been saved to {nsp_final_path}")
     finally:

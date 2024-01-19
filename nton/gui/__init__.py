@@ -704,7 +704,7 @@ def build(window: QMainWindow) -> bool:
 
         if save_path.exists():
             save_path.unlink()
-        (Directories.output / f"{title_id}.nsp").rename(save_path)
+        shutil.move(Directories.output / f"{title_id}.nsp", save_path)
 
         window.log.info(f"Build NSP to %s", save_path)
         QMessageBox.information(
