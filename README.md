@@ -23,7 +23,7 @@ of the Homebrew Launcher.
 - 🤖 Automatically Extracts Title Information and Icon from NRO
 - 🕹️ Direct Game Forwarding
 - 🎥 Enable or Disable Video Capture and Screenshots
-- 💾 1MB Install Size
+- 💾 1MB NSP Install Size
 - 🖼️ Custom Icons
 - 🧩 Plug-and-play
 - ✨ GUI and CLI Interfaces
