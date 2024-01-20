@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2024-01-20
+
+### Added
+
+- Support for Python 3.12.
+
+### Changed
+
+- Release builds now use the same bundled third-party binaries in this project's repository at the time of release.
+- nstool has been updated to v1.8.1.
+
+### Fixed
+
+- Fixed crash when saving the Built NSP to a drive other than the `C:` drive.
+
 ## [2.1.0] - 2023-10-03
 
 ### Changed
@@ -220,6 +235,7 @@ Initial release (as a Python script).
 
 Initial release (as CMD script).
 
+[2.1.1]: https://github.com/rlaphoenix/nton/releases/tag/v2.1.1
 [2.1.0]: https://github.com/rlaphoenix/nton/releases/tag/v2.1.0
 [2.0.1]: https://github.com/rlaphoenix/nton/releases/tag/v2.0.1
 [2.0.0]: https://github.com/rlaphoenix/nton/releases/tag/v2.0.0
