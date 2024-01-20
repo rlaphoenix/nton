@@ -32,18 +32,18 @@ exclude = ["nton/gui/resources"]
 "Changelog" = "https://github.com/rlaphoenix/nton/blob/master/CHANGELOG.md"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.12"
+python = ">=3.8,<3.13"
 click = "^8.1.7"
 requests = "^2.31.0"
 jsonpickle = "^3.0.2"
 coloredlogs = "^15.0.1"
-beautifulsoup4 = "^4.12.2"
-lxml = "^4.9.3"
-Pillow = "^10.0.1"
-PySide6-Essentials = { version = "^6.5.2", optional = true }
+beautifulsoup4 = "^4.12.3"
+lxml = "^5.1.0"
+pillow = "^10.2.0"
+PySide6-Essentials = { version = "^6.6.1", optional = true }
 
 [tool.poetry.group.dev.dependencies]
-pyinstaller = "^6.0.0"
+pyinstaller = "^6.3.0"
 
 [tool.poetry.extras]
 gui = ["PySide6-Essentials"]
