@@ -14,7 +14,17 @@ NTON is a Nintendo Switch NRO to NSP Forwarder for firmware 12.0.0 and newer.
 A forwarder lets you open Homebrew files from your SD card through the Nintendo Switch Home Screen instead
 of the Homebrew Launcher.
 
+> [!TIP]
+> Want to generate NSP forwarders directly on your Switch via Homebrew? Check out [TooTallNate's switch-nsp-forwarder](https://github.com/TooTallNate/switch-nsp-forwarder)!
+
 <img src="https://user-images.githubusercontent.com/17136956/206882948-4f05cace-16a3-4300-9047-8cba33106a64.jpg" style="width:505px" />
+
+> [!CAUTION]
+> Installing NSP files, like NRO to NSP forwarders, can result in your console getting banned as they do not contain valid signatures verified by Nintendo.
+> This applies to all forms of NRO to NSP forwarders, including homebrew and web versions. We do not possess Nintendo's private key to generate valid signatures.
+> NSP forwarders are only safe if used on an emuMMC with all Nintendo servers blocked with [DNS.mitm](https://github.com/Atmosphere-NX/Atmosphere/blob/master/docs/features/dns_mitm.md).
+> Do not install them on sysMMC (system eMMC/NAND). Do not use 90DNS or any manual DNS server approach. DNS.mitm is a much safer and faster approach.
+> To run NSP forwarders you need to make further modifications to the boot process and your system. I do not support Piracy on any Nintendo device therefore support on that is not provided.
 
 ## Features
 
@@ -41,7 +51,7 @@ $ pip install nton[gui]
 
 *(Exclude `[gui]` if you do not plan on using the GUI)*
 
-> **Note**
+> [!NOTE]
 If pip gives you a warning about a path not being in your PATH environment variable then promptly add that path then
 close all open command prompt Windows, or running `nton` won't work as it will not be recognized as a program.
 
@@ -54,7 +64,7 @@ Otherwise, use the CLI by checking out `nton --help`.
 ### Keys
 
 Proprietary Keys known as `prod.keys` are required. You can obtain them from your own personal Switch using
-Lockpick_RCM.
+[Lockpick_RCM](https://gbatemp.net/download/lockpick_rcm-1-9-15-fw-20-zoria.39129).
 
 It must be placed at `C:\Users\<User>\.switch\prod.keys`, in your current working directory, or in
 NTON's installation directory for NTON to be able to find and use the keys.
@@ -77,7 +87,7 @@ The Title ID is automatically checked against a periodically updated list of pre
 to ensure a collision does not occur. However, you should still be cautious and verify the Title ID is not already used
 by other Software before using. 
 
-> **Note**<br>
+> [!NOTE]
 > While NTON can be used on NRO files stored on your PC, it was designed to be used directly from your Switch's
 > microSD card. If you prefer to create forwarders with NRO files on your PC, or for batch purposes, you can specify
 > the path that the NRO file will reside on your microSD card during generation with `--sdmc`.
@@ -94,7 +104,7 @@ Use a RetroArch Game Core as the NRO path and provide the path to the ROM on you
 This will then load the Core directly under RetroArch and provide the path to the ROM as a startup argument to the
 RetroArch Core.
 
-> **Note**
+> [!NOTE]
 > - You must use a path to a RetroArch Game Core NRO, not the path to the RetroArch NRO itself.
 > - Do not move, delete, or rename the ROM or the Core NRO files that are on your microSD card, or it will break.
 
@@ -128,15 +138,17 @@ yourself.
 
 ### The forwarder does not launch, "The software was closed because an error occurred."
 
-Your "sigpatches" (signature patches) that allow unsigned titles to launch is likely outdated or not set up correctly.
-Sigpatches can go outdated from Horizon OS firmware updates, Atmosphere updates (as well as silent updates). It is
-recommended to use the [sys-patch](https://github.com/ITotalJustice/sys-patch) sys-module to automatically patch your
-system from signature checks as well as other useful patches. The default configuration is fine for the majority of
-systems and is a simple copy & paste to your microSD card to install.
+As the NSP forwarder's signature is not valid as we do not possess Nintendo's private signing keys, you cannot boot
+any NSP forwarder with CFW alone. Nintendo has DMCA'd the options that allow you to run these kinds of NSP files due
+to it allowing piracy. Support on this matter cannot be provided as I do not support piracy on any Nintendo system.
 
-It's also possible the `prod.keys` you used with NTON is outdated for your firmware. Get new ones with Lockpick_RCM
-and make sure you choose to get keys from the SysMMC or EmuMMC that you will be installing the forwarder on (or
-whichever has a newer firmware version).
+If you do not agree with enabling piracy, do not want to enable piracy, or do not know how to proceed from here, then
+I do not recommend using NRO to NSP forwarders at all and stick with the Homebrew launcher through the Album icon, or
+by opening any Game or Software while holding (R).
+
+However, it's also possible the `prod.keys` you used with NTON is outdated for your firmware. Re-download the latest
+Lockpick_RCM and re-obtain this `prod.keys` file from your own Switch. Make sure you choose to get keys from the SysMMC
+or EmuMMC that you will be installing the forwarder on (or whichever has a newer firmware version).
 
 ### The forwarder starts loading but then crashes
 
@@ -150,7 +162,7 @@ This happens when the `icon_AmericanEnglish.dat` within the built forwarder is n
 some way. This is usually caused by the format of the image not being JPEG, or it has EXIF data or other unnecessary
 extra metadata.
 
-> **Note**<br>
+> [!NOTE]
 This is considered a bug if it happens to you after using NTON as it should automatically sanitize the
 images when building the forwarder. If this happens to you, please report what image you chose to use, or give
 information on what exact NRO you were making a forwarder from.
@@ -170,13 +182,19 @@ help you resolve this issue as it has tools to remove partial installs and lefto
 
 ### The forwarder randomly stopped working, I've read everything so far
 
-You most likely updated Atmosphere or Horizon OS's Firmware and need to update your Sigpatches. If that hasn't fixed
-it, make sure you haven't deleted or moved the NRO on your Switch's microSD card. It cannot be moved as the built
-forwarder has a hardcoded file path that it loads the NRO from when launched.
+There are numerous reasons why this could be, see the following main reasons:
 
-If it still does not work, it's possible a firmware update has broken the [forwarder ROM][ROM] that is used and needs
+1. Make sure you haven't deleted or moved the NRO on your Switch's microSD card. It cannot be moved as the built
+forwarder has a hardcoded file path that it loads the NRO from when launched.
+2. You may have since updated Atmosphere or your Firmware which broke the changes you made to the bootloader that enabled
+the use of custom NSP files. As this project does not support piracy on any Nintendo system, support is not provided.
+4. It's possible a firmware update has broken the [forwarder ROM][ROM] that is used and needs
 to be updated. Both Firmware 9.0.0 and 12.0.0 have previously broken different forwarder ROMs requiring updates. If
 you believe this to be the case then please make an Issue.
+
+If after reading all of these troubleshooting steps, you still cannot get the NSP forwarder to work, then I do not
+recommend the use of them and instead recommend using the Homebrew launcher from the album or from title takeover
+(holding R while booting any Game or Software).
 
 ## Development
 
@@ -189,7 +207,8 @@ The following steps are basic instructions on downloading and working on the cod
 5. Install NTON's dependencies and development tools, `poetry install -E gui`
 6. Run NTON from within the Poetry venv, `poetry run nton --help`
 
-> **Note** If you plan to work on or use the GUI during development, then add `-E gui` during Step 5.
+> [!NOTE]
+> If you plan to work on or use the GUI during development, then add `-E gui` during Step 5.
 
 As shown, running the `nton` executable is somewhat different to a normal installation. This is because Poetry installs
 all dependencies and the `nton` shim itself within a virtual-environment, which is like a clone of your Python install
