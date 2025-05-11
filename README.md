@@ -17,7 +17,7 @@ of the Homebrew Launcher.
 > [!TIP]
 > Want to generate NSP forwarders directly on your Switch via Homebrew? Check out [TooTallNate's switch-nsp-forwarder](https://github.com/TooTallNate/switch-nsp-forwarder)!
 
-<img src="https://user-images.githubusercontent.com/17136956/206882948-4f05cace-16a3-4300-9047-8cba33106a64.jpg" style="width:505px" />
+<img src="https://github.com/user-attachments/assets/e8cd0c5f-b8b5-4a56-ab66-8777dacdff66" style="width:505px" />
 
 > [!CAUTION]
 > Installing NSP files, like NRO to NSP forwarders, can result in your console getting banned as they do not contain valid signatures verified by Nintendo.
