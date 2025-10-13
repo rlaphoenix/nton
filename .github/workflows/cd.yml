@@ -8,9 +8,9 @@ on:
 jobs:
   tagged-release:
     name: Tagged Release
-    runs-on: windows-latest
+    runs-on: windows-2022  # windows-2025 dropped InnoSetup/ISCC
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v5
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -48,7 +48,7 @@ jobs:
         poetry run nton build "hbmenu.nro" --name "Homebrew Menu" --sdmc "/hbmenu.nro"
         poetry run nton build "aio-switch-updater.nro" --name "AIO-Switch-Updater" --sdmc "/switch/aio-switch-updater/aio-switch-updater.nro"
     - name: Upload NSPs
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v4
       with:
         name: Pre-built NSPs
         path: C:/Users/runneradmin/Desktop/NTON/*.nsp
@@ -65,7 +65,7 @@ jobs:
     - name: Build a wheel
       run: poetry build
     - name: Upload wheel
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Python Wheel
         path: "dist/*.whl"
