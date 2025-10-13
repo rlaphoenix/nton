@@ -85,7 +85,7 @@ The Title ID will be a randomly assigned value within generally conformed bounds
 
 The Title ID is automatically checked against a periodically updated list of pre-existing System and Software Title IDs
 to ensure a collision does not occur. However, you should still be cautious and verify the Title ID is not already used
-by other Software before using. 
+by other Software before using.
 
 > [!NOTE]
 > While NTON can be used on NRO files stored on your PC, it was designed to be used directly from your Switch's
@@ -113,7 +113,7 @@ RetroArch Core.
 On Installation an NSP can allocate storage for specific purposes. There's three primary types of Storage:
 
 - User Account Save Data: Storage allocated to each User profile. Most titles use this to save game progress.
-- Device Save Data: Storage allocated to the Device itself. Typically used for data or information that should be set 
+- Device Save Data: Storage allocated to the Device itself. Typically used for data or information that should be set
   to and used by all User profiles. For example, Animal Crossing: New Horizons uses this to store the Island data for
   all profiles to use.
 - Cache Storage: Storage allocated for temporary data. Data stored here will be wiped without warning.
@@ -189,8 +189,8 @@ forwarder has a hardcoded file path that it loads the NRO from when launched.
 2. You may have since updated Atmosphere or your Firmware which broke the changes you made to the bootloader that enabled
 the use of custom NSP files. As this project does not support piracy on any Nintendo system, support is not provided.
 4. It's possible a firmware update has broken the [forwarder ROM][ROM] that is used and needs
-to be updated. Both Firmware 9.0.0 and 12.0.0 have previously broken different forwarder ROMs requiring updates. If
-you believe this to be the case then please make an Issue.
+to be updated. Both Firmware 9.0.0, 12.0.0 and 19.0.0 have previously broken different forwarder ROMs requiring updates.
+If you believe this to be the case then please make an Issue.
 
 If after reading all of these troubleshooting steps, you still cannot get the NSP forwarder to work, then I do not
 recommend the use of them and instead recommend using the Homebrew launcher from the album or from title takeover
@@ -203,7 +203,7 @@ The following steps are basic instructions on downloading and working on the cod
 1. Follow Poetry's Docs to [Install Poetry].
 2. Download NTON's latest code, `git clone https://github.com/rlaphoenix/nton`
 3. Navigate to the downloaded code repository, `cd nton`
-4. _Optionally_ have Poetry install the virtual-env in the project, `poetry config virtualenvs.in-project true` 
+4. _Optionally_ have Poetry install the virtual-env in the project, `poetry config virtualenvs.in-project true`
 5. Install NTON's dependencies and development tools, `poetry install -E gui`
 6. Run NTON from within the Poetry venv, `poetry run nton --help`
 
@@ -225,13 +225,18 @@ I recommend taking a look at [Poetry's Docs] for further information, why not ge
 
 ## Credit
 
-- [meliodas2255] for their [Open-Source forwarder ROM][ROM] supporting v12.0.0+ with both direct RetroArch Forwarding
-  and general forwarding both supported.
+- [meliodas2255] for [their open-source forwarder ROM][oldROM] supporting v12.0.0 to v18.1.0 with both direct RetroArch
+  Forwarding and general forwarding both supported.
+- [TooTallNate] for [their edit of meliodas2255's ROM][ROM] to support v19.0.0+ by patching a few flags. Also thanks to
+  [catfromplan9] for notifying that support broke and kindly making a pull request.
 - [vgmoose] for the [sdl-hello-world] NRO that is used in CI/CD testing.
 
   [meliodas2255]: <https://gbatemp.net/members/meliodas2255.410353>
+  [TooTallNate]: <https://github.com/TooTallNate>
+  [catfromplan9]: <https://github.com/catfromplan9>
   [vgmoose]: <https://github.com/vgmoose>
-  [ROM]: <https://github.com/Skywalker25/Forwarder-Mod>
+  [oldROM]: <https://github.com/Skywalker25/Forwarder-Mod>
+  [ROM]: <https://github.com/TooTallNate/switch-nsp-forwarder/tree/main/romfs/template/exefs>
   [sdl-hello-world]: <https://github.com/vgmoose/sdl-hello-world>
 
 ## Licensing
@@ -245,6 +250,8 @@ This project uses the following software:
 - nstool licensed under MIT for NRO extraction and verification: https://github.com/jakcron/nstool
 - hptnacp from hacPack licensed under GPL-v2 for creating new NACP partitions if the NRO did not have one:
   https://github.com/The-4n/hacPack/tree/master/hacPack-Tools/hacPackTools-NACP
+- rom from switch-nsp-forwarder licensed under MIT for actually launching the NROs:
+  https://github.com/TooTallNate/switch-nsp-forwarder/tree/main/romfs/template/exefs
 
 No changes were made to any of the aforementioned software and copies of their licenses can be found next to their
 binaries within the bin folder.
@@ -255,4 +262,4 @@ binaries within the bin folder.
 
 * * *
 
-© rlaphoenix 2022-2024
+© rlaphoenix 2022-2025
