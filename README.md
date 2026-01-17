@@ -229,11 +229,14 @@ I recommend taking a look at [Poetry's Docs] for further information, why not ge
   Forwarding and general forwarding both supported.
 - [TooTallNate] for [their edit of meliodas2255's ROM][ROM] to support v19.0.0+ by patching a few flags. Also thanks to
   [catfromplan9] for notifying that support broke and kindly making a pull request.
+- [peacepenguin] for fixing support for v21.0.0+ and adding the ROM source code to the repository, verifying for once
+  which ROM source code we use.
 - [vgmoose] for the [sdl-hello-world] NRO that is used in CI/CD testing.
 
   [meliodas2255]: <https://gbatemp.net/members/meliodas2255.410353>
   [TooTallNate]: <https://github.com/TooTallNate>
   [catfromplan9]: <https://github.com/catfromplan9>
+  [peacepenguin]: <https://github.com/peacepenguin>
   [vgmoose]: <https://github.com/vgmoose>
   [oldROM]: <https://github.com/Skywalker25/Forwarder-Mod>
   [ROM]: <https://github.com/TooTallNate/switch-nsp-forwarder/tree/main/romfs/template/exefs>
@@ -262,5 +265,4 @@ binaries within the bin folder.
 
 * * *
 
-© rlaphoenix 2022-2025
-
+© rlaphoenix 2022-2026
