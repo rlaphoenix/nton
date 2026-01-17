@@ -188,9 +188,9 @@ There are numerous reasons why this could be, see the following main reasons:
 forwarder has a hardcoded file path that it loads the NRO from when launched.
 2. You may have since updated Atmosphere or your Firmware which broke the changes you made to the bootloader that enabled
 the use of custom NSP files. As this project does not support piracy on any Nintendo system, support is not provided.
-4. It's possible a firmware update has broken the [forwarder ROM][ROM] that is used and needs
-to be updated. Both Firmware 9.0.0, 12.0.0 and 19.0.0 have previously broken different forwarder ROMs requiring updates.
-If you believe this to be the case then please make an Issue.
+4. It's possible a firmware update has broken the Forwarder ROM binary (source under /rom in this repo) and needs
+to be re-compiled against a newer libnx / devkitpro version. Firmware 9.0.0, 12.0.0, 19.0.0, and 21.0.0 have previously 
+broken different forwarder ROMs requiring updates. If you believe this to be the case then please make an Issue.
 
 If after reading all of these troubleshooting steps, you still cannot get the NSP forwarder to work, then I do not
 recommend the use of them and instead recommend using the Homebrew launcher from the album or from title takeover
@@ -263,3 +263,4 @@ binaries within the bin folder.
 * * *
 
 © rlaphoenix 2022-2025
+
