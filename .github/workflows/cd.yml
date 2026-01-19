@@ -55,6 +55,5 @@ jobs:
         files: |
           NTON-*.exe
           NTON-*-portable.exe
-          C:/Users/runneradmin/Desktop/NTON/*.nsp
     - name: Publish to PyPI
       run: uv publish
