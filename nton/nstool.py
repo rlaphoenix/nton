@@ -16,6 +16,9 @@ def verify(path: Path, type_: str) -> str | int | None:
     Verify if the Nintendo Switch file is valid.
     Returns an empty string if valid, an error str or return code otherwise.
     """
+    if not BIN or not Path(BIN).is_file():
+        raise EnvironmentError("nstool binary was not found. Please ensure nstool is installed and in your PATH.")
+
     if not path:
         raise ValueError("The path must not be empty.")
     if not isinstance(path, Path):
@@ -29,18 +32,13 @@ def verify(path: Path, type_: str) -> str | int | None:
         raise TypeError("The type_ variable is not a str object.")
     type_ = type_.lower()
     if type_ not in FILE_TYPES:
-        raise ValueError(f"The type_ \"{type_}\" is not a valid type. File types: {', '.join(FILE_TYPES)}")
+        raise ValueError(f'The type_ "{type_}" is not a valid type. File types: {", ".join(FILE_TYPES)}')
 
     try:
         subprocess.check_output(
-            [
-                BIN,
-                "-k", str(Files.keys.absolute()),
-                "-t", type_,
-                "--verify", str(path.absolute())
-            ],
+            [BIN, "-k", str(Files.keys.absolute()), "-t", type_, "--verify", str(path.absolute())],
             stderr=subprocess.PIPE,
-            startupinfo=SUBPROCESS_STARTUP_INFO
+            startupinfo=SUBPROCESS_STARTUP_INFO,
         )
         return None
     except subprocess.CalledProcessError as e:
@@ -57,15 +55,13 @@ def get_nacp(asset_path: Path, output_path: Path) -> str | int | None:
 
     Returns an empty string if valid, an error str or return code otherwise.
     """
+    if not BIN or not Path(BIN).is_file():
+        raise EnvironmentError("nstool binary was not found. Please ensure nstool is installed and in your PATH.")
+
     try:
         subprocess.check_output(
-            [
-                BIN,
-                "-k", str(Files.keys.absolute()),
-                "--nacp", str(output_path.absolute()),
-                str(asset_path.absolute())
-            ],
-            startupinfo=SUBPROCESS_STARTUP_INFO
+            [BIN, "-k", str(Files.keys.absolute()), "--nacp", str(output_path.absolute()), str(asset_path.absolute())],
+            startupinfo=SUBPROCESS_STARTUP_INFO,
         )
         if not output_path.is_file():
             return "No NACP was extracted from the asset."
@@ -86,15 +82,13 @@ def get_icon(asset_path: Path, output_path: Path) -> str | int | None:
 
     Returns an empty string if valid, an error str or return code otherwise.
     """
+    if not BIN or not Path(BIN).is_file():
+        raise EnvironmentError("nstool binary was not found. Please ensure nstool is installed and in your PATH.")
+
     try:
         subprocess.check_output(
-            [
-                BIN,
-                "-k", str(Files.keys.absolute()),
-                "--icon", str(output_path.absolute()),
-                str(asset_path.absolute())
-            ],
-            startupinfo=SUBPROCESS_STARTUP_INFO
+            [BIN, "-k", str(Files.keys.absolute()), "--icon", str(output_path.absolute()), str(asset_path.absolute())],
+            startupinfo=SUBPROCESS_STARTUP_INFO,
         )
         if not output_path.is_file():
             return "No Icon was extracted from the asset."

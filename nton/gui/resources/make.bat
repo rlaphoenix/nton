@@ -1,1 +1,0 @@
-pyside6-rcc %~dp0\icons.qrc -o %~dp0\..\resources.py

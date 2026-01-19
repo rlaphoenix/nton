@@ -57,17 +57,14 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="FileDropWidget" name="stackedWidget">
-      <property name="acceptDrops">
-       <bool>true</bool>
-      </property>
+     <widget class="QStackedWidget" name="appPage">
       <property name="currentIndex">
        <number>1</number>
       </property>
       <widget class="QWidget" name="page1">
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
-         <widget class="ClickableLabel" name="openLabel">
+         <widget class="QLabel" name="openLabel">
           <property name="font">
            <font>
             <family>Segoe UI Light</family>
@@ -76,11 +73,13 @@
           </property>
           <property name="styleSheet">
            <string notr="true">border: 3px solid #dcdcdc;
-border-style: dashed;
-border-radius: 8px;</string>
+            border-style: dashed;
+            border-radius: 8px;</string>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Choose an NRO&lt;/span&gt; or drag it here.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;
+            font-weight:700;&quot;&gt;Choose an NRO&lt;/span&gt; or drag it
+            here.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -151,7 +150,7 @@ border-radius: 8px;</string>
            </layout>
           </item>
           <item>
-           <widget class="ClickableLabel" name="icon">
+           <widget class="QLabel" name="icon">
             <property name="minimumSize">
              <size>
               <width>125</width>
@@ -168,7 +167,7 @@ border-radius: 8px;</string>
              <enum>QFrame::Box</enum>
             </property>
             <property name="text">
-             <string/>
+             <string />
             </property>
             <property name="pixmap">
              <pixmap resource="resources/icons.qrc">:/branding/images/sad.png</pixmap>
@@ -283,7 +282,8 @@ border-radius: 8px;</string>
                 <bool>false</bool>
                </property>
                <property name="toolTip">
-                <string>hacBrewPack cannot yet specify the Application Version, see https://github.com/The-4n/hacBrewPack/issues/15</string>
+                <string>hacBrewPack cannot yet specify the Application Version, see
+                 https://github.com/The-4n/hacBrewPack/issues/15</string>
                </property>
                <property name="maximum">
                 <number>999999999</number>
@@ -336,7 +336,9 @@ border-radius: 8px;</string>
            <item>
             <widget class="QLabel" name="titleIdWarning">
              <property name="text">
-              <string>Warning: Setting the Title ID to that of another Title will override it, and in Tinfoil's case, without warning. Overriding a System Title will brick your system!</string>
+              <string>Warning: Setting the Title ID to that of another Title will
+               override it, and in Tinfoil's case, without warning. Overriding a
+               System Title will brick your system!</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
@@ -392,7 +394,7 @@ border-radius: 8px;</string>
              <string>Ctrl+Space</string>
             </property>
             <property name="description">
-             <string/>
+             <string />
             </property>
            </widget>
           </item>
@@ -401,6 +403,7 @@ border-radius: 8px;</string>
        </layout>
       </widget>
      </widget>
+
     </item>
    </layout>
   </widget>
@@ -417,20 +420,20 @@ border-radius: 8px;</string>
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="actionOpen"/>
-    <addaction name="actionClose"/>
-    <addaction name="actionExit"/>
+    <addaction name="actionOpen" />
+    <addaction name="actionClose" />
+    <addaction name="actionExit" />
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionTroubleshooting"/>
-    <addaction name="separator"/>
-    <addaction name="actionAbout"/>
+    <addaction name="actionTroubleshooting" />
+    <addaction name="separator" />
+    <addaction name="actionAbout" />
    </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuHelp"/>
+   <addaction name="menuFile" />
+   <addaction name="menuHelp" />
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="enabled">
@@ -495,15 +498,10 @@ border-radius: 8px;</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>FileDropWidget</class>
-   <extends>QStackedWidget</extends>
-   <header>filedropwidget</header>
+   <class>FileDropper</class>
+   <extends>QWidget</extends>
+   <header>nton.gui.widgets</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ClickableLabel</class>
-   <extends>QLabel</extends>
-   <header>clickablelabel</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -516,7 +514,7 @@ border-radius: 8px;</string>
   <tabstop>buildButton</tabstop>
  </tabstops>
  <resources>
-  <include location="resources/icons.qrc"/>
+  <include location="resources/icons.qrc" />
  </resources>
- <connections/>
+ <connections />
 </ui>

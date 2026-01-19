@@ -67,6 +67,8 @@ exclude = ["nton/gui/resources"]
 
 [tool.ruff]
 line-length = 120
+
+[tool.ruff.lint]
 select = ["E4", "E7", "E9", "F", "W"]
 
 [tool.isort]

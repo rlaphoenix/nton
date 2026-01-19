@@ -198,8 +198,8 @@ There are numerous reasons why this could be, see the following main reasons:
 forwarder has a hardcoded file path that it loads the NRO from when launched.
 2. You may have since updated Atmosphere or your Firmware which broke the changes you made to the bootloader that enabled
 the use of custom NSP files. As this project does not support piracy on any Nintendo system, support is not provided.
-4. It's possible a firmware update has broken the Forwarder ROM binary (source under /rom in this repo) and needs
-to be re-compiled against a newer libnx / devkitpro version. Firmware 9.0.0, 12.0.0, 19.0.0, and 21.0.0 have previously 
+3. It's possible a firmware update has broken the Forwarder ROM binary (source under /rom in this repo) and needs
+to be re-compiled against a newer libnx / devkitpro version. Firmware 9.0.0, 12.0.0, 19.0.0, and 21.0.0 have previously
 broken different forwarder ROMs requiring updates. If you believe this to be the case then please make an Issue.
 
 If after reading all of these troubleshooting steps, you still cannot get the NSP forwarder to work, then I do not
@@ -208,30 +208,19 @@ recommend the use of them and instead recommend using the Homebrew launcher from
 
 ## Development
 
-The following steps are basic instructions on downloading and working on the code under a [Poetry] environment.
+1. Install [uv]
+2. `uv sync --all-extras --all-groups`
+3. `.venv\Scripts\activate` (or `source .venv/bin/activate` on macOS and Linux)
+4. `uv tool install pre-commit --with pre-commit-uv --force-reinstall`
+5. `pre-commit install`
 
-1. Follow Poetry's Docs to [Install Poetry].
-2. Download NTON's latest code, `git clone https://github.com/rlaphoenix/nton`
-3. Navigate to the downloaded code repository, `cd nton`
-4. _Optionally_ have Poetry install the virtual-env in the project, `poetry config virtualenvs.in-project true`
-5. Install NTON's dependencies and development tools, `poetry install -E gui`
-6. Run NTON from within the Poetry venv, `poetry run nton --help`
+Now feel free to work on the project however you like, all code will be checked before committing.
+You can run nton with the GUI with `nton` or without the GUI with `nton --help`.
 
-> [!NOTE]
-> If you plan to work on or use the GUI during development, then add `-E gui` during Step 5.
+If you make any changes to the QT UI file (main.ui) or any of the icon/image files, then you must
+run `.\make` to re-compile them to Python files.
 
-As shown, running the `nton` executable is somewhat different to a normal installation. This is because Poetry installs
-all dependencies and the `nton` shim itself within a virtual-environment, which is like a clone of your Python install
-stripped clean, with only NTON's dependencies installed. That way you don't mess around with any dependencies from any
-other installed Python applications, nor the other way around. A secluded environment.
-
-I recommend taking a look at [Poetry's Docs] for further information, why not get started by reading Poetry's guide on
-[Using Your Virtual Environment].
-
-  [Poetry]: <https://python-poetry.org>
-  [Install Poetry]: <https://python-poetry.org/docs/#installation>
-  [Poetry's Docs]: <https://python-poetry.org/docs>
-  [Using Your Virtual Environment]: <https://python-poetry.org/docs/basic-usage/#using-your-virtual-environment>
+  [uv]: <https://docs.astral.sh/uv>
 
 ## Credit
 

@@ -1,35 +1,38 @@
-from PySide6.QtCore import Signal
-from PySide6.QtGui import QDragEnterEvent, QDragLeaveEvent
-from PySide6.QtWidgets import QStackedWidget, QLabel
+from pathlib import Path
+from typing import Any, cast
+
+from PySide6.QtCore import QEvent, QObject, Signal
+from PySide6.QtGui import QDragEnterEvent, QDropEvent
 
 
-class FileDropWidget(QStackedWidget):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.setAcceptDrops(True)
+class FileDropper(QObject):
+    dropped = Signal(Path)  # has file dropped
+    onHover = Signal()  # is hovered
+    onLeave = Signal()  # is no longer hovered
+    clicked = Signal()  # is clicked
 
-    def dragEnterEvent(self, event: QDragEnterEvent):
-        if event.mimeData().hasUrls():
-            event.accept()
-            self.window().openLabel.setStyleSheet(
-                "border: 3px solid #0868c0;\n"
-                "border-style: dashed;\n"
-                "border-radius: 8px;"
-            )
-        else:
-            super().dragEnterEvent(event)
+    def eventFilter(self, obj: Any, event: QEvent) -> bool:
+        if event.type() == QEvent.Type.DragEnter:
+            dragEvent: QDragEnterEvent = cast(QDragEnterEvent, event)
+            if dragEvent.mimeData().hasUrls():
+                dragEvent.accept()
+                self.onHover.emit()
+                return True
 
-    def dragLeaveEvent(self, event: QDragLeaveEvent) -> None:
-        event.accept()
-        self.window().openLabel.setStyleSheet(
-            "border: 3px solid #dcdcdc;\n"
-            "border-style: dashed;\n"
-            "border-radius: 8px;"
-        )
+        elif event.type() == QEvent.Type.DragLeave:
+            self.onLeave.emit()
+            return True
 
+        elif event.type() == QEvent.Type.Drop:
+            dropEvent: QDropEvent = cast(QDropEvent, event)
+            for url in dropEvent.mimeData().urls():
+                path = url.toLocalFile()
+                if path:
+                    self.dropped.emit(Path(path))
+            return True
 
-class ClickableLabel(QLabel):
-    clicked = Signal()  # This signal will be emitted when the label is clicked
+        elif event.type() == QEvent.Type.MouseButtonPress:
+            self.clicked.emit()
+            return True
 
-    def mousePressEvent(self, event):
-        self.clicked.emit()  # Emit the signal when the label is clicked
+        return False

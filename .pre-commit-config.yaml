@@ -1,11 +1,19 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 
+exclude: |
+  (?x)^(
+    nton/gui/main\.py|
+    nton/gui/resources/icons_rc\.py
+  )$
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.13
     hooks:
       - id: ruff-check
+        language: system
+        types: [ python ]
+      - id: ruff-format
         language: system
         types: [ python ]
   - repo: https://github.com/pre-commit/mirrors-mypy

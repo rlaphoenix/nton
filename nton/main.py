@@ -13,11 +13,11 @@ from pathlib import Path
 import click as click
 import coloredlogs
 import jsonpickle
-from PIL import Image
 from bs4 import BeautifulSoup
+from PIL import Image
 
 from nton import __version__, nstool, title_ids
-from nton.constants import Directories, Binaries, Files
+from nton.constants import Binaries, Directories, Files
 from nton.helpers import get_copyright_years
 from nton.title_ids import get_game_title_ids
 
@@ -30,7 +30,9 @@ def main(ctx: click.Context, version: bool, debug: bool) -> None:
     """nton—Nintendo Switch NRO to NSP Forwarder."""
     logging.basicConfig(level=logging.DEBUG if debug else logging.INFO)
     log = logging.getLogger(__name__)
-    coloredlogs.install(level=log.parent.level, logger=log, fmt="{asctime} [{levelname[0]}] {name} : {message}", style="{")
+    coloredlogs.install(
+        level=(log.parent or log).level, logger=log, fmt="{asctime} [{levelname[0]}] {name} : {message}", style="{"
+    )
 
     log.info("nton version %s Copyright (c) %s rlaphoenix", __version__, get_copyright_years())
     log.info("https://github.com/rlaphoenix/nton")
@@ -39,6 +41,7 @@ def main(ctx: click.Context, version: bool, debug: bool) -> None:
 
     if not ctx.invoked_subcommand:
         from nton import gui  # noqa
+
         gui.start(debug)
     else:
         for binary, path in vars(Binaries).items():
@@ -52,8 +55,8 @@ def main(ctx: click.Context, version: bool, debug: bool) -> None:
                 sys.exit(1)
         if not Files.keys.is_file():
             log.error(
-                "prod.keys cannot be found! Place it in the current working directory, "
-                f"or at \"{Files.keys_home}\"")
+                f'prod.keys cannot be found! Place it in the current working directory, or at "{Files.keys_home}"'
+            )
             sys.exit(1)
         if not Files.game_title_ids.exists():
             log.error("Game Title ID registry is missing! Please re-add `/assets/game_title_ids.json`!")
@@ -79,8 +82,8 @@ def build(
     icon: Path | None,
     id_: str | None,
     rom: str | None,
-    sdmc: str | None
-):
+    sdmc: str | None,
+) -> None:
     """
     Build an NSP that loads an NRO on the Switch's microSD card.
 
@@ -103,12 +106,20 @@ def build(
     log = logging.getLogger("build")
     log.info("Building!")
 
+    if not Binaries.hptnacp:
+        log.error("hptnacp binary is missing, cannot build NSP.")
+        sys.exit(1)
+
+    if not Binaries.hacbrewpack:
+        log.error("hacBrewPack binary is missing, cannot build NSP.")
+        sys.exit(1)
+
     if not path.is_file():
-        log.error(f"The NRO path \"{path}\" does not exist, or is not a file.")
+        log.error(f'The NRO path "{path}" does not exist, or is not a file.')
         sys.exit(1)
 
     if path.suffix.lower() != ".nro":
-        log.error(f"The NRO path \"{path}\" is not to an NRO file.")
+        log.error(f'The NRO path "{path}" is not to an NRO file.')
         sys.exit(1)
 
     if sdmc:
@@ -119,8 +130,8 @@ def build(
     else:
         path_root = Path(path.anchor)
         if not (
-            ((path_root / "Nintendo").exists() and (path_root / "switch").exists()) or
-            ((path_root / "atmosphere").exists() and ((path_root / "bootloader").exists()))
+            ((path_root / "Nintendo").exists() and (path_root / "switch").exists())
+            or ((path_root / "atmosphere").exists() and ((path_root / "bootloader").exists()))
         ):
             log.error("The NRO path must be a path on your Switch's microSD card to implicitly infer the sdmc path.")
             log.error("You can use --sdmc to manually specify the path relative to the Switch's microSD card.")
@@ -129,21 +140,21 @@ def build(
 
     verification = nstool.verify(path, "nro")
     if verification:
-        log.critical(f"The NRO \"%s\" is invalid, %s", path, verification)
+        log.critical('The NRO "%s" is invalid, %s', path, verification)
         sys.exit(2)
 
     log.info("NRO checked and verified")
 
     if id_:
         if any(c not in string.hexdigits for c in id_):
-            log.error(f"The Title ID \"{id_}\" is an invalid hex string. It must be a-fA-f0-9.")
+            log.error(f'The Title ID "{id_}" is an invalid hex string. It must be a-fA-f0-9.')
             sys.exit(1)
         id_ = id_.lower()
         if id_ in title_ids.ALL_SYSTEM:
-            log.critical(f"The Title ID \"{id_}\" is a reserved System Title! Using it is unsafe!")
+            log.critical(f'The Title ID "{id_}" is a reserved System Title! Using it is unsafe!')
             sys.exit(2)
         if id_ in title_ids.game_title_ids:
-            log.warning(f"The Title ID \"{id_}\" is already used by \"{title_ids.game_title_ids[id_]}\".")
+            log.warning(f'The Title ID "{id_}" is already used by "{title_ids.game_title_ids[id_]}".')
     elif path.stem.lower() in title_ids.unofficial:
         id_ = title_ids.unofficial[path.stem.lower()]
     elif sdmc and Path(sdmc).stem.lower() in title_ids.unofficial:
@@ -156,7 +167,7 @@ def build(
     if rom and not rom.startswith("/"):
         rom = f"/{rom}"
 
-    log.info(f"Title ID: %s", id_)
+    log.info("Title ID: %s", id_)
 
     build_dir = Directories.temp / id_
     control_template_file = Directories.assets / "control.nacp.xml"
@@ -194,21 +205,32 @@ def build(
                 control_template = control_template_file.read_text(encoding="utf8")
                 root = BeautifulSoup(control_template, "xml")
                 for title in root.find_all("Title"):
-                    title.Name.string = name
-                    title.Publisher.string = publisher
+                    if title.Name:
+                        title.Name.string = name
+                    if title.Publisher:
+                        title.Publisher.string = publisher
                 for title_id in root.find_all(["PresenceGroupId", "SaveDataOwnerId", "LocalCommunicationId"]):
                     title_id.string = f"0x{id_}"
-                root.find("DisplayVersion").string = version
-                root.find("AddOnContentBaseId").string = hex(int(id_, 16) + 0x1000)
+                displayVersion = root.find("DisplayVersion")
+                if displayVersion:
+                    displayVersion.string = version
+                addOnContentBaseId = root.find("AddOnContentBaseId")
+                if addOnContentBaseId:
+                    addOnContentBaseId.string = hex(int(id_, 16) + 0x1000)
                 tmp_control_template = build_dir / "control.nacp.xml"
                 tmp_control_template.write_text(str(root))
                 try:
-                    subprocess.check_output([
-                        Binaries.hptnacp,
-                        "-a", "createnacp",
-                        "-i", str(tmp_control_template.absolute()),
-                        "-o", str(control_file.absolute())
-                    ])
+                    subprocess.check_output(
+                        [
+                            Binaries.hptnacp,
+                            "-a",
+                            "createnacp",
+                            "-i",
+                            str(tmp_control_template.absolute()),
+                            "-o",
+                            str(control_file.absolute()),
+                        ]
+                    )
                 except subprocess.CalledProcessError as e:
                     log.critical(f"Failed to build a new NACP, {e.output} [{e.returncode}]")
                     sys.exit(2)
@@ -245,16 +267,16 @@ def build(
             0x3168: "Temporary Storage",
             0x3170: "Cache Storage",
             0x3178: "Cache Storage Journal",
-            0x3180: "Max Cache Storage Data and Journal"
+            0x3180: "Max Cache Storage Data and Journal",
         }
         for offset, offset_name in save_data_size_offsets.items():
-            save_data_size = int.from_bytes(control_file_data[offset:offset + 8], byteorder="little")
+            save_data_size = int.from_bytes(control_file_data[offset : offset + 8], byteorder="little")
             if save_data_size != 0:
-                control_file_data[offset:offset + 8] = b"\x00" * 8
+                control_file_data[offset : offset + 8] = b"\x00" * 8
                 log.info(f"Removed {offset_name} Allocation")
 
         # set cache storage index max to 0
-        control_file_data[0x3188:0x3188+0x2] = b"\x00\x00"
+        control_file_data[0x3188 : 0x3188 + 0x2] = b"\x00\x00"
 
         # disable user profile selection as it's unnecessary
         control_file_data[0x3025] = 0x00
@@ -266,10 +288,10 @@ def build(
             log.error("The Control Partition does not have any listed Name nor was one manually specified.")
             sys.exit(1)
         if not any(x in string.ascii_letters + string.digits for x in name):
-            log.error(f"The Application Name, \"{name}\", cannot be all special characters.")
+            log.error(f'The Application Name, "{name}", cannot be all special characters.')
             sys.exit(1)
         if len(name.encode("utf8")) > 0x200:  # fits 0x200 * 10 (16 fields)
-            log.error(f"The Title Name \"{name}\" is too large to fit in the NSP.")
+            log.error(f'The Title Name "{name}" is too large to fit in the NSP.')
             sys.exit(1)
         log.info("Title Name: %s", name)
 
@@ -280,10 +302,10 @@ def build(
             log.error("The Control Partition does not have any listed Publisher nor was one manually specified.")
             sys.exit(1)
         if not any(x in string.ascii_letters + string.digits for x in publisher):
-            log.error(f"The Publisher, \"{publisher}\", cannot be all special characters.")
+            log.error(f'The Publisher, "{publisher}", cannot be all special characters.')
             sys.exit(1)
         if len(publisher.encode("utf8")) > 0x100:  # fits 0x100 * 10 (16 fields)
-            log.error(f"The Title Publisher \"{publisher}\" is too large to fit in the NSP.")
+            log.error(f'The Title Publisher "{publisher}" is too large to fit in the NSP.')
             sys.exit(1)
         log.info("Publisher: %s", publisher)
 
@@ -304,7 +326,7 @@ def build(
                 log.error("The Control Partition does not have any listed Version nor was one manually specified.")
                 sys.exit(1)
         if len(version.encode("utf8")) > 0x10:
-            log.error(f"The Title Version \"{version}\" is too large to fit in the NSP.")
+            log.error(f'The Title Version "{version}" is too large to fit in the NSP.')
             sys.exit(1)
         log.info("Version: %s", version)
 
@@ -349,15 +371,21 @@ def build(
         Directories.output.mkdir(parents=True, exist_ok=True)
 
         try:
-            subprocess.check_output([
-                Binaries.hacbrewpack,
-                "--titleid", id_,
-                "--nspdir", str(Directories.output.absolute()),
-                "-k", str(Files.keys.absolute())
-            ], cwd=build_dir)
+            subprocess.check_output(
+                [
+                    Binaries.hacbrewpack,
+                    "--titleid",
+                    id_,
+                    "--nspdir",
+                    str(Directories.output.absolute()),
+                    "-k",
+                    str(Files.keys.absolute()),
+                ],
+                cwd=build_dir,
+            )
             os.system("")  # fixes logs, I don't know why or how
         except subprocess.CalledProcessError as e:
-            log.critical(f"Failed to build NSP, \"{e.args}\", {e.output} [{e.returncode}]")
+            log.critical(f'Failed to build NSP, "{e.args}", {e.output} [{e.returncode}]')
             sys.exit(2)
 
         nsp_final_path = Directories.output / f"{name} v{version} by {publisher} [{id_}].nsp"
@@ -375,7 +403,7 @@ def build(
 
 
 @main.command()
-def update_game_ids():
+def update_game_ids() -> None:
     """
     Update the pre-existing Title ID registry.
 
