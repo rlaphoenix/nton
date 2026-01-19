@@ -13,7 +13,7 @@ jobs:
       name: pypi
     permissions:
       id-token: write
-      contents: read
+      contents: write
     steps:
     - uses: actions/checkout@v6
     - name: Set up Python
