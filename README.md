@@ -1,30 +1,40 @@
-# NTON
+<p align="center">
+  <a href="https://github.com/rlaphoenix/nton">NTON</a>
+  <br/>
+  <sup><em>Nintendo Switch NRO-to-NSP Builder</em></sup>
+</p>
 
-[![Build status](https://github.com/rlaphoenix/nton/actions/workflows/ci.yml/badge.svg)](https://github.com/rlaphoenix/nton/actions/workflows/ci.yml)
-[![PyPI version](https://img.shields.io/pypi/v/nton)](https://pypi.python.org/pypi/nton)
-[![Python versions](https://img.shields.io/pypi/pyversions/nton)](https://pypi.python.org/pypi/nton)
-<a href="https://github.com/rlaphoenix/nton/blob/master/LICENSE">
-  <img align="right" src="https://img.shields.io/badge/license-GPLv3-blue" alt="License (GPLv3)"/>
-</a>
+<p align="center">
+  <a href="https://github.com/rlaphoenix/nton/blob/master/LICENSE">
+    <img src="https://img.shields.io/:license-GPL%203.0-blue.svg" alt="License">
+  </a>
+  <a href="https://pypi.org/project/nton">
+    <img src="https://img.shields.io/badge/python-3.9%2B-informational" alt="Python version">
+  </a>
+  <a href="https://github.com/astral-sh/uv">
+    <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Onyx-Nostalgia/uv/refs/heads/fix/logo-badge/assets/badge/v0.json" alt="Manager: uv">
+  </a>
+  <a href="https://github.com/astral-sh/ruff">
+    <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Linter: Ruff">
+  </a>
+  <a href="https://github.com/rlaphoenix/nton/actions/workflows/ci.yml">
+    <img src="https://github.com/rlaphoenix/nton/actions/workflows/ci.yml/badge.svg" alt="Build status">
+  </a>
+</p>
 
-<img src="https://github.com/rlaphoenix/nton/assets/17136956/c6306192-9a57-41f2-8840-cc8db03fef93" style="width:300px" align="right" />
-
-NTON is a Nintendo Switch NRO to NSP Forwarder for firmware 12.0.0 and newer.
-
-A forwarder lets you open Homebrew files from your SD card through the Nintendo Switch Home Screen instead
-of the Homebrew Launcher.
-
-> [!TIP]
-> Want to generate NSP forwarders directly on your Switch via Homebrew? Check out [TooTallNate's switch-nsp-forwarder](https://github.com/TooTallNate/switch-nsp-forwarder)!
+* * *
 
 <img src="https://github.com/user-attachments/assets/e8cd0c5f-b8b5-4a56-ab66-8777dacdff66" style="width:505px" />
 
+<img src="https://github.com/rlaphoenix/nton/assets/17136956/c6306192-9a57-41f2-8840-cc8db03fef93" style="width:300px" align="right" />
+
+NTON is a PC utility that let's you build an NSP application that launches right into an NRO file.
+Firmware 12.0.0 and newer is supported.
+
+If you want to generate NSP forwarders directly on your Switch, then check out [TooTallNate's switch-nsp-forwarder](https://github.com/TooTallNate/switch-nsp-forwarder)
+
 > [!CAUTION]
-> Installing NSP files, like NRO to NSP forwarders, can result in your console getting banned as they do not contain valid signatures verified by Nintendo.
-> This applies to all forms of NRO to NSP forwarders, including homebrew and web versions. We do not possess Nintendo's private key to generate valid signatures.
-> NSP forwarders are only safe if used on an emuMMC with all Nintendo servers blocked with [DNS.mitm](https://github.com/Atmosphere-NX/Atmosphere/blob/master/docs/features/dns_mitm.md).
-> Do not install them on sysMMC (system eMMC/NAND). Do not use 90DNS or any manual DNS server approach. DNS.mitm is a much safer and faster approach.
-> To run NSP forwarders you need to make further modifications to the boot process and your system. I do not support Piracy on any Nintendo device therefore support on that is not provided.
+> Installing these kinds of NSP files (NRO to NSP forwarders) can result in a console ban. This applies not just to this software but to all forms of NRO to NSP forwarder generators, including homebrew and web-app versions. To run these NSP files, you need to make further modifications to your system. I do not support Piracy on any Nintendo device therefore support on that is not provided.
 
 ## Features
 
