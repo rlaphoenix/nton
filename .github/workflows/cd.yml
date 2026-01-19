@@ -37,12 +37,12 @@ jobs:
       run: uv run python pyinstaller.py
     - name: Create Windows Installer with Inno Setup
       run: |
+        $env:NTON_VERSION = uvx hatch version
         iscc setup.iss
         mv dist/NTON-*.exe .
     - name: Build Portable EXE with PyInstaller
       shell: pwsh
       run: |
-        $env:NTON_VERSION = uvx hatch version
         uv run python pyinstaller.py --one-file
         mv dist/NTON.exe NTON-${{ github.ref_name }}-portable.exe
     - name: Build project
