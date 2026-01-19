@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2026-01-19
+
+### Added
+
+- Support for Switch Firmware 21.0.0 and newer.
+- Support for Python 3.13 and 3.14.
+- Ability to drag and drop an image for the NSP.
+- Improved CI/CD workflows to add linting, type checks, and more to ensure quality commits in the future.
+
+### Changed
+
+- Migrated from Python Poetry to uv/hatchling for more speedy and flexible package management and build tooling.
+- The version number is now loaded from a singular source, the `__version__` variable in `nton/__init__.py`.
+- ClickableLabel and FileDropWidget has been replaced with a FileDropper event filter that does the best of both jobs.
+
+### Removed
+
+- Support for Python 3.8, which also means Windows 7 is no longer supported.
+  You may use unofficial patched installers on older systems but support wont be provided.
+  <https://github.com/Alex313031/Python-Win7>
+- Pre-built NSP files will no longer be provided alongside releases/updates.
+
 ## [2.2.0] - 2025-10-13
 
 ### Added
@@ -241,6 +263,7 @@ Initial release (as a Python script).
 
 Initial release (as CMD script).
 
+[3.0.0]: https://github.com/rlaphoenix/nton/releases/tag/v3.0.0
 [2.2.0]: https://github.com/rlaphoenix/nton/releases/tag/v2.2.0
 [2.1.1]: https://github.com/rlaphoenix/nton/releases/tag/v2.1.1
 [2.1.0]: https://github.com/rlaphoenix/nton/releases/tag/v2.1.0
