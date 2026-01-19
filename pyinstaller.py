@@ -4,20 +4,19 @@ from argparse import ArgumentParser
 from pathlib import Path
 from textwrap import dedent
 
-from nton import __version__
-
 from PyInstaller.__main__ import run
 
+from nton import __version__
 from nton.helpers import get_copyright_years
-
 
 parser = ArgumentParser()
 parser.add_argument("--debug", action="store_true", help="Enable debug mode (keeps leftover build files)")
 parser.add_argument("--name", default="NTON", help="Set the Project Name")
 parser.add_argument("--author", default="rlaphoenix", help="Set the Project Author")
 parser.add_argument("--version", default=__version__, help="Set the EXE Version")
-parser.add_argument("--icon-file", default="nton/gui/resources/images/nton.ico",
-                    help="Set the Icon file path (must be a .ICO file)")
+parser.add_argument(
+    "--icon-file", default="nton/gui/resources/images/nton.ico", help="Set the Icon file path (must be a .ICO file)"
+)
 parser.add_argument("--one-file", action="store_true", help="Build to a singular .exe file")
 parser.add_argument("--console", action="store_true", help="Show the Console window")
 args = parser.parse_args()
@@ -28,12 +27,9 @@ ADDITIONAL_DATA = [
     # local file path, destination in build output
     ["nton/assets", "nton/assets"],
     ["nton/bin", "nton/bin"],
-    ["nton/gui/main.ui", "nton/gui"]
+    ["nton/gui/main.ui", "nton/gui"],
 ]
-HIDDEN_IMPORTS = []
-EXTRA_ARGS = [
-    "-y"
-]
+EXTRA_ARGS = ["-y"]
 
 """Prepare environment to ensure output data is fresh."""
 shutil.rmtree("build", ignore_errors=True)
@@ -68,27 +64,31 @@ version_file.write_text(
             StringStruct('ProductName', '{args.name}'),
             StringStruct('ProductVersion', '{args.version}'),
             StringStruct('Comments', '{args.name}')])
-          ]), 
+          ]),
         VarFileInfo([VarStruct('Translation', [1033, 1200])])
       ]
     )
     """).strip(),
-    encoding="utf8"
+    encoding="utf8",
 )
 
 """Run PyInstaller with the provided configuration."""
 try:
-    run([
-        "nton/__main__.py",
-        "-n", args.name,
-        "-i", ["NONE", args.icon_file][bool(args.icon_file)],
-        ["-D", "-F"][args.one_file],
-        ["-w", "-c"][args.console],
-        *itertools.chain(*[["--add-data", ":".join(x)] for x in ADDITIONAL_DATA]),
-        *itertools.chain(*[["--hidden-import", x] for x in HIDDEN_IMPORTS]),
-        "--version-file", str(version_file),
-        *EXTRA_ARGS
-    ])
+    run(
+        [
+            "nton/__main__.py",
+            "-n",
+            args.name,
+            "-i",
+            ["NONE", args.icon_file][bool(args.icon_file)],
+            ["-D", "-F"][args.one_file],
+            ["-w", "-c"][args.console],
+            *itertools.chain(*[["--add-data", ":".join(x)] for x in ADDITIONAL_DATA]),
+            "--version-file",
+            str(version_file),
+            *EXTRA_ARGS,
+        ]
+    )
 finally:
     if not args.debug:
         shutil.rmtree("build", ignore_errors=True)

@@ -427,7 +427,7 @@ pre_release_system_modules = (
 # The following are unofficial title IDs I have pre-defined to be used for specific homebrew
 # This is to keep a specific title ID throughout each release's bundled prebuilt NSPs
 unofficial = {
-    "hbmenu": "010d6fd3b35cd000",              # https://github.com/switchbrew/nx-hbmenu
+    "hbmenu": "010d6fd3b35cd000",  # https://github.com/switchbrew/nx-hbmenu
     "aio-switch-updater": "016454da0e765000",  # https://github.com/HamletDuFromage/aio-switch-updater
 }
 
@@ -442,25 +442,25 @@ def get_game_title_ids() -> dict:
             "language": "",
             "category": "",
             "region": "ar,at,au,be,bg,br,ca,ch,cl,cn,co,cy,cz,de,dk,ee,es,fi,fr,gb,gr,hk,hr,hu,"
-                      "ie,it,jp,kr,lt,lu,lv,mt,mx,nl,no,nz,pe,pl,pt,ro,ru,se,si,sk,us,xx,za,zh",
+            "ie,it,jp,kr,lt,lu,lv,mt,mx,nl,no,nz,pe,pl,pt,ro,ru,se,si,sk,us,xx,za,zh",
             "rating": "",
-            "_": str(time.time_ns() // 1000000)
+            "_": str(time.time_ns() // 1000000),
         },
         headers={
             "Accept": "application/json, text/javascript, */*; q=0.01",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0",
             "Origin": "https://tinfoil.io",
-            "Referer": "https://tinfoil.io/"
-        }
+            "Referer": "https://tinfoil.io/",
+        },
     )
 
     if not res.ok:
         raise requests.ConnectionError(
-            f"Failed to get a list of Game Title IDs from Tinfoil's API, [{res.status_code}]")
+            f"Failed to get a list of Game Title IDs from Tinfoil's API, [{res.status_code}]"
+        )
 
     title_ids = {
-        title["id"].lower(): title["name"].removeprefix("<a>").removesuffix("</a>")
-        for title in res.json()["data"]
+        title["id"].lower(): title["name"].removeprefix("<a>").removesuffix("</a>") for title in res.json()["data"]
     }
 
     return title_ids
@@ -483,11 +483,7 @@ ALL_SYSTEM = (
     *micro_system_modules,
     *system_applications,
     *pre_release_system_applets,
-    *pre_release_system_modules
+    *pre_release_system_modules,
 )
 
-ALL = (
-    *ALL_SYSTEM,
-    *list(game_title_ids),
-    *list(unofficial.values())
-)
+ALL = (*ALL_SYSTEM, *list(game_title_ids), *list(unofficial.values()))

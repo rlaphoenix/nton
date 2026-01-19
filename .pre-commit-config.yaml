@@ -1,0 +1,37 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+exclude: |
+  (?x)^(
+    nton/gui/main\.py|
+    nton/gui/resources/icons_rc\.py
+  )$
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.13
+    hooks:
+      - id: ruff-check
+        language: system
+        types: [ python ]
+      - id: ruff-format
+        language: system
+        types: [ python ]
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.19.1
+    hooks:
+      - id: mypy
+        language: system
+        types: [ python ]
+        args: []  # override defaults to empty
+  - repo: https://github.com/pycqa/isort
+    rev: 6.1.0
+    hooks:
+      - id: isort
+        language: system
+        types: [ python ]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]

@@ -1,5 +1,5 @@
 # Forwarder Template ROM Source - Based on Forwarder-Mod of nx-hbloader
-Host process for loading Switch homebrew NROs. This mod allows to create NROs/Retroarch Forwarders. 
+Host process for loading Switch homebrew NROs. This mod allows to create NROs/Retroarch Forwarders.
 
 # Use
 Compile this sub dir using devkitpro, it will generate hbl.nso (main)  and hbl.npdm (main.npdm) binary files.
@@ -19,8 +19,7 @@ https://github.com/Skywalker25/Forwarder-Mod
 # Changelog
 2026-01-17 Applied Forwarder-Mod to latest nx-hbloader, recompiled against latest libnx via devkitpro
 
-# credits 
+# credits
 nx-hbloader from switchbrew
 nx-hbloader-retroarch-forwarder-mod from natinusala
 Forwarder-Mod from Skywalker25
-

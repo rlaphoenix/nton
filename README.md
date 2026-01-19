@@ -1,30 +1,40 @@
-# NTON
+<p align="center">
+  <a href="https://github.com/rlaphoenix/nton">NTON</a>
+  <br/>
+  <sup><em>Nintendo Switch NRO-to-NSP Builder</em></sup>
+</p>
 
-[![Build status](https://github.com/rlaphoenix/nton/actions/workflows/ci.yml/badge.svg)](https://github.com/rlaphoenix/nton/actions/workflows/ci.yml)
-[![PyPI version](https://img.shields.io/pypi/v/nton)](https://pypi.python.org/pypi/nton)
-[![Python versions](https://img.shields.io/pypi/pyversions/nton)](https://pypi.python.org/pypi/nton)
-<a href="https://github.com/rlaphoenix/nton/blob/master/LICENSE">
-  <img align="right" src="https://img.shields.io/badge/license-GPLv3-blue" alt="License (GPLv3)"/>
-</a>
+<p align="center">
+  <a href="https://github.com/rlaphoenix/nton/blob/master/LICENSE">
+    <img src="https://img.shields.io/:license-GPL%203.0-blue.svg" alt="License">
+  </a>
+  <a href="https://pypi.org/project/nton">
+    <img src="https://img.shields.io/badge/python-3.9%2B-informational" alt="Python version">
+  </a>
+  <a href="https://github.com/astral-sh/uv">
+    <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Onyx-Nostalgia/uv/refs/heads/fix/logo-badge/assets/badge/v0.json" alt="Manager: uv">
+  </a>
+  <a href="https://github.com/astral-sh/ruff">
+    <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Linter: Ruff">
+  </a>
+  <a href="https://github.com/rlaphoenix/nton/actions/workflows/ci.yml">
+    <img src="https://github.com/rlaphoenix/nton/actions/workflows/ci.yml/badge.svg" alt="Build status">
+  </a>
+</p>
 
-<img src="https://github.com/rlaphoenix/nton/assets/17136956/c6306192-9a57-41f2-8840-cc8db03fef93" style="width:300px" align="right" />
-
-NTON is a Nintendo Switch NRO to NSP Forwarder for firmware 12.0.0 and newer.
-
-A forwarder lets you open Homebrew files from your SD card through the Nintendo Switch Home Screen instead
-of the Homebrew Launcher.
-
-> [!TIP]
-> Want to generate NSP forwarders directly on your Switch via Homebrew? Check out [TooTallNate's switch-nsp-forwarder](https://github.com/TooTallNate/switch-nsp-forwarder)!
+* * *
 
 <img src="https://github.com/user-attachments/assets/e8cd0c5f-b8b5-4a56-ab66-8777dacdff66" style="width:505px" />
 
+<img src="https://github.com/rlaphoenix/nton/assets/17136956/c6306192-9a57-41f2-8840-cc8db03fef93" style="width:300px" align="right" />
+
+NTON is a PC utility that let's you build an NSP application that launches right into an NRO file.
+Firmware 12.0.0 and newer is supported.
+
+If you want to generate NSP forwarders directly on your Switch, then check out [TooTallNate's switch-nsp-forwarder](https://github.com/TooTallNate/switch-nsp-forwarder)
+
 > [!CAUTION]
-> Installing NSP files, like NRO to NSP forwarders, can result in your console getting banned as they do not contain valid signatures verified by Nintendo.
-> This applies to all forms of NRO to NSP forwarders, including homebrew and web versions. We do not possess Nintendo's private key to generate valid signatures.
-> NSP forwarders are only safe if used on an emuMMC with all Nintendo servers blocked with [DNS.mitm](https://github.com/Atmosphere-NX/Atmosphere/blob/master/docs/features/dns_mitm.md).
-> Do not install them on sysMMC (system eMMC/NAND). Do not use 90DNS or any manual DNS server approach. DNS.mitm is a much safer and faster approach.
-> To run NSP forwarders you need to make further modifications to the boot process and your system. I do not support Piracy on any Nintendo device therefore support on that is not provided.
+> Installing these kinds of NSP files (NRO to NSP forwarders) can result in a console ban. This applies not just to this software but to all forms of NRO to NSP forwarder generators, including homebrew and web-app versions. To run these NSP files, you need to make further modifications to your system. I do not support Piracy on any Nintendo device therefore support on that is not provided.
 
 ## Features
 
@@ -188,8 +198,8 @@ There are numerous reasons why this could be, see the following main reasons:
 forwarder has a hardcoded file path that it loads the NRO from when launched.
 2. You may have since updated Atmosphere or your Firmware which broke the changes you made to the bootloader that enabled
 the use of custom NSP files. As this project does not support piracy on any Nintendo system, support is not provided.
-4. It's possible a firmware update has broken the Forwarder ROM binary (source under /rom in this repo) and needs
-to be re-compiled against a newer libnx / devkitpro version. Firmware 9.0.0, 12.0.0, 19.0.0, and 21.0.0 have previously 
+3. It's possible a firmware update has broken the Forwarder ROM binary (source under /rom in this repo) and needs
+to be re-compiled against a newer libnx / devkitpro version. Firmware 9.0.0, 12.0.0, 19.0.0, and 21.0.0 have previously
 broken different forwarder ROMs requiring updates. If you believe this to be the case then please make an Issue.
 
 If after reading all of these troubleshooting steps, you still cannot get the NSP forwarder to work, then I do not
@@ -198,30 +208,19 @@ recommend the use of them and instead recommend using the Homebrew launcher from
 
 ## Development
 
-The following steps are basic instructions on downloading and working on the code under a [Poetry] environment.
+1. Install [uv]
+2. `uv sync --all-extras --all-groups`
+3. `.venv\Scripts\activate` (or `source .venv/bin/activate` on macOS and Linux)
+4. `uv tool install pre-commit --with pre-commit-uv --force-reinstall`
+5. `pre-commit install`
 
-1. Follow Poetry's Docs to [Install Poetry].
-2. Download NTON's latest code, `git clone https://github.com/rlaphoenix/nton`
-3. Navigate to the downloaded code repository, `cd nton`
-4. _Optionally_ have Poetry install the virtual-env in the project, `poetry config virtualenvs.in-project true`
-5. Install NTON's dependencies and development tools, `poetry install -E gui`
-6. Run NTON from within the Poetry venv, `poetry run nton --help`
+Now feel free to work on the project however you like, all code will be checked before committing.
+You can run nton with the GUI with `nton` or without the GUI with `nton --help`.
 
-> [!NOTE]
-> If you plan to work on or use the GUI during development, then add `-E gui` during Step 5.
+If you make any changes to the QT UI file (main.ui) or any of the icon/image files, then you must
+run `.\make` to re-compile them to Python files.
 
-As shown, running the `nton` executable is somewhat different to a normal installation. This is because Poetry installs
-all dependencies and the `nton` shim itself within a virtual-environment, which is like a clone of your Python install
-stripped clean, with only NTON's dependencies installed. That way you don't mess around with any dependencies from any
-other installed Python applications, nor the other way around. A secluded environment.
-
-I recommend taking a look at [Poetry's Docs] for further information, why not get started by reading Poetry's guide on
-[Using Your Virtual Environment].
-
-  [Poetry]: <https://python-poetry.org>
-  [Install Poetry]: <https://python-poetry.org/docs/#installation>
-  [Poetry's Docs]: <https://python-poetry.org/docs>
-  [Using Your Virtual Environment]: <https://python-poetry.org/docs/basic-usage/#using-your-virtual-environment>
+  [uv]: <https://docs.astral.sh/uv>
 
 ## Credit
 

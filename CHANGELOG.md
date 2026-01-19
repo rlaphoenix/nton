@@ -41,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Special characters like "é" etc. are no longer garbled in the built NSP. This was a bug when HacBrewPack set the
   name and publisher, yet that was never intended anyway. Now NTON itself fully manages setting the Name and Publisher.
 - Multiple language data being included but with missing data is now fixed. Only AmericanEnglish is enabled, and only
-  AmericanEnglish has language data. Similarly to the previous issue, this was caused by HacBrewPack in the same way. 
+  AmericanEnglish has language data. Similarly to the previous issue, this was caused by HacBrewPack in the same way.
 
 ## [2.0.1] - 2023-08-26
 
@@ -114,7 +114,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fixed API call within `get_game_title_ids()`, though it still sometimes errors with HTTP 500. 
+- Fixed API call within `get_game_title_ids()`, though it still sometimes errors with HTTP 500.
 
 ## [1.2.2] - 2023-04-20
 
@@ -137,7 +137,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   folders, or `atmosphere` & `bootloader` folders. This is much more reliable than simply assuming any drive that
   isn't the C drive to be your microSD card.
 - The NRO path is no longer forced to be within `/retroarch/cores` when `--rom` is used. This is to allow use of
-  `--rom` with other Homebrew, e.g., MGBA. 
+  `--rom` with other Homebrew, e.g., MGBA.
 
 ### Fixed
 
