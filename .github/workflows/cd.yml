@@ -9,25 +9,22 @@ jobs:
   tagged-release:
     name: Tagged Release
     runs-on: windows-2022  # windows-2025 dropped InnoSetup/ISCC
+    environment:
+      name: pypi
+    permissions:
+      id-token: write
+      contents: read
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.12.x'
-    - name: Install Poetry
-      uses: abatilo/actions-poetry@v2.3.0
-      with:
-        poetry-version: '1.6.1'
-    - name: Configure poetry
-      run: poetry config virtualenvs.in-project true
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip wheel
-        poetry install -E gui
+      uses: actions/setup-python@v6
+    - name: Install uv
+      uses: astral-sh/setup-uv@v7
+    - name: Install the project
+      run: uv sync --locked --all-extras --group pack
     - name: Cache prod.keys
       id: cache-prod-keys
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       with:
         path: prod.keys
         key: prod-keys
@@ -36,50 +33,28 @@ jobs:
       env:
         PROD_KEYS: ${{ secrets.PROD_KEYS }}
       run: $env:PROD_KEYS | Out-File prod.keys
-    - name: Download Homebrew NROs
-      run: |
-        aria2c https://switch.cdn.fortheusers.org/zips/hbmenu.zip
-        7z x hbmenu.zip hbmenu.nro
-        aria2c https://switch.cdn.fortheusers.org/zips/aio-switch-updater.zip
-        7z x aio-switch-updater.zip switch/aio-switch-updater/aio-switch-updater.nro
-        Move-Item -Path .\switch\aio-switch-updater\aio-switch-updater.nro -Destination .
-    - name: Pre-build some NSP forwarders
-      run: |
-        poetry run nton build "hbmenu.nro" --name "Homebrew Menu" --sdmc "/hbmenu.nro"
-        poetry run nton build "aio-switch-updater.nro" --name "AIO-Switch-Updater" --sdmc "/switch/aio-switch-updater/aio-switch-updater.nro"
-    - name: Upload NSPs
-      uses: actions/upload-artifact@v4
-      with:
-        name: Pre-built NSPs
-        path: C:/Users/runneradmin/Desktop/NTON/*.nsp
     - name: Build EXE with PyInstaller
-      run: poetry run python pyinstaller.py
+      run: uv run python pyinstaller.py
     - name: Create Windows Installer with Inno Setup
       run: |
         iscc setup.iss
         mv dist/NTON-*.exe .
     - name: Build Portable EXE with PyInstaller
+      shell: pwsh
       run: |
-        poetry run python pyinstaller.py --one-file
+        $env:NTON_VERSION = uvx hatch version
+        uv run python pyinstaller.py --one-file
         mv dist/NTON.exe NTON-${{ github.ref_name }}-portable.exe
-    - name: Build a wheel
-      run: poetry build
-    - name: Upload wheel
-      uses: actions/upload-artifact@v4
-      with:
-        name: Python Wheel
-        path: "dist/*.whl"
+    - name: Build project
+      run: uv build
     - name: Deploy release
       uses: marvinpinto/action-automatic-releases@latest
       with:
         prerelease: false
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         files: |
-          dist/*.whl
           NTON-*.exe
           NTON-*-portable.exe
           C:/Users/runneradmin/Desktop/NTON/*.nsp
     - name: Publish to PyPI
-      env:
-        POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
-      run: poetry publish
+      run: uv publish
