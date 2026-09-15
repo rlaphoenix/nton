@@ -677,7 +677,7 @@ def build(window: MainWindow) -> bool:
 
         control_file.write_bytes(CONTROL_NACP)
         log.debug("Written %d bytes to Control NACP file", len(CONTROL_NACP))
-        window.ui.icon.pixmap().save(str(icon_file), "JPG")
+        window.ui.icon.pixmap().save(str(icon_file), "PNG", quality=100)
 
         if icon_file.exists():
             # We must strip every unnecessary metadata or the icon will be a '?'
@@ -688,7 +688,7 @@ def build(window: MainWindow) -> bool:
                 im = im.convert("RGB")
             clean_im = Image.new(im.mode, im.size)
             clean_im.putdata(list(im.getdata()))
-            clean_im.save(icon_file, format="JPEG")
+            clean_im.save(icon_file, format="JPEG", quality=98, subsampling=2)
             clean_im.close()
             im.close()
             log.debug("Converted and Stripped Icon File")

@@ -355,7 +355,7 @@ def build(
                 im = im.convert("RGB")
             clean_im = Image.new(im.mode, im.size)
             clean_im.putdata(list(im.getdata()))
-            clean_im.save(icon_file, format="JPEG")
+            clean_im.save(icon_file, format="JPEG", quality=98, subsampling=2)
             clean_im.close()
             im.close()
 
