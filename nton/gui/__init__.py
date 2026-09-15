@@ -681,16 +681,15 @@ def build(window: MainWindow) -> bool:
 
         if icon_file.exists():
             # We must strip every unnecessary metadata or the icon will be a '?'
-            im = Image.open(icon_file)
-            if im.size != (256, 256):
-                im = im.resize((256, 256))
-            if im.mode != "RGB":
-                im = im.convert("RGB")
-            clean_im = Image.new(im.mode, im.size)
-            clean_im.putdata(list(im.getdata()))
+            original_im = Image.open(icon_file)
+            norm_im = original_im.resize((256, 256)) if original_im.size != (256, 256) else original_im
+            if norm_im.mode != "RGB":
+                norm_im = norm_im.convert("RGB")
+            clean_im = Image.new(norm_im.mode, norm_im.size)
+            clean_im.putdata(list(norm_im.getdata()))
             clean_im.save(icon_file, format="JPEG", quality=98, subsampling=2)
             clean_im.close()
-            im.close()
+            norm_im.close()
             log.debug("Converted and Stripped Icon File")
 
         next_nro_path_file.write_text(SDMC)
