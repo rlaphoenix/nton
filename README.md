@@ -248,10 +248,10 @@ You can find a copy of the license in the LICENSE file in the root folder
 
 This project uses the following software:
 
-- hacBrewPack licensed under GPL-v2 for packing the NSP: https://github.com/The-4n/hacBrewPack
+- hacBrewPack by The-4n licensed under GPL-v2 for packing the NSP: https://github.com/rlaphoenix/hacBrewPack
 - nstool licensed under MIT for NRO extraction and verification: https://github.com/jakcron/nstool
-- hptnacp from hacPack licensed under GPL-v2 for creating new NACP partitions if the NRO did not have one:
-  https://github.com/The-4n/hacPack/tree/master/hacPack-Tools/hacPackTools-NACP
+- hptnacp from hacPack by The-4n licensed under GPL-v2 for creating new NACP partitions if the NRO did not have one:
+  https://github.com/rlaphoenix/hacBrewPack
 - rom from switch-nsp-forwarder licensed under MIT for actually launching the NROs:
   https://github.com/TooTallNate/switch-nsp-forwarder/tree/main/romfs/template/exefs
 
