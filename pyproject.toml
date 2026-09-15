@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "nton"
 description = "Nintendo Switch NRO to NSP Forwarder."
 authors = [{ email = "rlaphoenix@pm.me" }]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 readme = "README.md"
 license = "GPL-3.0-only"
 license-files = ["LICENSE"]
@@ -26,13 +26,13 @@ classifiers = [
     "Topic :: Utilities",
 ]
 dependencies = [
-    "click~=8.1.8",
-    "requests~=2.32.5",
-    "jsonpickle~=4.1.1",
+    "click~=8.5.0",
+    "requests~=2.34.2",
+    "jsonpickle~=4.1.2",
     "coloredlogs~=15.0.1",
-    "beautifulsoup4~=4.14.3",
-    "lxml~=6.0.2",
-    "pillow~=11.3.0",
+    "beautifulsoup4~=4.15.0",
+    "lxml~=6.1.3",
+    "pillow~=12.3.0",
 ]
 dynamic = ["version"]
 
@@ -43,17 +43,16 @@ Discussions = "https://github.com/rlaphoenix/nton/discussions"
 Changelog = "https://github.com/rlaphoenix/nton/blob/master/CHANGELOG.md"
 
 [project.optional-dependencies]
-gui = ["PySide6-Essentials~=6.10.1"]
+gui = ["PySide6-Essentials~=6.11.2"]
 
 [dependency-groups]
-pack = ["pyinstaller~=6.18.0"]
-lint = ["ruff~=0.14.13", "pre-commit~=4.3.0"]
-form = ["ruff~=0.14.13", "isort~=6.1.0"]
+pack = ["pyinstaller~=6.22.3"]
+lint = ["ruff~=0.16.7", "pre-commit~=4.6.2"]
+form = ["ruff~=0.16.7", "isort~=9.0.1"]
 type = [
-    "mypy~=1.19.1",
-    "types-requests~=2.32.4.20260107",
-    "types-lxml~=2026.1.1",
-    "types-Pillow~=10.2.0.20240822",
+    "mypy~=2.3.1",
+    "types-requests~=2.33.0.20260906",
+    "types-lxml~=2026.2.16",
 ]
 
 [project.scripts]
