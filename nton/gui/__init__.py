@@ -719,6 +719,7 @@ def build(window: MainWindow) -> bool:
                 ],
                 cwd=build_dir,
                 startupinfo=startupinfo,
+                stderr=subprocess.STDOUT,
             )
         except subprocess.CalledProcessError as e:
             log.error('Failed to build NSP, "%s", %s [%d]', e.args, e.output, e.returncode)

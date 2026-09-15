@@ -382,6 +382,7 @@ def build(
                     str(Files.keys.absolute()),
                 ],
                 cwd=build_dir,
+                stderr=subprocess.STDOUT,
             )
             os.system("")  # fixes logs, I don't know why or how
         except subprocess.CalledProcessError as e:
